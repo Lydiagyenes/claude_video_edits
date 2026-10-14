@@ -38,7 +38,14 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 <div class="video-wrapper" id="video-wrap">
 <div id="video-inner">
 <video id="bg-video" src="input-video.mp4" playsinline data-has-audio="true" data-start="0" data-duration="65.0667" data-track-index="1"></video>
+<img id="fx-beach" src="img/beach.jpg" alt="" style="position:absolute;left:1303px;top:0;width:1080px;height:1920px;object-fit:cover;object-position:34% 50%;opacity:0;">
+<video id="fx-matte" class="clip" src="fx-matte.webm" muted playsinline data-start="33.5" data-duration="8.0" data-track-index="5" style="position:absolute;left:0;top:0;width:3413px;height:1920px;opacity:0;filter:brightness(1.14) contrast(1.06) saturate(1.12) sepia(.12);"></video>
 </div>
+<canvas id="fx-water-deep" width="1080" height="1920" style="position:absolute;inset:0;mix-blend-mode:multiply;"></canvas>
+<canvas id="fx-water-light" width="1080" height="1920" style="position:absolute;inset:0;mix-blend-mode:screen;"></canvas>
+<canvas id="fx-fire" width="1080" height="1920" style="position:absolute;inset:0;mix-blend-mode:screen;"></canvas>
+<div id="fx-sun" style="position:absolute;inset:0;opacity:0;mix-blend-mode:screen;background:radial-gradient(60% 34% at 82% 6%, rgba(255,244,214,.95) 0%, rgba(255,214,140,.45) 35%, rgba(255,200,120,0) 70%);"></div>
+<div id="fx-flash" style="position:absolute;inset:0;opacity:0;background:#fff8e6;"></div>
 </div>
 <video id="avatar-video" class="clip" src="avatar-intro.mp4" muted playsinline data-start="0" data-duration="14.3333" data-track-index="4"></video>
 <div class="card-host clip" id="card-01-host" data-card-id="card-01" data-start="0.0667" data-duration="14.2666" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
@@ -171,56 +178,37 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 </div>
 </div>
 </div>
-<div class="card-host clip" id="card-04-host" data-card-id="card-04" data-start="33.8" data-duration="10.6667" data-track-index="2" style="left:0px;top:0px;width:1080px;height:960px;visibility:hidden;opacity:0;">
+<div class="card-host clip" id="card-04-host" data-card-id="card-04" data-start="33.8" data-duration="6.9333" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-04">
 <style>
-.card[data-card-id="card-04"] .root { position:absolute; inset:0; overflow:hidden;
-  background: radial-gradient(120% 90% at 50% 38%, #3D1A8A 0%, #24105a 38%, #0D0B1E 78%);
-  color:#fff; font-family:'Inter', sans-serif; padding:96px 72px 0 72px; box-sizing:border-box; }
-.card[data-card-id="card-04"] .root::after { content:''; position:absolute; left:0; right:0; bottom:0; height:6px;
-  background:linear-gradient(90deg,#5E44E4,#DF0EC4,#9570FF); box-shadow:0 0 28px 6px rgba(223,14,196,.55); }
+.card[data-card-id="card-04"] .root { position:absolute; inset:0; color:#fff; font-family:'Inter', sans-serif; background:transparent; }
+.card[data-card-id="card-04"] .top { position:absolute; left:56px; right:56px; top:96px; }
 .card[data-card-id="card-04"] .kicker { display:inline-block; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
   font-size:34px; letter-spacing:.06em; text-transform:uppercase; color:#fff;
   background:#DF0EC4; padding:8px 22px 6px; border-radius:12px; box-shadow:0 0 30px rgba(223,14,196,.6); }
-.card[data-card-id="card-04"] .title { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; text-transform:uppercase;
-  font-size:116px; line-height:.95; margin:30px 0 0; color:#fff; text-shadow:0 0 34px rgba(149,112,255,.75); }
-.card[data-card-id="card-04"] .title .hl { color:#C9B6FF; }
-.card[data-card-id="card-04"] .w { display:inline-block; white-space:nowrap; }
-.card[data-card-id="card-04"] .char { display:inline-block; }
-.card[data-card-id="card-04"] .sp { display:inline-block; width:.26em; }
-
-.card[data-card-id="card-04"] .phaseA { position:absolute; left:72px; right:72px; top:96px; }
-.card[data-card-id="card-04"] .phaseB { position:absolute; left:72px; right:72px; top:150px; opacity:0; }
-.card[data-card-id="card-04"] .tiles { display:flex; flex-direction:column; gap:22px; margin-top:34px; }
-.card[data-card-id="card-04"] .tile { position:relative; height:150px; border-radius:24px; overflow:hidden; display:flex; align-items:center;
-  padding:0 36px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:66px;
-  text-transform:uppercase; color:#fff; text-shadow:0 2px 14px rgba(0,0,0,.5); }
-.card[data-card-id="card-04"] .t0 { background:linear-gradient(100deg,#ff5f2e 0%,#DF0EC4 70%); box-shadow:0 0 34px rgba(255,95,46,.6); }
-.card[data-card-id="card-04"] .t1 { background:linear-gradient(100deg,#1d6fe0 0%,#5E44E4 75%); box-shadow:0 0 34px rgba(29,111,224,.6); }
-.card[data-card-id="card-04"] .t2 { background:linear-gradient(100deg,#f5b52e 0%,#C44DB8 80%); box-shadow:0 0 34px rgba(245,181,46,.6); }
-.card[data-card-id="card-04"] .big { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; text-transform:uppercase;
-  font-size:118px; line-height:.95; color:#fff; text-shadow:0 0 34px rgba(149,112,255,.8); }
-.card[data-card-id="card-04"] .big2 { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
-  text-transform:uppercase; font-size:76px; line-height:1; color:#fff; background:#DF0EC4; display:inline-block;
-  padding:16px 30px 10px; border-radius:18px; box-shadow:0 0 36px rgba(223,14,196,.75); }
+.card[data-card-id="card-04"] .slot { position:relative; margin-top:22px; height:120px; }
+.card[data-card-id="card-04"] .chip { position:absolute; left:0; top:0; opacity:0; font-family:'Barlow Condensed', sans-serif; font-style:italic;
+  font-weight:800; font-size:84px; line-height:1; text-transform:uppercase; color:#fff; padding:16px 34px 10px;
+  border-radius:22px; white-space:nowrap; text-shadow:0 2px 14px rgba(0,0,0,.45); }
+.card[data-card-id="card-04"] .t0 { background:linear-gradient(100deg,#ff5f2e 0%,#DF0EC4 80%); box-shadow:0 0 40px rgba(255,95,46,.75); }
+.card[data-card-id="card-04"] .t1 { background:linear-gradient(100deg,#1d8fe0 0%,#5E44E4 80%); box-shadow:0 0 40px rgba(29,143,224,.75); }
+.card[data-card-id="card-04"] .t2 { font-size:72px; background:linear-gradient(100deg,#f5b52e 0%,#C44DB8 85%); box-shadow:0 0 40px rgba(245,181,46,.75); }
 </style>
 <div class="root">
-<div class="phaseA" id="card-04-a" data-anim="fade-out" data-anim-at="6.9" data-anim-duration="0.3">
+<div class="top">
   <div class="kicker" id="card-04-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Lehet akár…</div>
-  <div class="tiles">
-    <div class="tile t0" id="card-04-t0" data-anim="mask-reveal" data-anim-at="0.65" data-anim-duration="0.5" data-anim-direction="left">Lángoló haj</div>
-    <div class="tile t1" id="card-04-t1" data-anim="mask-reveal" data-anim-at="3.0" data-anim-duration="0.5" data-anim-direction="left">Víz alatt</div>
-    <div class="tile t2" id="card-04-t2" data-anim="mask-reveal" data-anim-at="5.4" data-anim-duration="0.5" data-anim-direction="left">Napsütötte tengerpart</div>
+  <div class="slot">
+    <div class="chip t0" id="card-04-t0" data-anim="scale-pop" data-anim-at="0.6" data-anim-duration="0.45">Lángoló haj</div>
+    <div class="chip t1" id="card-04-t1" data-anim="scale-pop" data-anim-at="2.75" data-anim-duration="0.45">Víz alatt</div>
+    <div class="chip t2" id="card-04-t2" data-anim="scale-pop" data-anim-at="5.25" data-anim-duration="0.45">Napsütötte tengerpart</div>
   </div>
 </div>
-<div class="phaseB" id="card-04-b" data-anim="fade-in" data-anim-at="7.2" data-anim-duration="0.3">
-  <div class="big" id="card-04-big" data-anim="kinetic-chars" data-anim-at="7.2" data-anim-duration="0.45" data-anim-stagger="0.02"><span class="w"><span class="char">N</span><span class="char">e</span><span class="char">m</span></span><span class="sp"> </span><span class="w"><span class="char">k</span><span class="char">e</span><span class="char">l</span><span class="char">l</span></span><br><span class="w"><span class="char">k</span><span class="char">i</span><span class="char">m</span><span class="char">o</span><span class="char">z</span><span class="char">d</span><span class="char">u</span><span class="char">l</span><span class="char">n</span><span class="char">o</span><span class="char">d</span></span><br><span class="w"><span class="char">o</span><span class="char">t</span><span class="char">t</span><span class="char">h</span><span class="char">o</span><span class="char">n</span><span class="char">r</span><span class="char">ó</span><span class="char">l</span></span></div>
-  <div class="big2" id="card-04-big2" data-anim="scale-pop" data-anim-at="9.35" data-anim-duration="0.45">…meg se kell szólalnod</div>
+<i id="card-04-t0x" data-anim="fade-out" data-anim-at="2.45" data-anim-duration="0.25" data-anim-target="card-04-t0"></i>
+<i id="card-04-t1x" data-anim="fade-out" data-anim-at="4.95" data-anim-duration="0.25" data-anim-target="card-04-t1"></i>
 </div>
 </div>
 </div>
-</div>
-<div class="card-host clip" id="card-05-host" data-card-id="card-05" data-start="44.5333" data-duration="7.4" data-track-index="2" style="left:0px;top:0px;width:1080px;height:960px;visibility:hidden;opacity:0;">
+<div class="card-host clip" id="card-05-host" data-card-id="card-05" data-start="40.8667" data-duration="3.6" data-track-index="2" style="left:0px;top:0px;width:1080px;height:960px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-05">
 <style>
 .card[data-card-id="card-05"] .root { position:absolute; inset:0; overflow:hidden;
@@ -238,81 +226,111 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 .card[data-card-id="card-05"] .char { display:inline-block; }
 .card[data-card-id="card-05"] .sp { display:inline-block; width:.26em; }
 
-.card[data-card-id="card-05"] .box { margin-top:38px; background:rgba(255,255,255,.08); border:3px solid #9570FF; border-radius:24px;
-  padding:28px 30px; min-height:200px; box-shadow:0 0 30px rgba(149,112,255,.45); }
-.card[data-card-id="card-05"] .lbl { font-size:26px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#9570FF; }
-.card[data-card-id="card-05"] .typed { margin-top:14px; font-size:44px; font-weight:600; line-height:1.3; color:#fff; }
-.card[data-card-id="card-05"] .cursor { display:inline-block; width:4px; height:46px; margin-left:4px; vertical-align:-6px; background:#DF0EC4; }
-.card[data-card-id="card-05"] .row { display:flex; align-items:center; gap:20px; margin-top:38px; }
-.card[data-card-id="card-05"] .arrow { font-family:'Barlow Condensed', sans-serif; font-weight:800; font-size:70px; color:#DF0EC4; }
-.card[data-card-id="card-05"] .out { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:52px;
-  text-transform:uppercase; padding:12px 26px 8px; border-radius:16px; color:#fff; }
-.card[data-card-id="card-05"] .o0 { background:#5E44E4; box-shadow:0 0 26px rgba(94,68,228,.85); }
-.card[data-card-id="card-05"] .o1 { background:#C44DB8; box-shadow:0 0 26px rgba(196,77,184,.85); }
+.card[data-card-id="card-05"] .big { margin-top:40px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  text-transform:uppercase; font-size:118px; line-height:.95; color:#fff; text-shadow:0 0 34px rgba(149,112,255,.8); }
+.card[data-card-id="card-05"] .big2 { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  text-transform:uppercase; font-size:76px; line-height:1; color:#fff; background:#DF0EC4; display:inline-block;
+  padding:16px 30px 10px; border-radius:18px; box-shadow:0 0 36px rgba(223,14,196,.75); }
 </style>
 <div class="root">
-<div class="kicker" id="card-05-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Csak beírod</div>
-<div class="box" id="card-05-box" data-anim="fade-in" data-anim-at="0.3" data-anim-duration="0.4">
-  <div class="lbl">Mit mondjon az avatár?</div>
-  <div class="typed" id="card-05-typed" data-anim="typewriter" data-anim-at="0.6" data-anim-duration="0.12" data-anim-stagger="0.035"><span class="w"><span class="char">S</span><span class="char">z</span><span class="char">i</span><span class="char">a</span><span class="char">!</span></span><span class="sp"> </span><span class="w"><span class="char">M</span><span class="char">a</span></span><span class="sp"> </span><span class="w"><span class="char">m</span><span class="char">e</span><span class="char">g</span><span class="char">m</span><span class="char">u</span><span class="char">t</span><span class="char">a</span><span class="char">t</span><span class="char">o</span><span class="char">m</span><span class="char">,</span></span><span class="sp"> </span><span class="w"><span class="char">h</span><span class="char">o</span><span class="char">g</span><span class="char">y</span><span class="char">a</span><span class="char">n</span></span><span class="sp"> </span><span class="w"><span class="char">k</span><span class="char">é</span><span class="char">s</span><span class="char">z</span><span class="char">ü</span><span class="char">l</span></span><span class="sp"> </span><span class="w"><span class="char">e</span><span class="char">g</span><span class="char">y</span></span><span class="sp"> </span><span class="w"><span class="char">A</span><span class="char">I</span><span class="char">-</span><span class="char">a</span><span class="char">v</span><span class="char">a</span><span class="char">t</span><span class="char">á</span><span class="char">r</span></span><span class="sp"> </span><span class="w"><span class="char">v</span><span class="char">i</span><span class="char">d</span><span class="char">e</span><span class="char">ó</span><span class="char">…</span></span><span class="cursor"></span></div>
-</div>
-<div class="row">
-  <div class="arrow" id="card-05-arrow" data-anim="slide-in" data-anim-at="2.85" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="40">→</div>
-  <div class="out o0" id="card-05-o0" data-anim="scale-pop" data-anim-at="3.0" data-anim-duration="0.45">Saját hang</div>
-  <div class="out o1" id="card-05-o1" data-anim="scale-pop" data-anim-at="3.7" data-anim-duration="0.45">Saját mozgás</div>
+<div class="big" id="card-05-big" data-anim="kinetic-chars" data-anim-at="0.15" data-anim-duration="0.45" data-anim-stagger="0.02"><span class="w"><span class="char">N</span><span class="char">e</span><span class="char">m</span></span><span class="sp"> </span><span class="w"><span class="char">k</span><span class="char">e</span><span class="char">l</span><span class="char">l</span></span><br><span class="w"><span class="char">k</span><span class="char">i</span><span class="char">m</span><span class="char">o</span><span class="char">z</span><span class="char">d</span><span class="char">u</span><span class="char">l</span><span class="char">n</span><span class="char">o</span><span class="char">d</span></span><br><span class="w"><span class="char">o</span><span class="char">t</span><span class="char">t</span><span class="char">h</span><span class="char">o</span><span class="char">n</span><span class="char">r</span><span class="char">ó</span><span class="char">l</span></span></div>
+<div class="big2" id="card-05-big2" data-anim="scale-pop" data-anim-at="2.3" data-anim-duration="0.45">…meg se kell szólalnod</div>
 </div>
 </div>
 </div>
-</div>
-<div class="card-host clip" id="card-06-host" data-card-id="card-06" data-start="52.0667" data-duration="8.1333" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
+<div class="card-host clip" id="card-06-host" data-card-id="card-06" data-start="44.5333" data-duration="7.4" data-track-index="2" style="left:0px;top:0px;width:1080px;height:960px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-06">
 <style>
-.card[data-card-id="card-06"] .root { position:absolute; inset:0; color:#fff; font-family:'Inter', sans-serif; background:transparent; }
-.card[data-card-id="card-06"] .scrim { position:absolute; left:0; right:0; top:0; height:760px;
-  background:linear-gradient(180deg, rgba(13,11,30,.92) 0%, rgba(13,11,30,.6) 55%, rgba(13,11,30,0) 100%); }
-.card[data-card-id="card-06"] .top { position:absolute; left:64px; right:64px; top:110px; }
+.card[data-card-id="card-06"] .root { position:absolute; inset:0; overflow:hidden;
+  background: radial-gradient(120% 90% at 50% 38%, #3D1A8A 0%, #24105a 38%, #0D0B1E 78%);
+  color:#fff; font-family:'Inter', sans-serif; padding:96px 72px 0 72px; box-sizing:border-box; }
+.card[data-card-id="card-06"] .root::after { content:''; position:absolute; left:0; right:0; bottom:0; height:6px;
+  background:linear-gradient(90deg,#5E44E4,#DF0EC4,#9570FF); box-shadow:0 0 28px 6px rgba(223,14,196,.55); }
 .card[data-card-id="card-06"] .kicker { display:inline-block; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
   font-size:34px; letter-spacing:.06em; text-transform:uppercase; color:#fff;
   background:#DF0EC4; padding:8px 22px 6px; border-radius:12px; box-shadow:0 0 30px rgba(223,14,196,.6); }
 .card[data-card-id="card-06"] .title { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; text-transform:uppercase;
-  font-size:120px; line-height:.95; margin:26px 0 0; color:#fff;
-  text-shadow:0 0 36px rgba(149,112,255,.85), 0 4px 18px rgba(0,0,0,.6); }
+  font-size:116px; line-height:.95; margin:30px 0 0; color:#fff; text-shadow:0 0 34px rgba(149,112,255,.75); }
+.card[data-card-id="card-06"] .title .hl { color:#C9B6FF; }
 .card[data-card-id="card-06"] .w { display:inline-block; white-space:nowrap; }
 .card[data-card-id="card-06"] .char { display:inline-block; }
 .card[data-card-id="card-06"] .sp { display:inline-block; width:.26em; }
 
-.card[data-card-id="card-06"] .title { font-size:104px; }
-.card[data-card-id="card-06"] .cta { display:inline-flex; align-items:center; gap:18px; margin-top:36px; padding:18px 38px 12px;
+.card[data-card-id="card-06"] .box { margin-top:38px; background:rgba(255,255,255,.08); border:3px solid #9570FF; border-radius:24px;
+  padding:28px 30px; min-height:200px; box-shadow:0 0 30px rgba(149,112,255,.45); }
+.card[data-card-id="card-06"] .lbl { font-size:26px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#9570FF; }
+.card[data-card-id="card-06"] .typed { margin-top:14px; font-size:44px; font-weight:600; line-height:1.3; color:#fff; }
+.card[data-card-id="card-06"] .cursor { display:inline-block; width:4px; height:46px; margin-left:4px; vertical-align:-6px; background:#DF0EC4; }
+.card[data-card-id="card-06"] .row { display:flex; align-items:center; gap:20px; margin-top:38px; }
+.card[data-card-id="card-06"] .arrow { font-family:'Barlow Condensed', sans-serif; font-weight:800; font-size:70px; color:#DF0EC4; }
+.card[data-card-id="card-06"] .out { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:52px;
+  text-transform:uppercase; padding:12px 26px 8px; border-radius:16px; color:#fff; }
+.card[data-card-id="card-06"] .o0 { background:#5E44E4; box-shadow:0 0 26px rgba(94,68,228,.85); }
+.card[data-card-id="card-06"] .o1 { background:#C44DB8; box-shadow:0 0 26px rgba(196,77,184,.85); }
+</style>
+<div class="root">
+<div class="kicker" id="card-06-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Csak beírod</div>
+<div class="box" id="card-06-box" data-anim="fade-in" data-anim-at="0.3" data-anim-duration="0.4">
+  <div class="lbl">Mit mondjon az avatár?</div>
+  <div class="typed" id="card-06-typed" data-anim="typewriter" data-anim-at="0.6" data-anim-duration="0.12" data-anim-stagger="0.035"><span class="w"><span class="char">S</span><span class="char">z</span><span class="char">i</span><span class="char">a</span><span class="char">!</span></span><span class="sp"> </span><span class="w"><span class="char">M</span><span class="char">a</span></span><span class="sp"> </span><span class="w"><span class="char">m</span><span class="char">e</span><span class="char">g</span><span class="char">m</span><span class="char">u</span><span class="char">t</span><span class="char">a</span><span class="char">t</span><span class="char">o</span><span class="char">m</span><span class="char">,</span></span><span class="sp"> </span><span class="w"><span class="char">h</span><span class="char">o</span><span class="char">g</span><span class="char">y</span><span class="char">a</span><span class="char">n</span></span><span class="sp"> </span><span class="w"><span class="char">k</span><span class="char">é</span><span class="char">s</span><span class="char">z</span><span class="char">ü</span><span class="char">l</span></span><span class="sp"> </span><span class="w"><span class="char">e</span><span class="char">g</span><span class="char">y</span></span><span class="sp"> </span><span class="w"><span class="char">A</span><span class="char">I</span><span class="char">-</span><span class="char">a</span><span class="char">v</span><span class="char">a</span><span class="char">t</span><span class="char">á</span><span class="char">r</span></span><span class="sp"> </span><span class="w"><span class="char">v</span><span class="char">i</span><span class="char">d</span><span class="char">e</span><span class="char">ó</span><span class="char">…</span></span><span class="cursor"></span></div>
+</div>
+<div class="row">
+  <div class="arrow" id="card-06-arrow" data-anim="slide-in" data-anim-at="2.85" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="40">→</div>
+  <div class="out o0" id="card-06-o0" data-anim="scale-pop" data-anim-at="3.0" data-anim-duration="0.45">Saját hang</div>
+  <div class="out o1" id="card-06-o1" data-anim="scale-pop" data-anim-at="3.7" data-anim-duration="0.45">Saját mozgás</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card-host clip" id="card-07-host" data-card-id="card-07" data-start="52.0667" data-duration="8.1333" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
+<div class="card" data-card-id="card-07">
+<style>
+.card[data-card-id="card-07"] .root { position:absolute; inset:0; color:#fff; font-family:'Inter', sans-serif; background:transparent; }
+.card[data-card-id="card-07"] .scrim { position:absolute; left:0; right:0; top:0; height:760px;
+  background:linear-gradient(180deg, rgba(13,11,30,.92) 0%, rgba(13,11,30,.6) 55%, rgba(13,11,30,0) 100%); }
+.card[data-card-id="card-07"] .top { position:absolute; left:64px; right:64px; top:110px; }
+.card[data-card-id="card-07"] .kicker { display:inline-block; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  font-size:34px; letter-spacing:.06em; text-transform:uppercase; color:#fff;
+  background:#DF0EC4; padding:8px 22px 6px; border-radius:12px; box-shadow:0 0 30px rgba(223,14,196,.6); }
+.card[data-card-id="card-07"] .title { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; text-transform:uppercase;
+  font-size:120px; line-height:.95; margin:26px 0 0; color:#fff;
+  text-shadow:0 0 36px rgba(149,112,255,.85), 0 4px 18px rgba(0,0,0,.6); }
+.card[data-card-id="card-07"] .w { display:inline-block; white-space:nowrap; }
+.card[data-card-id="card-07"] .char { display:inline-block; }
+.card[data-card-id="card-07"] .sp { display:inline-block; width:.26em; }
+
+.card[data-card-id="card-07"] .title { font-size:104px; }
+.card[data-card-id="card-07"] .cta { display:inline-flex; align-items:center; gap:18px; margin-top:36px; padding:18px 38px 12px;
   border-radius:20px; background:#DF0EC4; font-family:'Barlow Condensed', sans-serif; font-style:italic;
   font-weight:800; font-size:66px; text-transform:uppercase; box-shadow:0 0 44px rgba(223,14,196,.9); }
-.card[data-card-id="card-06"] .plus { font-size:70px; line-height:1; }
+.card[data-card-id="card-07"] .plus { font-size:70px; line-height:1; }
 </style>
 <div class="root">
 <div class="scrim"></div>
 <div class="top">
-  <div class="kicker" id="card-06-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Részletesen · videósorozat</div>
-  <h1 class="title" id="card-06-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.02"><span class="w"><span class="char">H</span><span class="char">e</span><span class="char">y</span><span class="char">G</span><span class="char">e</span><span class="char">n</span></span><span class="sp"> </span><span class="w"><span class="char">a</span><span class="char">v</span><span class="char">a</span><span class="char">t</span><span class="char">á</span><span class="char">r</span><span class="char">-</span></span><br><span class="w"><span class="char">g</span><span class="char">e</span><span class="char">n</span><span class="char">e</span><span class="char">r</span><span class="char">á</span><span class="char">l</span><span class="char">á</span><span class="char">s</span></span><br><span class="w"><span class="char">l</span><span class="char">é</span><span class="char">p</span><span class="char">é</span><span class="char">s</span><span class="char">r</span><span class="char">ő</span><span class="char">l</span></span><span class="sp"> </span><span class="w"><span class="char">l</span><span class="char">é</span><span class="char">p</span><span class="char">é</span><span class="char">s</span><span class="char">r</span><span class="char">e</span></span></h1>
-  <div class="cta" id="card-06-cta" data-anim="scale-pop" data-anim-at="4.05" data-anim-duration="0.5"><span class="plus">+</span>Kövess minket</div>
+  <div class="kicker" id="card-07-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Részletesen · videósorozat</div>
+  <h1 class="title" id="card-07-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.02"><span class="w"><span class="char">H</span><span class="char">e</span><span class="char">y</span><span class="char">G</span><span class="char">e</span><span class="char">n</span></span><span class="sp"> </span><span class="w"><span class="char">a</span><span class="char">v</span><span class="char">a</span><span class="char">t</span><span class="char">á</span><span class="char">r</span><span class="char">-</span></span><br><span class="w"><span class="char">g</span><span class="char">e</span><span class="char">n</span><span class="char">e</span><span class="char">r</span><span class="char">á</span><span class="char">l</span><span class="char">á</span><span class="char">s</span></span><br><span class="w"><span class="char">l</span><span class="char">é</span><span class="char">p</span><span class="char">é</span><span class="char">s</span><span class="char">r</span><span class="char">ő</span><span class="char">l</span></span><span class="sp"> </span><span class="w"><span class="char">l</span><span class="char">é</span><span class="char">p</span><span class="char">é</span><span class="char">s</span><span class="char">r</span><span class="char">e</span></span></h1>
+  <div class="cta" id="card-07-cta" data-anim="scale-pop" data-anim-at="4.05" data-anim-duration="0.5"><span class="plus">+</span>Kövess minket</div>
 </div>
 </div>
 </div>
 </div>
-<div class="card-host clip" id="card-07-host" data-card-id="card-07" data-start="60.3" data-duration="4.7667" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
-<div class="card" data-card-id="card-07">
+<div class="card-host clip" id="card-08-host" data-card-id="card-08" data-start="60.3" data-duration="4.7667" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
+<div class="card" data-card-id="card-08">
 <style>
-.card[data-card-id="card-07"] .root { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+.card[data-card-id="card-08"] .root { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
   background: radial-gradient(70% 45% at 50% 50%, #4A1FA8 0%, #2a1170 40%, #0A0818 85%); color:#fff;
   font-family:'Inter', sans-serif; }
-.card[data-card-id="card-07"] .logo { width:760px; height:auto; filter:drop-shadow(0 0 40px rgba(149,112,255,.9)); }
-.card[data-card-id="card-07"] .tag { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+.card[data-card-id="card-08"] .logo { width:760px; height:auto; filter:drop-shadow(0 0 40px rgba(149,112,255,.9)); }
+.card[data-card-id="card-08"] .tag { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
   text-transform:uppercase; font-size:56px; letter-spacing:.04em; color:#C9B6FF; }
-.card[data-card-id="card-07"] .line { margin-top:30px; height:6px; width:0; border-radius:3px; background:linear-gradient(90deg,#5E44E4,#DF0EC4);
+.card[data-card-id="card-08"] .line { margin-top:30px; height:6px; width:0; border-radius:3px; background:linear-gradient(90deg,#5E44E4,#DF0EC4);
   box-shadow:0 0 22px rgba(223,14,196,.8); }
 </style>
 <div class="root">
-<img class="logo" id="card-07-logo" src="img/amazing_logo.png" alt="Amazing AI" data-anim="scale-pop" data-anim-at="0.25" data-anim-duration="0.6">
-<div class="line" id="card-07-line" data-anim="grow-x" data-anim-at="0.8" data-anim-duration="0.6" data-anim-target-w="560"></div>
-<div class="tag" id="card-07-tag" data-anim="fade-in" data-anim-at="1.0" data-anim-duration="0.5">Kövess minket a további videókért</div>
+<img class="logo" id="card-08-logo" src="img/amazing_logo.png" alt="Amazing AI" data-anim="scale-pop" data-anim-at="0.25" data-anim-duration="0.6">
+<div class="line" id="card-08-line" data-anim="grow-x" data-anim-at="0.8" data-anim-duration="0.6" data-anim-target-w="560"></div>
+<div class="tag" id="card-08-tag" data-anim="fade-in" data-anim-at="1.0" data-anim-duration="0.5">Kövess minket a további videókért</div>
 </div>
 </div>
 </div>
@@ -440,51 +458,164 @@ tl.fromTo('.card[data-card-id="card-03"] #card-03-c2',{opacity:0,scale:0.5},{opa
 tl.fromTo('.card[data-card-id="card-03"] #card-03-sub',{opacity:0},{opacity:1,duration:0.5,ease:'power2.out'},32.2);
 tl.to('.card-host[data-card-id="card-03"]',{opacity:0,duration:0.3,ease:'power2.in'},33.4);
 tl.set('.card-host[data-card-id="card-03"]',{visibility:'hidden'},33.7);
-// card-04 [33.8–44.4667] Flaming hair, underwater, sunny beach — and you never leave home or say a word
+// card-04 [33.8–40.7333] Visualise the three examples on her own footage: hair on fire, frame fills with water, beach background
 tl.set('.card-host[data-card-id="card-04"]',{visibility:'visible'},33.8);
 tl.fromTo('.card-host[data-card-id="card-04"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},33.8);
-tl.to('.card[data-card-id="card-04"] #card-04-a',{opacity:0,duration:0.3,ease:'power2.in'},40.7);
 tl.fromTo('.card[data-card-id="card-04"] #card-04-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},33.9);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-t0',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.5,ease:'power2.inOut'},34.4333);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-t1',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.5,ease:'power2.inOut'},36.8);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-t2',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.5,ease:'power2.inOut'},39.2);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-b',{opacity:0},{opacity:1,duration:0.3,ease:'power2.out'},41.0);
-tl.from('.card[data-card-id="card-04"] #card-04-big .char',{opacity:0,y:28,scale:0.7,duration:0.45,ease:'back.out(2)',stagger:0.02},41.0);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-big2',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},43.1333);
-tl.to('.card-host[data-card-id="card-04"]',{opacity:0,duration:0.3,ease:'power2.in'},44.1667);
-tl.set('.card-host[data-card-id="card-04"]',{visibility:'hidden'},44.4667);
-// card-05 [44.5333–51.9333] Just type what it should say — the AI says it in your voice with your movements
-tl.set('.card-host[data-card-id="card-05"]',{visibility:'visible'},44.5333);
-tl.fromTo('.card-host[data-card-id="card-05"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},44.5333);
-tl.fromTo('.card[data-card-id="card-05"] #card-05-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},44.6667);
-tl.fromTo('.card[data-card-id="card-05"] #card-05-box',{opacity:0},{opacity:1,duration:0.4,ease:'power2.out'},44.8333);
-tl.from('.card[data-card-id="card-05"] #card-05-typed .char',{opacity:0,duration:0.12,ease:'none',stagger:0.035},45.1333);
-tl.fromTo('.card[data-card-id="card-05"] #card-05-arrow',{opacity:0,x:-40.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},47.4);
-tl.fromTo('.card[data-card-id="card-05"] #card-05-o0',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},47.5333);
-tl.fromTo('.card[data-card-id="card-05"] #card-05-o1',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},48.2667);
-tl.to('.card-host[data-card-id="card-05"]',{opacity:0,duration:0.3,ease:'power2.in'},51.6333);
-tl.set('.card-host[data-card-id="card-05"]',{visibility:'hidden'},51.9333);
-// card-06 [52.0667–60.2] CTA: follow us and watch the HeyGen avatar-generation video series
-tl.set('.card-host[data-card-id="card-06"]',{visibility:'visible'},52.0667);
-tl.fromTo('.card-host[data-card-id="card-06"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},52.0667);
-tl.fromTo('.card[data-card-id="card-06"] #card-06-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},52.1333);
-tl.from('.card[data-card-id="card-06"] #card-06-title .char',{opacity:0,y:28,scale:0.7,duration:0.45,ease:'back.out(2)',stagger:0.02},52.3333);
-tl.fromTo('.card[data-card-id="card-06"] #card-06-cta',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.5,ease:'back.out(1.8)'},56.1);
-tl.to('.card-host[data-card-id="card-06"]',{opacity:0,duration:0.3,ease:'power2.in'},59.9);
-tl.set('.card-host[data-card-id="card-06"]',{visibility:'hidden'},60.2);
-// card-07 [60.3–65.0667] Neutral brand outro: Amazing AI logo + tagline
-tl.set('.card-host[data-card-id="card-07"]',{visibility:'visible'},60.3);
-tl.fromTo('.card-host[data-card-id="card-07"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},60.3);
-tl.fromTo('.card[data-card-id="card-07"] #card-07-logo',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.6,ease:'back.out(1.8)'},60.5333);
-tl.fromTo('.card[data-card-id="card-07"] #card-07-line',{width:0},{width:560,duration:0.6,ease:'power1.inOut'},61.1);
-tl.fromTo('.card[data-card-id="card-07"] #card-07-tag',{opacity:0},{opacity:1,duration:0.5,ease:'power2.out'},61.3);
+tl.fromTo('.card[data-card-id="card-04"] #card-04-t0',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},34.4);
+tl.fromTo('.card[data-card-id="card-04"] #card-04-t1',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},36.5333);
+tl.fromTo('.card[data-card-id="card-04"] #card-04-t2',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},39.0667);
+tl.to('.card[data-card-id="card-04"] #card-04-t0',{opacity:0,duration:0.25,ease:'power2.in'},36.2667);
+tl.to('.card[data-card-id="card-04"] #card-04-t1',{opacity:0,duration:0.25,ease:'power2.in'},38.7333);
+tl.to('.card-host[data-card-id="card-04"]',{opacity:0,duration:0.3,ease:'power2.in'},40.4333);
+tl.set('.card-host[data-card-id="card-04"]',{visibility:'hidden'},40.7333);
+// card-05 [40.8667–44.4667] And you never have to leave home — or even say a word
+tl.set('.card-host[data-card-id="card-05"]',{visibility:'visible'},40.8667);
+tl.fromTo('.card-host[data-card-id="card-05"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},40.8667);
+tl.from('.card[data-card-id="card-05"] #card-05-big .char',{opacity:0,y:28,scale:0.7,duration:0.45,ease:'back.out(2)',stagger:0.02},41.0);
+tl.fromTo('.card[data-card-id="card-05"] #card-05-big2',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},43.1333);
+tl.to('.card-host[data-card-id="card-05"]',{opacity:0,duration:0.3,ease:'power2.in'},44.1667);
+tl.set('.card-host[data-card-id="card-05"]',{visibility:'hidden'},44.4667);
+// card-06 [44.5333–51.9333] Just type what it should say — the AI says it in your voice with your movements
+tl.set('.card-host[data-card-id="card-06"]',{visibility:'visible'},44.5333);
+tl.fromTo('.card-host[data-card-id="card-06"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},44.5333);
+tl.fromTo('.card[data-card-id="card-06"] #card-06-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},44.6667);
+tl.fromTo('.card[data-card-id="card-06"] #card-06-box',{opacity:0},{opacity:1,duration:0.4,ease:'power2.out'},44.8333);
+tl.from('.card[data-card-id="card-06"] #card-06-typed .char',{opacity:0,duration:0.12,ease:'none',stagger:0.035},45.1333);
+tl.fromTo('.card[data-card-id="card-06"] #card-06-arrow',{opacity:0,x:-40.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},47.4);
+tl.fromTo('.card[data-card-id="card-06"] #card-06-o0',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},47.5333);
+tl.fromTo('.card[data-card-id="card-06"] #card-06-o1',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},48.2667);
+tl.to('.card-host[data-card-id="card-06"]',{opacity:0,duration:0.3,ease:'power2.in'},51.6333);
+tl.set('.card-host[data-card-id="card-06"]',{visibility:'hidden'},51.9333);
+// card-07 [52.0667–60.2] CTA: follow us and watch the HeyGen avatar-generation video series
+tl.set('.card-host[data-card-id="card-07"]',{visibility:'visible'},52.0667);
+tl.fromTo('.card-host[data-card-id="card-07"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},52.0667);
+tl.fromTo('.card[data-card-id="card-07"] #card-07-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},52.1333);
+tl.from('.card[data-card-id="card-07"] #card-07-title .char',{opacity:0,y:28,scale:0.7,duration:0.45,ease:'back.out(2)',stagger:0.02},52.3333);
+tl.fromTo('.card[data-card-id="card-07"] #card-07-cta',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.5,ease:'back.out(1.8)'},56.1);
+tl.to('.card-host[data-card-id="card-07"]',{opacity:0,duration:0.3,ease:'power2.in'},59.9);
+tl.set('.card-host[data-card-id="card-07"]',{visibility:'hidden'},60.2);
+// card-08 [60.3–65.0667] Neutral brand outro: Amazing AI logo + tagline
+tl.set('.card-host[data-card-id="card-08"]',{visibility:'visible'},60.3);
+tl.fromTo('.card-host[data-card-id="card-08"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},60.3);
+tl.fromTo('.card[data-card-id="card-08"] #card-08-logo',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.6,ease:'back.out(1.8)'},60.5333);
+tl.fromTo('.card[data-card-id="card-08"] #card-08-line',{width:0},{width:560,duration:0.6,ease:'power1.inOut'},61.1);
+tl.fromTo('.card[data-card-id="card-08"] #card-08-tag',{opacity:0},{opacity:1,duration:0.5,ease:'power2.out'},61.3);
 tl.to('#video-inner',{x:-1303,y:0,scale:1,duration:0.6,ease:'power3.inOut'},26.4667);
 tl.to('#captions',{y:0,duration:0.6,ease:'power3.inOut'},26.4667);
-tl.to('#video-inner',{x:-382,y:960,scale:0.5,duration:0.6,ease:'power3.inOut'},33.5);
-tl.to('#captions',{y:-460,duration:0.6,ease:'power3.inOut'},33.5);
+tl.to('#video-inner',{x:-382,y:960,scale:0.5,duration:0.6,ease:'power3.inOut'},40.5667);
+tl.to('#captions',{y:-460,duration:0.6,ease:'power3.inOut'},40.5667);
 tl.to('#video-inner',{x:-1303,y:0,scale:1,duration:0.6,ease:'power3.inOut'},51.7333);
 tl.to('#captions',{y:0,duration:0.6,ease:'power3.inOut'},51.7333);
 tl.to('#video-wrap',{scale:0.86,opacity:0,duration:0.6,ease:'power2.in'},60.0);
+
+// ── FX ──
+const HEAD = {"fps": 30, "start": 33.5, "top": [278.7, 278.2, 277.8, 277.3, 276.4, 275.6, 274.7, 274.2, 273.8, 273.3, 272.9, 272.4, 272.0, 272.0, 272.0, 272.0, 272.0, 272.0, 272.4, 272.9, 273.3, 273.8, 274.2, 274.7, 275.1, 275.6, 276.0, 276.0, 276.4, 276.9, 277.3, 277.8, 278.2, 278.7, 278.7, 278.7, 278.7, 278.2, 277.8, 276.9, 276.0, 275.1, 274.2, 273.8, 273.3, 273.3, 272.9, 272.4, 272.9, 273.3, 273.8, 274.2, 274.7, 275.1, 275.6, 276.4, 276.9, 276.9, 276.9, 276.9, 276.4, 276.0, 275.6, 274.2, 272.9, 272.0, 271.6, 271.1, 271.1, 271.6, 272.0, 272.9, 274.7, 276.4, 278.2, 279.1, 280.0, 280.9, 281.3, 282.2, 282.7, 282.7, 280.4, 280.4, 280.9, 281.3, 279.1, 277.3, 275.1, 272.9, 270.7, 270.7, 268.4, 266.2, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.4, 264.9, 265.3, 266.2, 266.7, 267.6, 268.4, 269.3, 270.2, 270.7, 270.2, 270.7, 270.7, 270.2, 271.1, 270.2, 272.0, 274.2, 276.4, 280.4, 284.0, 287.6, 292.0, 294.2, 298.7, 300.0, 300.9, 301.8, 301.8, 300.9, 299.6, 297.8, 296.4, 294.7, 293.3, 291.6, 289.8, 288.0, 286.7, 285.8, 285.8, 285.8, 285.8, 285.8, 286.2, 286.7, 286.7, 286.2, 285.8, 284.9, 283.6, 282.2, 280.9, 279.6, 278.2, 276.0, 275.6, 274.7, 274.2, 274.2, 274.2, 273.8, 274.2, 274.7, 276.4, 276.9, 277.8, 277.8, 277.8, 277.3, 277.3, 276.4, 275.6, 274.7, 273.3, 272.4, 272.0, 271.6, 271.6, 272.0, 272.4, 272.9, 273.3, 274.2, 274.7, 275.1, 276.0, 276.9, 277.3, 277.8, 278.2, 278.2, 278.2, 278.2, 278.2, 278.2, 278.2, 278.2, 278.2, 278.2, 278.7, 279.1, 279.6, 280.0, 279.6, 279.1, 278.7, 278.2, 277.8, 277.3, 276.9, 276.4, 276.0, 276.0, 276.0, 276.0, 276.0, 276.0, 276.0, 276.0, 276.0, 276.0, 276.0, 276.0], "x": [1045.8, 1045.8, 1045.6, 1045.3, 1045.1, 1044.9, 1044.4, 1044.0, 1043.6, 1042.7, 1041.8, 1040.9, 1039.6, 1038.2, 1036.9, 1035.8, 1034.4, 1033.6, 1033.1, 1032.9, 1032.9, 1033.6, 1034.4, 1035.8, 1037.3, 1039.6, 1041.6, 1043.8, 1046.0, 1048.7, 1051.3, 1053.8, 1056.0, 1058.2, 1060.4, 1062.2, 1063.3, 1064.2, 1064.2, 1064.2, 1064.0, 1063.8, 1063.3, 1062.7, 1062.4, 1062.9, 1064.7, 1066.7, 1068.9, 1072.7, 1076.4, 1080.4, 1084.2, 1088.0, 1090.7, 1092.2, 1094.2, 1095.6, 1095.6, 1095.1, 1094.7, 1092.4, 1089.6, 1086.9, 1084.0, 1080.2, 1076.2, 1072.0, 1068.2, 1064.2, 1062.2, 1060.7, 1060.0, 1059.8, 1060.2, 1061.3, 1062.9, 1064.2, 1065.6, 1066.7, 1068.2, 1069.6, 1070.4, 1071.6, 1072.4, 1073.1, 1076.2, 1079.3, 1082.4, 1085.3, 1088.0, 1090.7, 1093.1, 1095.6, 1098.0, 1098.0, 1098.0, 1098.0, 1097.8, 1097.6, 1097.3, 1097.1, 1096.9, 1096.9, 1096.9, 1097.1, 1096.0, 1096.7, 1097.3, 1098.2, 1098.9, 1099.6, 1100.0, 1098.9, 1097.1, 1096.4, 1093.1, 1089.8, 1085.8, 1081.6, 1077.3, 1072.9, 1070.0, 1067.6, 1065.3, 1064.7, 1064.7, 1065.6, 1066.9, 1069.3, 1071.8, 1075.3, 1078.4, 1081.6, 1085.8, 1087.6, 1088.7, 1089.6, 1089.3, 1089.1, 1087.6, 1086.2, 1084.7, 1081.3, 1079.8, 1078.0, 1076.2, 1074.0, 1071.8, 1069.8, 1067.6, 1065.6, 1063.8, 1062.0, 1060.7, 1059.8, 1059.3, 1059.1, 1058.9, 1059.1, 1059.3, 1059.6, 1060.0, 1060.7, 1061.1, 1061.6, 1062.2, 1062.9, 1063.8, 1064.7, 1065.6, 1068.0, 1069.3, 1070.7, 1072.0, 1073.3, 1074.7, 1077.8, 1079.3, 1080.9, 1080.7, 1081.3, 1081.6, 1081.6, 1080.7, 1079.3, 1076.0, 1073.6, 1070.9, 1068.0, 1065.1, 1062.4, 1060.0, 1058.2, 1056.7, 1055.1, 1053.8, 1052.7, 1051.8, 1050.9, 1050.0, 1048.9, 1047.6, 1046.4, 1045.1, 1044.2, 1043.1, 1042.2, 1041.3, 1040.7, 1040.4, 1040.7, 1041.1, 1042.0, 1042.9, 1044.0, 1045.1, 1045.8, 1046.4, 1046.9, 1047.1, 1047.1, 1046.7, 1046.0, 1045.3, 1044.2, 1042.4, 1040.2, 1037.8, 1035.3, 1032.4, 1029.6, 1026.7, 1023.6, 1020.7, 1018.9, 1017.6, 1016.4, 1015.3, 1014.7], "w": [236.4, 235.2, 234.6, 234.0, 232.1, 230.2, 229.0, 229.0, 230.2, 230.2, 230.2, 230.2, 230.2, 231.5, 232.7, 233.3, 233.3, 232.1, 232.1, 232.7, 232.7, 232.1, 230.8, 229.6, 229.0, 229.0, 229.6, 229.6, 230.8, 232.1, 233.3, 235.2, 237.7, 240.2, 241.4, 242.7, 244.5, 244.5, 244.5, 244.5, 243.9, 242.0, 239.6, 238.9, 238.3, 238.3, 238.3, 237.7, 238.9, 243.3, 247.6, 251.4, 254.5, 257.6, 260.1, 263.2, 266.3, 268.8, 268.8, 270.0, 271.3, 268.8, 266.9, 263.2, 258.8, 254.5, 250.8, 246.4, 242.0, 238.3, 237.7, 237.1, 238.9, 240.8, 243.3, 243.9, 245.8, 247.0, 247.0, 248.9, 249.5, 249.5, 243.7, 243.1, 243.1, 242.5, 243.7, 246.2, 247.5, 249.3, 250.6, 257.6, 259.5, 261.3, 263.2, 263.2, 263.2, 263.2, 263.8, 264.4, 265.1, 265.7, 266.3, 266.3, 266.3, 265.7, 261.3, 259.5, 257.6, 255.1, 253.2, 251.4, 250.1, 245.8, 242.0, 242.7, 240.8, 238.9, 236.4, 234.6, 231.5, 229.0, 229.6, 230.2, 230.2, 229.6, 227.1, 228.4, 228.4, 227.7, 228.4, 225.1, 225.1, 226.3, 229.4, 231.9, 232.5, 233.8, 236.9, 237.5, 242.7, 243.9, 244.5, 243.9, 245.8, 245.8, 244.5, 243.3, 243.3, 242.7, 242.7, 242.0, 240.8, 239.6, 239.6, 240.8, 243.3, 245.2, 247.0, 248.9, 250.8, 252.6, 253.9, 254.5, 254.5, 253.2, 251.4, 249.5, 248.3, 247.0, 245.8, 245.2, 246.4, 245.2, 245.2, 246.4, 247.6, 250.1, 252.0, 253.9, 255.7, 256.4, 259.5, 260.7, 260.7, 259.5, 256.4, 254.5, 252.0, 250.1, 247.0, 244.5, 242.7, 241.4, 240.8, 240.2, 238.9, 238.3, 237.1, 237.1, 237.1, 236.4, 236.4, 237.1, 237.1, 237.1, 237.7, 237.7, 237.7, 237.1, 236.4, 235.8, 235.8, 235.8, 235.8, 235.2, 235.8, 236.4, 237.1, 238.3, 237.7, 236.4, 236.4, 235.8, 235.2, 234.6, 234.6, 233.3, 232.7, 233.3, 234.0, 233.3, 234.0, 234.0, 233.3, 232.1, 232.1, 231.5, 230.8, 230.2]};
+const K = 1.7777777777777777, X0 = -1303;
+const FIRE = [34.35, 36.35], WATER = [36.45, 38.8];
+function hash(n) { const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v); }
+function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+function head(t) {
+  const i = Math.max(0, Math.min(HEAD.top.length - 1, Math.round((t - HEAD.start) * HEAD.fps)));
+  return { x: HEAD.x[i] * K + X0, top: HEAD.top[i] * K, w: HEAD.w[i] * K };
+}
+const fireCtx = document.getElementById('fx-fire').getContext('2d');
+function drawFire(t) {
+  const c = fireCtx; c.clearRect(0, 0, 1080, 1920);
+  const env = clamp01((t - FIRE[0]) / 0.35) * clamp01((FIRE[1] - t) / 0.45);
+  if (env <= 0) return;
+  const h = head(t), hw = h.w;
+  c.globalCompositeOperation = 'lighter';
+  const g = c.createRadialGradient(h.x, h.top + hw * 0.25, 0, h.x, h.top + hw * 0.25, hw * 1.5);
+  g.addColorStop(0, 'rgba(255,120,30,' + (0.42 * env) + ')');
+  g.addColorStop(1, 'rgba(255,40,0,0)');
+  c.fillStyle = g; c.fillRect(0, 0, 1080, 1920);
+  for (let k = 0; k < 320; k++) {
+    const u = hash(k) * 2 - 1;
+    const bx = h.x + u * hw * 0.5;
+    const by = h.top + 18 + hw * 0.46 * (1 - Math.sqrt(Math.max(0, 1 - u * u)));
+    const life = 0.42 + hash(k + 7) * 0.45;
+    const age = ((t + hash(k + 3) * life) % life) / life;
+    const rise = (170 + hash(k + 11) * 330) * (1 - 0.35 * Math.abs(u));
+    const x = bx + Math.sin(t * 7 + k) * 16 * age + u * 40 * age;
+    const y = by - rise * age;
+    const r = (30 + hash(k + 5) * 42) * (1 - age * 0.75) * (0.6 + 0.4 * env);
+    const a = (1 - age) * 0.5 * env;
+    const col = age < 0.2 ? '255,236,170' : age < 0.55 ? '255,150,40' : '235,60,15';
+    // tongue-shaped: stretch each soft blob vertically, narrower as it rises
+    c.save(); c.translate(x, y); c.scale(0.7 - age * 0.25, 1.7 + age * 0.8);
+    const gr = c.createRadialGradient(0, 0, 0, 0, 0, r);
+    gr.addColorStop(0, 'rgba(' + col + ',' + a + ')');
+    gr.addColorStop(1, 'rgba(' + col + ',0)');
+    c.fillStyle = gr; c.beginPath(); c.arc(0, 0, r, 0, 6.2832); c.fill(); c.restore();
+  }
+  for (let k = 0; k < 46; k++) {          // embers
+    const life = 0.9 + hash(k + 41) * 0.8;
+    const age = ((t + hash(k + 43) * life) % life) / life;
+    const x = h.x + (hash(k + 45) * 2 - 1) * hw * 0.6 + Math.sin(t * 5 + k * 3) * 30 * age;
+    const y = h.top + 30 - (220 + hash(k + 47) * 520) * age;
+    c.fillStyle = 'rgba(255,210,120,' + ((1 - age) * 0.9 * env) + ')';
+    c.beginPath(); c.arc(x, y, 3 + hash(k + 49) * 4, 0, 6.2832); c.fill();
+  }
+}
+const deepCtx = document.getElementById('fx-water-deep').getContext('2d');
+const lightCtx = document.getElementById('fx-water-light').getContext('2d');
+function waterLevel(t) {
+  const rise = clamp01((t - WATER[0]) / 0.7), drain = clamp01((t - (WATER[1] - 0.4)) / 0.4);
+  const up = 1 - Math.pow(1 - rise, 3), down = drain * drain;
+  return 1920 + 80 - (up - down) * (1920 + 200);
+}
+function surface(x, t, L) { return L + 22 * Math.sin(x * 0.011 + t * 4.2) + 10 * Math.sin(x * 0.029 - t * 6.3); }
+function drawWater(t) {
+  deepCtx.clearRect(0, 0, 1080, 1920); lightCtx.clearRect(0, 0, 1080, 1920);
+  if (t < WATER[0] || t > WATER[1]) return;
+  const L = waterLevel(t);
+  if (L >= 1920) return;
+  const path = new Path2D();
+  path.moveTo(0, 1920);
+  for (let x = 0; x <= 1080; x += 20) path.lineTo(x, surface(x, t, L));
+  path.lineTo(1080, 1920); path.closePath();
+  const g = deepCtx.createLinearGradient(0, Math.max(0, L), 0, 1920);
+  g.addColorStop(0, 'rgb(120,215,255)'); g.addColorStop(0.5, 'rgb(40,140,220)'); g.addColorStop(1, 'rgb(12,60,150)');
+  deepCtx.fillStyle = g; deepCtx.fill(path);
+  const c = lightCtx;
+  c.save(); c.clip(path);
+  c.fillStyle = 'rgba(30,120,200,0.22)'; c.fillRect(0, 0, 1080, 1920);
+  for (let k = 0; k < 7; k++) {           // light shafts from the surface
+    const x = (hash(k + 61) * 1.3 - 0.15) * 1080 + Math.sin(t * 0.9 + k) * 60;
+    const gr = c.createLinearGradient(0, L, 0, L + 1300);
+    gr.addColorStop(0, 'rgba(190,240,255,0.28)'); gr.addColorStop(1, 'rgba(190,240,255,0)');
+    c.fillStyle = gr; c.beginPath();
+    c.moveTo(x - 40, L); c.lineTo(x + 50, L); c.lineTo(x + 260, L + 1300); c.lineTo(x + 60, L + 1300); c.closePath(); c.fill();
+  }
+  for (let k = 0; k < 70; k++) {          // bubbles
+    const sp = 260 + hash(k + 71) * 420, ph = hash(k + 73) * 2400;
+    const y = 1920 + 60 - ((t * sp + ph) % 2400);
+    if (y < L + 20) continue;
+    const x = hash(k + 75) * 1080 + Math.sin(t * 3 + k) * 14;
+    const r = 5 + hash(k + 77) * 18;
+    c.strokeStyle = 'rgba(230,250,255,0.75)'; c.lineWidth = 2.5;
+    c.beginPath(); c.arc(x, y, r, 0, 6.2832); c.stroke();
+    c.fillStyle = 'rgba(255,255,255,0.8)'; c.beginPath(); c.arc(x - r * 0.35, y - r * 0.35, r * 0.25, 0, 6.2832); c.fill();
+  }
+  c.restore();
+  c.strokeStyle = 'rgba(235,252,255,0.9)'; c.lineWidth = 7; c.beginPath();
+  for (let x = 0; x <= 1080; x += 20) { const y = surface(x, t, L); x ? c.lineTo(x, y) : c.moveTo(x, y); }
+  c.stroke();
+}
+const fxClock = { t: 34.25 };
+tl.fromTo(fxClock, { t: 34.25 }, { t: 38.9, duration: 4.65, ease: 'none',
+  onUpdate: function () { drawFire(fxClock.t); drawWater(fxClock.t); } }, 34.25);
+// beach: her cut-out over the beach plate, sun flash hides the swap
+tl.fromTo('#fx-flash', { opacity: 0 }, { opacity: 0.85, duration: 0.18, ease: 'power2.out' }, 38.8333);
+tl.to('#fx-flash', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 39.0333);
+tl.set('#bg-video', { opacity: 0 }, 39.0);
+tl.set(['#fx-beach', '#fx-matte'], { opacity: 1 }, 39.0);
+tl.fromTo('#fx-sun', { opacity: 0 }, { opacity: 0.75, duration: 0.4 }, 39.0);
+tl.fromTo('#fx-beach', { scale: 1.08 }, { scale: 1, duration: 1.55, ease: 'none' }, 39.0);
+tl.set('#bg-video', { opacity: 1 }, 40.5333);
+tl.to(['#fx-beach', '#fx-matte', '#fx-sun'], { opacity: 0, duration: 0.3, ease: 'power2.in' }, 40.5333);
+
 // ── captions ──
 tl.fromTo('#cap-0',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},0.4333);
 tl.set('#cw-0-0',{className:'cw on'},0.4333);

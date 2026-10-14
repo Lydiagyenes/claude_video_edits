@@ -200,44 +200,56 @@ S .sub { margin-top:30px; font-size:42px; font-weight:600; color:#E9E2FF; text-s
   <div class="sub" id="card-03-sub" data-anim="fade-in" data-anim-at="5.45" data-anim-duration="0.5">…amilyet csak szeretnél.</div>
 </div>""", "full")
 
-# 5 — Scenarios + no filming (split, two phases) ────────────────────────────
-card("card-04", 33.8, 44.45, "side-panel",
-     "Flaming hair, underwater, sunny beach — and you never leave home or say a word",
-     {"tiles": ["Lángoló haj", "Víz alatt", "Napsütötte tengerpart"],
-      "statement": ["Nem kell kimozdulnod otthonról", "Meg se kell szólalnod"]},
+# 5 — FX scene (full-bleed): flaming hair → underwater → sunny beach ─────────
+# The effects themselves are layers inside #video-wrap (see FX below); this card
+# only carries the "Lehet akár…" kicker and one label chip per effect.
+card("card-04", 33.8, 40.75, "video-overlay",
+     "Visualise the three examples on her own footage: hair on fire, frame fills with water, beach background",
+     {"kicker": "Lehet akár…", "chips": ["Lángoló haj", "Víz alatt", "Napsütötte tengerpart"]},
+     """
+S .root { position:absolute; inset:0; color:#fff; font-family:'Inter', sans-serif; background:transparent; }
+S .top { position:absolute; left:56px; right:56px; top:96px; }
+S .kicker { display:inline-block; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  font-size:34px; letter-spacing:.06em; text-transform:uppercase; color:#fff;
+  background:#DF0EC4; padding:8px 22px 6px; border-radius:12px; box-shadow:0 0 30px rgba(223,14,196,.6); }
+S .slot { position:relative; margin-top:22px; height:120px; }
+S .chip { position:absolute; left:0; top:0; opacity:0; font-family:'Barlow Condensed', sans-serif; font-style:italic;
+  font-weight:800; font-size:84px; line-height:1; text-transform:uppercase; color:#fff; padding:16px 34px 10px;
+  border-radius:22px; white-space:nowrap; text-shadow:0 2px 14px rgba(0,0,0,.45); }
+S .t0 { background:linear-gradient(100deg,#ff5f2e 0%,#DF0EC4 80%); box-shadow:0 0 40px rgba(255,95,46,.75); }
+S .t1 { background:linear-gradient(100deg,#1d8fe0 0%,#5E44E4 80%); box-shadow:0 0 40px rgba(29,143,224,.75); }
+S .t2 { font-size:72px; background:linear-gradient(100deg,#f5b52e 0%,#C44DB8 85%); box-shadow:0 0 40px rgba(245,181,46,.75); }
+""",
+     """<div class="top">
+  <div class="kicker" id="card-04-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Lehet akár…</div>
+  <div class="slot">
+    <div class="chip t0" id="card-04-t0" data-anim="scale-pop" data-anim-at="0.6" data-anim-duration="0.45">Lángoló haj</div>
+    <div class="chip t1" id="card-04-t1" data-anim="scale-pop" data-anim-at="2.75" data-anim-duration="0.45">Víz alatt</div>
+    <div class="chip t2" id="card-04-t2" data-anim="scale-pop" data-anim-at="5.25" data-anim-duration="0.45">Napsütötte tengerpart</div>
+  </div>
+</div>
+<i id="card-04-t0x" data-anim="fade-out" data-anim-at="2.45" data-anim-duration="0.25" data-anim-target="card-04-t0"></i>
+<i id="card-04-t1x" data-anim="fade-out" data-anim-at="4.95" data-anim-duration="0.25" data-anim-target="card-04-t1"></i>""",
+     "full")
+
+# 5b — No filming needed (split) ────────────────────────────────────────────
+card("card-05", 40.85, 44.45, "side-panel",
+     "And you never have to leave home — or even say a word",
+     {"statement": ["Nem kell kimozdulnod otthonról", "Meg se kell szólalnod"]},
      COMMON_SPLIT_CSS + """
-S .phaseA { position:absolute; left:72px; right:72px; top:96px; }
-S .phaseB { position:absolute; left:72px; right:72px; top:150px; opacity:0; }
-S .tiles { display:flex; flex-direction:column; gap:22px; margin-top:34px; }
-S .tile { position:relative; height:150px; border-radius:24px; overflow:hidden; display:flex; align-items:center;
-  padding:0 36px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:66px;
-  text-transform:uppercase; color:#fff; text-shadow:0 2px 14px rgba(0,0,0,.5); }
-S .t0 { background:linear-gradient(100deg,#ff5f2e 0%,#DF0EC4 70%); box-shadow:0 0 34px rgba(255,95,46,.6); }
-S .t1 { background:linear-gradient(100deg,#1d6fe0 0%,#5E44E4 75%); box-shadow:0 0 34px rgba(29,111,224,.6); }
-S .t2 { background:linear-gradient(100deg,#f5b52e 0%,#C44DB8 80%); box-shadow:0 0 34px rgba(245,181,46,.6); }
-S .big { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; text-transform:uppercase;
-  font-size:118px; line-height:.95; color:#fff; text-shadow:0 0 34px rgba(149,112,255,.8); }
+S .big { margin-top:40px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  text-transform:uppercase; font-size:118px; line-height:.95; color:#fff; text-shadow:0 0 34px rgba(149,112,255,.8); }
 S .big2 { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
   text-transform:uppercase; font-size:76px; line-height:1; color:#fff; background:#DF0EC4; display:inline-block;
   padding:16px 30px 10px; border-radius:18px; box-shadow:0 0 36px rgba(223,14,196,.75); }
 """,
-     f"""<div class="phaseA" id="card-04-a" data-anim="fade-out" data-anim-at="6.9" data-anim-duration="0.3">
-  <div class="kicker" id="card-04-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Lehet akár…</div>
-  <div class="tiles">
-    <div class="tile t0" id="card-04-t0" data-anim="mask-reveal" data-anim-at="0.65" data-anim-duration="0.5" data-anim-direction="left">Lángoló haj</div>
-    <div class="tile t1" id="card-04-t1" data-anim="mask-reveal" data-anim-at="3.0" data-anim-duration="0.5" data-anim-direction="left">Víz alatt</div>
-    <div class="tile t2" id="card-04-t2" data-anim="mask-reveal" data-anim-at="5.4" data-anim-duration="0.5" data-anim-direction="left">Napsütötte tengerpart</div>
-  </div>
-</div>
-<div class="phaseB" id="card-04-b" data-anim="fade-in" data-anim-at="7.2" data-anim-duration="0.3">
-  <div class="big" id="card-04-big" data-anim="kinetic-chars" data-anim-at="7.2" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("Nem kell")}<br>{chars("kimozdulnod")}<br>{chars("otthonról")}</div>
-  <div class="big2" id="card-04-big2" data-anim="scale-pop" data-anim-at="9.35" data-anim-duration="0.45">…meg se kell szólalnod</div>
-</div>""",
+     f"""<div class="big" id="card-05-big" data-anim="kinetic-chars" data-anim-at="0.15" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("Nem kell")}<br>{chars("kimozdulnod")}<br>{chars("otthonról")}</div>
+<div class="big2" id="card-05-big2" data-anim="scale-pop" data-anim-at="2.3" data-anim-duration="0.45">…meg se kell szólalnod</div>""",
      "split")
 
 # 6 — Just type the script (split) ───────────────────────────────────────────
 PROMPT = "Szia! Ma megmutatom, hogyan készül egy AI-avatár videó…"
-card("card-05", 44.55, 51.95, "side-panel",
+card("card-06", 44.55, 51.95, "side-panel",
      "Just type what it should say — the AI says it in your voice with your movements",
      {"kicker": "Csak beírod", "prompt": PROMPT, "outputs": ["Saját hang", "Saját mozgás"]},
      COMMON_SPLIT_CSS + """
@@ -253,20 +265,20 @@ S .out { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-wei
 S .o0 { background:#5E44E4; box-shadow:0 0 26px rgba(94,68,228,.85); }
 S .o1 { background:#C44DB8; box-shadow:0 0 26px rgba(196,77,184,.85); }
 """,
-     f"""<div class="kicker" id="card-05-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Csak beírod</div>
-<div class="box" id="card-05-box" data-anim="fade-in" data-anim-at="0.3" data-anim-duration="0.4">
+     f"""<div class="kicker" id="card-06-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Csak beírod</div>
+<div class="box" id="card-06-box" data-anim="fade-in" data-anim-at="0.3" data-anim-duration="0.4">
   <div class="lbl">Mit mondjon az avatár?</div>
-  <div class="typed" id="card-05-typed" data-anim="typewriter" data-anim-at="0.6" data-anim-duration="0.12" data-anim-stagger="0.035">{chars(PROMPT)}<span class="cursor"></span></div>
+  <div class="typed" id="card-06-typed" data-anim="typewriter" data-anim-at="0.6" data-anim-duration="0.12" data-anim-stagger="0.035">{chars(PROMPT)}<span class="cursor"></span></div>
 </div>
 <div class="row">
-  <div class="arrow" id="card-05-arrow" data-anim="slide-in" data-anim-at="2.85" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="40">→</div>
-  <div class="out o0" id="card-05-o0" data-anim="scale-pop" data-anim-at="3.0" data-anim-duration="0.45">Saját hang</div>
-  <div class="out o1" id="card-05-o1" data-anim="scale-pop" data-anim-at="3.7" data-anim-duration="0.45">Saját mozgás</div>
+  <div class="arrow" id="card-06-arrow" data-anim="slide-in" data-anim-at="2.85" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="40">→</div>
+  <div class="out o0" id="card-06-o0" data-anim="scale-pop" data-anim-at="3.0" data-anim-duration="0.45">Saját hang</div>
+  <div class="out o1" id="card-06-o1" data-anim="scale-pop" data-anim-at="3.7" data-anim-duration="0.45">Saját mozgás</div>
 </div>""",
      "split")
 
 # 7 — CTA (overlay) ──────────────────────────────────────────────────────────
-card("card-06", 52.05, 60.2, "video-overlay",
+card("card-07", 52.05, 60.2, "video-overlay",
      "CTA: follow us and watch the HeyGen avatar-generation video series",
      {"kicker": "Videósorozat", "title": "HeyGen avatár-generálás lépésről lépésre", "cta": "Kövess minket"},
      COMMON_OVERLAY_CSS + """
@@ -278,13 +290,13 @@ S .plus { font-size:70px; line-height:1; }
 """,
      f"""<div class="scrim"></div>
 <div class="top">
-  <div class="kicker" id="card-06-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Részletesen · videósorozat</div>
-  <h1 class="title" id="card-06-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("HeyGen avatár-")}<br>{chars("generálás")}<br>{chars("lépésről lépésre")}</h1>
-  <div class="cta" id="card-06-cta" data-anim="scale-pop" data-anim-at="4.05" data-anim-duration="0.5"><span class="plus">+</span>Kövess minket</div>
+  <div class="kicker" id="card-07-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Részletesen · videósorozat</div>
+  <h1 class="title" id="card-07-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("HeyGen avatár-")}<br>{chars("generálás")}<br>{chars("lépésről lépésre")}</h1>
+  <div class="cta" id="card-07-cta" data-anim="scale-pop" data-anim-at="4.05" data-anim-duration="0.5"><span class="plus">+</span>Kövess minket</div>
 </div>""", "full")
 
 # 8 — Outro (fullscreen) ─────────────────────────────────────────────────────
-card("card-07", 60.3, DURATION, "fullscreen",
+card("card-08", 60.3, DURATION, "fullscreen",
      "Neutral brand outro: Amazing AI logo + tagline",
      {"logo": "Amazing AI", "tagline": "AI-avatárok · videók · automatizáció"},
      """
@@ -297,9 +309,9 @@ S .tag { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style
 S .line { margin-top:30px; height:6px; width:0; border-radius:3px; background:linear-gradient(90deg,#5E44E4,#DF0EC4);
   box-shadow:0 0 22px rgba(223,14,196,.8); }
 """,
-     """<img class="logo" id="card-07-logo" src="img/amazing_logo.png" alt="Amazing AI" data-anim="scale-pop" data-anim-at="0.25" data-anim-duration="0.6">
-<div class="line" id="card-07-line" data-anim="grow-x" data-anim-at="0.8" data-anim-duration="0.6" data-anim-target-w="560"></div>
-<div class="tag" id="card-07-tag" data-anim="fade-in" data-anim-at="1.0" data-anim-duration="0.5">Kövess minket a további videókért</div>""",
+     """<img class="logo" id="card-08-logo" src="img/amazing_logo.png" alt="Amazing AI" data-anim="scale-pop" data-anim-at="0.25" data-anim-duration="0.6">
+<div class="line" id="card-08-line" data-anim="grow-x" data-anim-at="0.8" data-anim-duration="0.6" data-anim-target-w="560"></div>
+<div class="tag" id="card-08-tag" data-anim="fade-in" data-anim-at="1.0" data-anim-duration="0.5">Kövess minket a további videókért</div>""",
      "hidden")
 
 
@@ -327,7 +339,7 @@ def compile_anims(c):
         kind, eid = a["data-anim"], a["id"]
         t = q(c["start"] + float(a["data-anim-at"]))
         d = float(a.get("data-anim-duration", 0.5))
-        sel = f'.card[data-card-id="{c["id"]}"] #{eid}'
+        sel = f'.card[data-card-id="{c["id"]}"] #{a.get("data-anim-target", eid)}'
         if kind == "fade-in":
             out.append(f"tl.fromTo('{sel}',{{opacity:0}},{{opacity:1,duration:{d},ease:'power2.out'}},{t});")
         elif kind == "fade-out":
@@ -427,6 +439,136 @@ for c in CARDS:
         js.append(f"tl.to('#video-wrap',{{scale:0.86,opacity:0,duration:0.6,ease:'power2.in'}},{t});")
     prev = f
 
+# ── FX: flaming hair → underwater → beach (inside the full-bleed card-04) ──────
+# fx-matte.webm is her cut-out (hyperframes remove-background) for source
+# 33.5–41.5s, logo blob removed by fx/clean_matte.py, which also writes the
+# per-frame head track the flames follow. Everything is a pure function of
+# timeline time, so seeking renders identically.
+FX_SEG_START, FX_SEG_DUR = 33.5, 8.0
+FIRE = (34.35, 36.35)            # "…a hajad lángoló, lehet akár…"
+WATER = (36.45, 38.8)            # "…az egész tested víz alatt…" (rise, hold, drain)
+BEACH = (39.0, 40.55)            # "…egy napsütötte tengerparton"
+HEAD = json.loads((ROOT / "fx" / "head-track.json").read_text())
+SRC_SCALE = H / 1080             # source px → canvas px (full framing, scale 1)
+
+FX_INNER_HTML = f"""<img id="fx-beach" src="img/beach.jpg" alt="" style="position:absolute;left:{-FULL['x']}px;top:0;width:{W}px;height:{H}px;object-fit:cover;object-position:34% 50%;opacity:0;">
+<video id="fx-matte" class="clip" src="fx-matte.webm" muted playsinline data-start="{FX_SEG_START}" data-duration="{FX_SEG_DUR}" data-track-index="5" style="position:absolute;left:0;top:0;width:{SRC_W}px;height:{H}px;opacity:0;filter:brightness(1.14) contrast(1.06) saturate(1.12) sepia(.12);"></video>"""
+
+FX_STAGE_HTML = f"""<canvas id="fx-water-deep" width="{W}" height="{H}" style="position:absolute;inset:0;mix-blend-mode:multiply;"></canvas>
+<canvas id="fx-water-light" width="{W}" height="{H}" style="position:absolute;inset:0;mix-blend-mode:screen;"></canvas>
+<canvas id="fx-fire" width="{W}" height="{H}" style="position:absolute;inset:0;mix-blend-mode:screen;"></canvas>
+<div id="fx-sun" style="position:absolute;inset:0;opacity:0;mix-blend-mode:screen;background:radial-gradient(60% 34% at 82% 6%, rgba(255,244,214,.95) 0%, rgba(255,214,140,.45) 35%, rgba(255,200,120,0) 70%);"></div>
+<div id="fx-flash" style="position:absolute;inset:0;opacity:0;background:#fff8e6;"></div>"""
+
+FX_JS = f"""
+// ── FX ──
+const HEAD = {json.dumps(HEAD)};
+const K = {SRC_SCALE}, X0 = {FULL['x']};
+const FIRE = {list(FIRE)}, WATER = {list(WATER)};
+function hash(n) {{ const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v); }}
+function clamp01(v) {{ return v < 0 ? 0 : v > 1 ? 1 : v; }}
+function head(t) {{
+  const i = Math.max(0, Math.min(HEAD.top.length - 1, Math.round((t - HEAD.start) * HEAD.fps)));
+  return {{ x: HEAD.x[i] * K + X0, top: HEAD.top[i] * K, w: HEAD.w[i] * K }};
+}}
+const fireCtx = document.getElementById('fx-fire').getContext('2d');
+function drawFire(t) {{
+  const c = fireCtx; c.clearRect(0, 0, {W}, {H});
+  const env = clamp01((t - FIRE[0]) / 0.35) * clamp01((FIRE[1] - t) / 0.45);
+  if (env <= 0) return;
+  const h = head(t), hw = h.w;
+  c.globalCompositeOperation = 'lighter';
+  const g = c.createRadialGradient(h.x, h.top + hw * 0.25, 0, h.x, h.top + hw * 0.25, hw * 1.5);
+  g.addColorStop(0, 'rgba(255,120,30,' + (0.42 * env) + ')');
+  g.addColorStop(1, 'rgba(255,40,0,0)');
+  c.fillStyle = g; c.fillRect(0, 0, {W}, {H});
+  for (let k = 0; k < 320; k++) {{
+    const u = hash(k) * 2 - 1;
+    const bx = h.x + u * hw * 0.5;
+    const by = h.top + 18 + hw * 0.46 * (1 - Math.sqrt(Math.max(0, 1 - u * u)));
+    const life = 0.42 + hash(k + 7) * 0.45;
+    const age = ((t + hash(k + 3) * life) % life) / life;
+    const rise = (170 + hash(k + 11) * 330) * (1 - 0.35 * Math.abs(u));
+    const x = bx + Math.sin(t * 7 + k) * 16 * age + u * 40 * age;
+    const y = by - rise * age;
+    const r = (30 + hash(k + 5) * 42) * (1 - age * 0.75) * (0.6 + 0.4 * env);
+    const a = (1 - age) * 0.5 * env;
+    const col = age < 0.2 ? '255,236,170' : age < 0.55 ? '255,150,40' : '235,60,15';
+    // tongue-shaped: stretch each soft blob vertically, narrower as it rises
+    c.save(); c.translate(x, y); c.scale(0.7 - age * 0.25, 1.7 + age * 0.8);
+    const gr = c.createRadialGradient(0, 0, 0, 0, 0, r);
+    gr.addColorStop(0, 'rgba(' + col + ',' + a + ')');
+    gr.addColorStop(1, 'rgba(' + col + ',0)');
+    c.fillStyle = gr; c.beginPath(); c.arc(0, 0, r, 0, 6.2832); c.fill(); c.restore();
+  }}
+  for (let k = 0; k < 46; k++) {{          // embers
+    const life = 0.9 + hash(k + 41) * 0.8;
+    const age = ((t + hash(k + 43) * life) % life) / life;
+    const x = h.x + (hash(k + 45) * 2 - 1) * hw * 0.6 + Math.sin(t * 5 + k * 3) * 30 * age;
+    const y = h.top + 30 - (220 + hash(k + 47) * 520) * age;
+    c.fillStyle = 'rgba(255,210,120,' + ((1 - age) * 0.9 * env) + ')';
+    c.beginPath(); c.arc(x, y, 3 + hash(k + 49) * 4, 0, 6.2832); c.fill();
+  }}
+}}
+const deepCtx = document.getElementById('fx-water-deep').getContext('2d');
+const lightCtx = document.getElementById('fx-water-light').getContext('2d');
+function waterLevel(t) {{
+  const rise = clamp01((t - WATER[0]) / 0.7), drain = clamp01((t - (WATER[1] - 0.4)) / 0.4);
+  const up = 1 - Math.pow(1 - rise, 3), down = drain * drain;
+  return {H} + 80 - (up - down) * ({H} + 200);
+}}
+function surface(x, t, L) {{ return L + 22 * Math.sin(x * 0.011 + t * 4.2) + 10 * Math.sin(x * 0.029 - t * 6.3); }}
+function drawWater(t) {{
+  deepCtx.clearRect(0, 0, {W}, {H}); lightCtx.clearRect(0, 0, {W}, {H});
+  if (t < WATER[0] || t > WATER[1]) return;
+  const L = waterLevel(t);
+  if (L >= {H}) return;
+  const path = new Path2D();
+  path.moveTo(0, {H});
+  for (let x = 0; x <= {W}; x += 20) path.lineTo(x, surface(x, t, L));
+  path.lineTo({W}, {H}); path.closePath();
+  const g = deepCtx.createLinearGradient(0, Math.max(0, L), 0, {H});
+  g.addColorStop(0, 'rgb(120,215,255)'); g.addColorStop(0.5, 'rgb(40,140,220)'); g.addColorStop(1, 'rgb(12,60,150)');
+  deepCtx.fillStyle = g; deepCtx.fill(path);
+  const c = lightCtx;
+  c.save(); c.clip(path);
+  c.fillStyle = 'rgba(30,120,200,0.22)'; c.fillRect(0, 0, {W}, {H});
+  for (let k = 0; k < 7; k++) {{           // light shafts from the surface
+    const x = (hash(k + 61) * 1.3 - 0.15) * {W} + Math.sin(t * 0.9 + k) * 60;
+    const gr = c.createLinearGradient(0, L, 0, L + 1300);
+    gr.addColorStop(0, 'rgba(190,240,255,0.28)'); gr.addColorStop(1, 'rgba(190,240,255,0)');
+    c.fillStyle = gr; c.beginPath();
+    c.moveTo(x - 40, L); c.lineTo(x + 50, L); c.lineTo(x + 260, L + 1300); c.lineTo(x + 60, L + 1300); c.closePath(); c.fill();
+  }}
+  for (let k = 0; k < 70; k++) {{          // bubbles
+    const sp = 260 + hash(k + 71) * 420, ph = hash(k + 73) * 2400;
+    const y = {H} + 60 - ((t * sp + ph) % 2400);
+    if (y < L + 20) continue;
+    const x = hash(k + 75) * {W} + Math.sin(t * 3 + k) * 14;
+    const r = 5 + hash(k + 77) * 18;
+    c.strokeStyle = 'rgba(230,250,255,0.75)'; c.lineWidth = 2.5;
+    c.beginPath(); c.arc(x, y, r, 0, 6.2832); c.stroke();
+    c.fillStyle = 'rgba(255,255,255,0.8)'; c.beginPath(); c.arc(x - r * 0.35, y - r * 0.35, r * 0.25, 0, 6.2832); c.fill();
+  }}
+  c.restore();
+  c.strokeStyle = 'rgba(235,252,255,0.9)'; c.lineWidth = 7; c.beginPath();
+  for (let x = 0; x <= {W}; x += 20) {{ const y = surface(x, t, L); x ? c.lineTo(x, y) : c.moveTo(x, y); }}
+  c.stroke();
+}}
+const fxClock = {{ t: {FIRE[0] - 0.1} }};
+tl.fromTo(fxClock, {{ t: {FIRE[0] - 0.1} }}, {{ t: {WATER[1] + 0.1}, duration: {round(WATER[1] - FIRE[0] + 0.2, 4)}, ease: 'none',
+  onUpdate: function () {{ drawFire(fxClock.t); drawWater(fxClock.t); }} }}, {FIRE[0] - 0.1});
+// beach: her cut-out over the beach plate, sun flash hides the swap
+tl.fromTo('#fx-flash', {{ opacity: 0 }}, {{ opacity: 0.85, duration: 0.18, ease: 'power2.out' }}, {q(BEACH[0] - 0.18)});
+tl.to('#fx-flash', {{ opacity: 0, duration: 0.4, ease: 'power2.in' }}, {q(BEACH[0] + 0.04)});
+tl.set('#bg-video', {{ opacity: 0 }}, {q(BEACH[0])});
+tl.set(['#fx-beach', '#fx-matte'], {{ opacity: 1 }}, {q(BEACH[0])});
+tl.fromTo('#fx-sun', {{ opacity: 0 }}, {{ opacity: 0.75, duration: 0.4 }}, {q(BEACH[0])});
+tl.fromTo('#fx-beach', {{ scale: 1.08 }}, {{ scale: 1, duration: {round(BEACH[1] - BEACH[0], 3)}, ease: 'none' }}, {q(BEACH[0])});
+tl.set('#bg-video', {{ opacity: 1 }}, {q(BEACH[1])});
+tl.to(['#fx-beach', '#fx-matte', '#fx-sun'], {{ opacity: 0, duration: 0.3, ease: 'power2.in' }}, {q(BEACH[1])});
+"""
+
 START_KEY = CARDS[0]["framing"]
 START = SPLIT if START_KEY == "split" else FULL
 
@@ -477,7 +619,9 @@ html, body {{ margin:0; padding:0; width:100%; height:100%; overflow:hidden; bac
 <div class="video-wrapper" id="video-wrap">
 <div id="video-inner">
 <video id="bg-video" src="input-video.mp4" playsinline data-has-audio="true" data-start="0" data-duration="{DURATION}" data-track-index="1"></video>
+{FX_INNER_HTML}
 </div>
+{FX_STAGE_HTML}
 </div>
 <video id="avatar-video" class="clip" src="avatar-intro.mp4" muted playsinline data-start="0" data-duration="{q(AVATAR_END)}" data-track-index="4"></video>
 {chr(10).join(host_html)}
@@ -498,6 +642,7 @@ tl.set('#captions',{{y:{CAP_TOP[START_KEY] - CAP_TOP['full']}}},0);
 // muted HeyGen avatar on the top half, fades out as the how-to card takes over
 tl.to('#avatar-video',{{opacity:0,duration:0.3,ease:'power2.in'}},{q(AVATAR_END - 0.3)});
 {chr(10).join(js)}
+{FX_JS}
 // ── captions ──
 {chr(10).join(caption_js)}
 window.__timelines = window.__timelines || {{}};

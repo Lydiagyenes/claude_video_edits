@@ -80,17 +80,28 @@
     },
     {
       "id": "card-04",
-      "intent": "Flaming hair, underwater, sunny beach — and you never leave home or say a word",
+      "intent": "Visualise the three examples on her own footage: hair on fire, frame fills with water, beach background",
       "startSec": 33.8,
-      "endSec": 44.45,
+      "endSec": 40.75,
       "accentIndex": 3,
-      "zone": "side-panel",
+      "zone": "video-overlay",
       "contentHints": {
-        "tiles": [
+        "kicker": "Lehet akár…",
+        "chips": [
           "Lángoló haj",
           "Víz alatt",
           "Napsütötte tengerpart"
-        ],
+        ]
+      }
+    },
+    {
+      "id": "card-05",
+      "intent": "And you never have to leave home — or even say a word",
+      "startSec": 40.85,
+      "endSec": 44.45,
+      "accentIndex": 4,
+      "zone": "side-panel",
+      "contentHints": {
         "statement": [
           "Nem kell kimozdulnod otthonról",
           "Meg se kell szólalnod"
@@ -98,11 +109,11 @@
       }
     },
     {
-      "id": "card-05",
+      "id": "card-06",
       "intent": "Just type what it should say — the AI says it in your voice with your movements",
       "startSec": 44.55,
       "endSec": 51.95,
-      "accentIndex": 4,
+      "accentIndex": 0,
       "zone": "side-panel",
       "contentHints": {
         "kicker": "Csak beírod",
@@ -114,11 +125,11 @@
       }
     },
     {
-      "id": "card-06",
+      "id": "card-07",
       "intent": "CTA: follow us and watch the HeyGen avatar-generation video series",
       "startSec": 52.05,
       "endSec": 60.2,
-      "accentIndex": 0,
+      "accentIndex": 1,
       "zone": "video-overlay",
       "contentHints": {
         "kicker": "Videósorozat",
@@ -127,11 +138,11 @@
       }
     },
     {
-      "id": "card-07",
+      "id": "card-08",
       "intent": "Neutral brand outro: Amazing AI logo + tagline",
       "startSec": 60.3,
       "endSec": 65.0667,
-      "accentIndex": 1,
+      "accentIndex": 2,
       "zone": "fullscreen",
       "contentHints": {
         "logo": "Amazing AI",
