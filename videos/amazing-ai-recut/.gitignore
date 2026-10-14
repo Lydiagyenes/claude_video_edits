@@ -1,11 +1,9 @@
 # Large / regenerable media and render artifacts
 audio.mp3
 public/input-video.mp4
-output.mp4
 public/.hyperframes/
 .hyperframes/
 .output.hf-transaction-*/
 work-*/
-output-share.mp4
 public/avatar-intro.mp4
 tr-medium/
