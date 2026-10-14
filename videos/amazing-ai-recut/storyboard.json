@@ -4,7 +4,7 @@
     "fps": 30,
     "width": 1080,
     "height": 1920,
-    "durationSeconds": 51.4667,
+    "durationSeconds": 50.8333,
     "layout": "portrait",
     "themeId": "amazing-ai-neon",
     "seed": 42
@@ -12,7 +12,7 @@
   "videoTrack": {
     "sourcePath": "input-video.mp4",
     "startSec": 0,
-    "endSec": 51.4667,
+    "endSec": 50.8333,
     "bounds": {
       "x": 0,
       "y": 0,
@@ -49,7 +49,7 @@
       "id": "card-02",
       "intent": "How it works in three steps: create, upload samples, HeyGen AI copies your gestures — done",
       "startSec": 14.4,
-      "endSec": 26.61,
+      "endSec": 25.95,
       "accentIndex": 1,
       "zone": "side-panel",
       "contentHints": {
@@ -65,8 +65,8 @@
     {
       "id": "card-03",
       "intent": "Visualise the three examples on her own footage: hair on fire, frame fills with water, beach background",
-      "startSec": 26.61,
-      "endSec": 31.090000000000003,
+      "startSec": 25.95,
+      "endSec": 30.430000000000003,
       "accentIndex": 2,
       "zone": "video-overlay",
       "contentHints": {
@@ -81,8 +81,8 @@
     {
       "id": "card-04",
       "intent": "Just type what it should say — the AI says it in your voice with your movements",
-      "startSec": 31.150000000000006,
-      "endSec": 38.400000000000006,
+      "startSec": 30.490000000000006,
+      "endSec": 37.74000000000001,
       "accentIndex": 3,
       "zone": "side-panel",
       "contentHints": {
@@ -97,8 +97,8 @@
     {
       "id": "card-05",
       "intent": "CTA: follow us and watch the HeyGen avatar-generation video series",
-      "startSec": 38.5,
-      "endSec": 46.650000000000006,
+      "startSec": 37.84,
+      "endSec": 45.99000000000001,
       "accentIndex": 4,
       "zone": "video-overlay",
       "contentHints": {
@@ -110,8 +110,8 @@
     {
       "id": "card-06",
       "intent": "Neutral brand outro: Amazing AI logo + tagline",
-      "startSec": 46.75,
-      "endSec": 51.4667,
+      "startSec": 46.09,
+      "endSec": 50.8333,
       "accentIndex": 0,
       "zone": "fullscreen",
       "contentHints": {

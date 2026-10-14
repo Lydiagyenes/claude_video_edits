@@ -24,7 +24,7 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 .card-host { position:absolute; pointer-events:none; overflow:hidden; z-index:2; }
 .fx-cut { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; z-index:1; pointer-events:none; }
 .fx-cut video { width:100%; height:100%; object-fit:cover; display:block; }
-#avatar-video { position:absolute; left:0; top:0; width:1080px; height:960px; object-fit:cover; object-position:50% 30%; z-index:1; }
+#avatar-video { position:absolute; left:0; top:0; width:1080px; height:960px; object-fit:cover; object-position:60.9% 50%; z-index:1; }
 .card-host .card { position:relative; width:100%; height:100%; overflow:hidden; }
 #captions { z-index:3; position:absolute; left:40px; right:40px; top:1290px; height:160px; pointer-events:none; }
 .cap { position:absolute; left:0; right:0; top:0; text-align:center; font-family:'Barlow Condensed', sans-serif;
@@ -36,14 +36,14 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 </style>
 </head>
 <body>
-<div id="stage" data-composition-id="talking-head-recut" data-start="0" data-duration="51.4667" data-fps="30" data-width="1080" data-height="1920">
+<div id="stage" data-composition-id="talking-head-recut" data-start="0" data-duration="50.8333" data-fps="30" data-width="1080" data-height="1920">
 <div class="video-wrapper" id="video-wrap">
 <div id="video-inner">
-<video id="bg-video" src="input-video.mp4" playsinline data-has-audio="true" data-start="0" data-duration="51.4667" data-track-index="1"></video>
+<video id="bg-video" src="input-video.mp4" playsinline data-has-audio="true" data-start="0" data-duration="50.8333" data-track-index="1"></video>
 </div>
 </div>
-<div class="fx-cut" id="fx-fire-clip"><video id="fx-fire-video" class="clip" src="fx-fire.mp4" muted playsinline data-start="27.1" data-duration="2.2667" data-track-index="6"></video></div>
-<div class="fx-cut" id="fx-water-clip"><video id="fx-water-video" class="clip" src="fx-water.mp4" muted playsinline data-start="29.3667" data-duration="1.7333" data-track-index="7"></video></div>
+<div class="fx-cut" id="fx-fire-clip"><video id="fx-fire-video" class="clip" src="fx-fire.mp4" muted playsinline data-start="26.4667" data-duration="2.2667" data-track-index="6"></video></div>
+<div class="fx-cut" id="fx-water-clip"><video id="fx-water-video" class="clip" src="fx-water.mp4" muted playsinline data-start="28.7" data-duration="1.7333" data-track-index="7"></video></div>
 <video id="avatar-video" class="clip" src="avatar-intro.mp4" muted playsinline data-start="0" data-duration="14.3333" data-track-index="4"></video>
 <div class="card-host clip" id="card-01-host" data-card-id="card-01" data-start="0.0667" data-duration="14.2666" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-01">
@@ -86,7 +86,7 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 </div>
 </div>
 </div>
-<div class="card-host clip" id="card-02-host" data-card-id="card-02" data-start="14.4" data-duration="12.2" data-track-index="2" style="left:0px;top:0px;width:1080px;height:960px;visibility:hidden;opacity:0;">
+<div class="card-host clip" id="card-02-host" data-card-id="card-02" data-start="14.4" data-duration="11.5333" data-track-index="2" style="left:0px;top:0px;width:1080px;height:960px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-02">
 <style>
 .card[data-card-id="card-02"] .root { position:absolute; inset:0; overflow:hidden;
@@ -121,7 +121,7 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 </style>
 <div class="root">
 <div class="kicker" id="card-02-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Így működik</div>
-<div class="done" id="card-02-done" data-anim="scale-pop" data-anim-at="11.4" data-anim-duration="0.5">Kész is vagy ✓</div>
+<div class="done" id="card-02-done" data-anim="scale-pop" data-anim-at="10.95" data-anim-duration="0.45">Kész is vagy ✓</div>
 <div class="steps">
   <div class="step" id="card-02-s0" data-anim="slide-in" data-anim-at="0.4" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n0">1</div><div class="txt"><b>Új avatár</b><span>Létrehozod, a saját alakodra formálod</span></div></div>
   <div class="step" id="card-02-s1" data-anim="slide-in" data-anim-at="3.05" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n1">2</div><div class="txt"><b>Feltöltés</b><span>Rövid szöveg · hangminta · videóminta</span></div></div>
@@ -130,7 +130,7 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 </div>
 </div>
 </div>
-<div class="card-host clip" id="card-03-host" data-card-id="card-03" data-start="26.6" data-duration="4.5" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
+<div class="card-host clip" id="card-03-host" data-card-id="card-03" data-start="25.9333" data-duration="4.5" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-03">
 <style>
 .card[data-card-id="card-03"] .root { position:absolute; inset:0; color:#fff; font-family:'Inter', sans-serif; background:transparent; }
@@ -158,7 +158,7 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 </div>
 </div>
 </div>
-<div class="card-host clip" id="card-04-host" data-card-id="card-04" data-start="31.1667" data-duration="7.2333" data-track-index="2" style="left:0px;top:0px;width:1080px;height:960px;visibility:hidden;opacity:0;">
+<div class="card-host clip" id="card-04-host" data-card-id="card-04" data-start="30.5" data-duration="7.2333" data-track-index="2" style="left:0px;top:0px;width:1080px;height:960px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-04">
 <style>
 .card[data-card-id="card-04"] .root { position:absolute; inset:0; overflow:hidden;
@@ -202,7 +202,7 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 </div>
 </div>
 </div>
-<div class="card-host clip" id="card-05-host" data-card-id="card-05" data-start="38.5" data-duration="8.1667" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
+<div class="card-host clip" id="card-05-host" data-card-id="card-05" data-start="37.8333" data-duration="8.1667" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-05">
 <style>
 .card[data-card-id="card-05"] .root { position:absolute; inset:0; color:#fff; font-family:'Inter', sans-serif; background:transparent; }
@@ -235,7 +235,7 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 </div>
 </div>
 </div>
-<div class="card-host clip" id="card-06-host" data-card-id="card-06" data-start="46.7333" data-duration="4.7334" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
+<div class="card-host clip" id="card-06-host" data-card-id="card-06" data-start="46.1" data-duration="4.7333" data-track-index="2" style="left:0px;top:0px;width:1080px;height:1920px;visibility:hidden;opacity:0;">
 <div class="card" data-card-id="card-06">
 <style>
 .card[data-card-id="card-06"] .root { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -285,37 +285,37 @@ html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; back
 <div class="cap clip" id="cap-27" data-start="21.9" data-duration="0.9333" data-track-index="3"><span class="cw" id="cw-27-0">hogy</span> <span class="cw" id="cw-27-1">a</span> <span class="cw" id="cw-27-2">HeyGen AI</span></div>
 <div class="cap clip" id="cap-28" data-start="22.8333" data-duration="0.9" data-track-index="3"><span class="cw" id="cw-28-0">le</span> <span class="cw" id="cw-28-1">tudja</span> <span class="cw" id="cw-28-2">másolni</span> <span class="cw" id="cw-28-3">a</span></div>
 <div class="cap clip" id="cap-29" data-start="23.7333" data-duration="1.1" data-track-index="3"><span class="cw" id="cw-29-0">gesztusaidat</span> <span class="cw" id="cw-29-1">és</span> <span class="cw" id="cw-29-2">a</span></div>
-<div class="cap clip" id="cap-30" data-start="24.8333" data-duration="0.6667" data-track-index="3"><span class="cw" id="cw-30-0">mozgásodat</span></div>
-<div class="cap clip" id="cap-31" data-start="25.5" data-duration="0.9" data-track-index="3"><span class="cw" id="cw-31-0">és</span> <span class="cw" id="cw-31-1">már</span> <span class="cw" id="cw-31-2">készen</span> <span class="cw" id="cw-31-3">is</span></div>
-<div class="cap clip" id="cap-32" data-start="26.4" data-duration="0.2667" data-track-index="3"><span class="cw" id="cw-32-0">vagy</span></div>
-<div class="cap clip" id="cap-33" data-start="26.6667" data-duration="1.0333" data-track-index="3"><span class="cw" id="cw-33-0">Lehet</span> <span class="cw" id="cw-33-1">akár</span> <span class="cw" id="cw-33-2">a</span> <span class="cw" id="cw-33-3">hajad</span></div>
-<div class="cap clip" id="cap-34" data-start="27.7" data-duration="0.9333" data-track-index="3"><span class="cw" id="cw-34-0">lángoló</span></div>
-<div class="cap clip" id="cap-35" data-start="28.6333" data-duration="0.7667" data-track-index="3"><span class="cw" id="cw-35-0">lehet</span> <span class="cw" id="cw-35-1">akár</span> <span class="cw" id="cw-35-2">az</span></div>
-<div class="cap clip" id="cap-36" data-start="29.4" data-duration="1.1667" data-track-index="3"><span class="cw" id="cw-36-0">egész</span> <span class="cw" id="cw-36-1">tested</span> <span class="cw" id="cw-36-2">víz</span></div>
-<div class="cap clip" id="cap-37" data-start="30.5667" data-duration="0.8" data-track-index="3"><span class="cw" id="cw-37-0">alatt</span></div>
-<div class="cap clip" id="cap-38" data-start="31.3667" data-duration="0.3333" data-track-index="3"><span class="cw" id="cw-38-0">beírod</span></div>
-<div class="cap clip" id="cap-39" data-start="31.7" data-duration="0.7667" data-track-index="3"><span class="cw" id="cw-39-0">hogy</span> <span class="cw" id="cw-39-1">mit</span> <span class="cw" id="cw-39-2">mondjon</span></div>
-<div class="cap clip" id="cap-40" data-start="32.4667" data-duration="0.7333" data-track-index="3"><span class="cw" id="cw-40-0">el</span> <span class="cw" id="cw-40-1">helyetted</span> <span class="cw" id="cw-40-2">az</span></div>
-<div class="cap clip" id="cap-41" data-start="33.2" data-duration="0.2333" data-track-index="3"><span class="cw" id="cw-41-0">AI</span></div>
-<div class="cap clip" id="cap-42" data-start="33.4333" data-duration="0.5667" data-track-index="3"><span class="cw" id="cw-42-0">és</span> <span class="cw" id="cw-42-1">a</span> <span class="cw" id="cw-42-2">saját</span></div>
-<div class="cap clip" id="cap-43" data-start="34.0" data-duration="0.4" data-track-index="3"><span class="cw" id="cw-43-0">hangodon</span></div>
-<div class="cap clip" id="cap-44" data-start="34.4" data-duration="0.3333" data-track-index="3"><span class="cw" id="cw-44-0">a</span> <span class="cw" id="cw-44-1">saját</span></div>
-<div class="cap clip" id="cap-45" data-start="34.7333" data-duration="0.7667" data-track-index="3"><span class="cw" id="cw-45-0">mozgásodnak</span></div>
-<div class="cap clip" id="cap-46" data-start="35.5" data-duration="0.7" data-track-index="3"><span class="cw" id="cw-46-0">megfelelően</span> <span class="cw" id="cw-46-1">fogod</span></div>
-<div class="cap clip" id="cap-47" data-start="36.2" data-duration="0.9" data-track-index="3"><span class="cw" id="cw-47-0">tudni</span> <span class="cw" id="cw-47-1">megcsinálni</span></div>
-<div class="cap clip" id="cap-48" data-start="37.1" data-duration="0.4667" data-track-index="3"><span class="cw" id="cw-48-0">az</span> <span class="cw" id="cw-48-1">avatár</span></div>
-<div class="cap clip" id="cap-49" data-start="37.5667" data-duration="1.0666" data-track-index="3"><span class="cw" id="cw-49-0">videókat</span></div>
-<div class="cap clip" id="cap-50" data-start="38.6333" data-duration="0.4334" data-track-index="3"><span class="cw" id="cw-50-0">Ha</span> <span class="cw" id="cw-50-1">érdekel</span></div>
-<div class="cap clip" id="cap-51" data-start="39.0667" data-duration="0.8333" data-track-index="3"><span class="cw" id="cw-51-0">hogy</span> <span class="cw" id="cw-51-1">hogyan</span> <span class="cw" id="cw-51-2">tudod</span></div>
-<div class="cap clip" id="cap-52" data-start="39.9" data-duration="0.9" data-track-index="3"><span class="cw" id="cw-52-0">ezt</span> <span class="cw" id="cw-52-1">részletesen</span></div>
-<div class="cap clip" id="cap-53" data-start="40.8" data-duration="0.6" data-track-index="3"><span class="cw" id="cw-53-0">ténylegesen</span></div>
-<div class="cap clip" id="cap-54" data-start="41.4" data-duration="0.9667" data-track-index="3"><span class="cw" id="cw-54-0">létrehozni</span></div>
-<div class="cap clip" id="cap-55" data-start="42.3667" data-duration="0.7" data-track-index="3"><span class="cw" id="cw-55-0">akkor</span> <span class="cw" id="cw-55-1">kövess</span></div>
-<div class="cap clip" id="cap-56" data-start="43.0667" data-duration="0.7" data-track-index="3"><span class="cw" id="cw-56-0">bennünket</span></div>
-<div class="cap clip" id="cap-57" data-start="43.7667" data-duration="0.6" data-track-index="3"><span class="cw" id="cw-57-0">és</span> <span class="cw" id="cw-57-1">nézd</span> <span class="cw" id="cw-57-2">meg</span> <span class="cw" id="cw-57-3">a</span></div>
-<div class="cap clip" id="cap-58" data-start="44.3667" data-duration="0.6666" data-track-index="3"><span class="cw" id="cw-58-0">HeyGen</span> <span class="cw" id="cw-58-1">avatár</span></div>
-<div class="cap clip" id="cap-59" data-start="45.0333" data-duration="0.5667" data-track-index="3"><span class="cw" id="cw-59-0">generálós</span></div>
-<div class="cap clip" id="cap-60" data-start="45.6" data-duration="1.6" data-track-index="3"><span class="cw" id="cw-60-0">videósorozatomat</span></div>
+<div class="cap clip" id="cap-30" data-start="24.8333" data-duration="0.1" data-track-index="3"><span class="cw" id="cw-30-0">mozgásodat</span></div>
+<div class="cap clip" id="cap-31" data-start="24.9333" data-duration="0.8334" data-track-index="3"><span class="cw" id="cw-31-0">és</span> <span class="cw" id="cw-31-1">már</span> <span class="cw" id="cw-31-2">készen</span> <span class="cw" id="cw-31-3">is</span></div>
+<div class="cap clip" id="cap-32" data-start="25.7667" data-duration="0.2333" data-track-index="3"><span class="cw" id="cw-32-0">vagy</span></div>
+<div class="cap clip" id="cap-33" data-start="26.0" data-duration="1.0333" data-track-index="3"><span class="cw" id="cw-33-0">Lehet</span> <span class="cw" id="cw-33-1">akár</span> <span class="cw" id="cw-33-2">a</span> <span class="cw" id="cw-33-3">hajad</span></div>
+<div class="cap clip" id="cap-34" data-start="27.0333" data-duration="0.9334" data-track-index="3"><span class="cw" id="cw-34-0">lángoló</span></div>
+<div class="cap clip" id="cap-35" data-start="27.9667" data-duration="0.8" data-track-index="3"><span class="cw" id="cw-35-0">lehet</span> <span class="cw" id="cw-35-1">akár</span> <span class="cw" id="cw-35-2">az</span></div>
+<div class="cap clip" id="cap-36" data-start="28.7667" data-duration="1.1333" data-track-index="3"><span class="cw" id="cw-36-0">egész</span> <span class="cw" id="cw-36-1">tested</span> <span class="cw" id="cw-36-2">víz</span></div>
+<div class="cap clip" id="cap-37" data-start="29.9" data-duration="0.8" data-track-index="3"><span class="cw" id="cw-37-0">alatt</span></div>
+<div class="cap clip" id="cap-38" data-start="30.7" data-duration="0.3333" data-track-index="3"><span class="cw" id="cw-38-0">beírod</span></div>
+<div class="cap clip" id="cap-39" data-start="31.0333" data-duration="0.8" data-track-index="3"><span class="cw" id="cw-39-0">hogy</span> <span class="cw" id="cw-39-1">mit</span> <span class="cw" id="cw-39-2">mondjon</span></div>
+<div class="cap clip" id="cap-40" data-start="31.8333" data-duration="0.7" data-track-index="3"><span class="cw" id="cw-40-0">el</span> <span class="cw" id="cw-40-1">helyetted</span> <span class="cw" id="cw-40-2">az</span></div>
+<div class="cap clip" id="cap-41" data-start="32.5333" data-duration="0.2334" data-track-index="3"><span class="cw" id="cw-41-0">AI</span></div>
+<div class="cap clip" id="cap-42" data-start="32.7667" data-duration="0.6" data-track-index="3"><span class="cw" id="cw-42-0">és</span> <span class="cw" id="cw-42-1">a</span> <span class="cw" id="cw-42-2">saját</span></div>
+<div class="cap clip" id="cap-43" data-start="33.3667" data-duration="0.3666" data-track-index="3"><span class="cw" id="cw-43-0">hangodon</span></div>
+<div class="cap clip" id="cap-44" data-start="33.7333" data-duration="0.3334" data-track-index="3"><span class="cw" id="cw-44-0">a</span> <span class="cw" id="cw-44-1">saját</span></div>
+<div class="cap clip" id="cap-45" data-start="34.0667" data-duration="0.7666" data-track-index="3"><span class="cw" id="cw-45-0">mozgásodnak</span></div>
+<div class="cap clip" id="cap-46" data-start="34.8333" data-duration="0.7" data-track-index="3"><span class="cw" id="cw-46-0">megfelelően</span> <span class="cw" id="cw-46-1">fogod</span></div>
+<div class="cap clip" id="cap-47" data-start="35.5333" data-duration="0.9" data-track-index="3"><span class="cw" id="cw-47-0">tudni</span> <span class="cw" id="cw-47-1">megcsinálni</span></div>
+<div class="cap clip" id="cap-48" data-start="36.4333" data-duration="0.4667" data-track-index="3"><span class="cw" id="cw-48-0">az</span> <span class="cw" id="cw-48-1">avatár</span></div>
+<div class="cap clip" id="cap-49" data-start="36.9" data-duration="1.0667" data-track-index="3"><span class="cw" id="cw-49-0">videókat</span></div>
+<div class="cap clip" id="cap-50" data-start="37.9667" data-duration="0.4333" data-track-index="3"><span class="cw" id="cw-50-0">Ha</span> <span class="cw" id="cw-50-1">érdekel</span></div>
+<div class="cap clip" id="cap-51" data-start="38.4" data-duration="0.8333" data-track-index="3"><span class="cw" id="cw-51-0">hogy</span> <span class="cw" id="cw-51-1">hogyan</span> <span class="cw" id="cw-51-2">tudod</span></div>
+<div class="cap clip" id="cap-52" data-start="39.2333" data-duration="0.9" data-track-index="3"><span class="cw" id="cw-52-0">ezt</span> <span class="cw" id="cw-52-1">részletesen</span></div>
+<div class="cap clip" id="cap-53" data-start="40.1333" data-duration="0.6" data-track-index="3"><span class="cw" id="cw-53-0">ténylegesen</span></div>
+<div class="cap clip" id="cap-54" data-start="40.7333" data-duration="1.0" data-track-index="3"><span class="cw" id="cw-54-0">létrehozni</span></div>
+<div class="cap clip" id="cap-55" data-start="41.7333" data-duration="0.6667" data-track-index="3"><span class="cw" id="cw-55-0">akkor</span> <span class="cw" id="cw-55-1">kövess</span></div>
+<div class="cap clip" id="cap-56" data-start="42.4" data-duration="0.7" data-track-index="3"><span class="cw" id="cw-56-0">bennünket</span></div>
+<div class="cap clip" id="cap-57" data-start="43.1" data-duration="0.6" data-track-index="3"><span class="cw" id="cw-57-0">és</span> <span class="cw" id="cw-57-1">nézd</span> <span class="cw" id="cw-57-2">meg</span> <span class="cw" id="cw-57-3">a</span></div>
+<div class="cap clip" id="cap-58" data-start="43.7" data-duration="0.6667" data-track-index="3"><span class="cw" id="cw-58-0">HeyGen</span> <span class="cw" id="cw-58-1">avatár</span></div>
+<div class="cap clip" id="cap-59" data-start="44.3667" data-duration="0.5666" data-track-index="3"><span class="cw" id="cw-59-0">generálós</span></div>
+<div class="cap clip" id="cap-60" data-start="44.9333" data-duration="1.6" data-track-index="3"><span class="cw" id="cw-60-0">videósorozatomat</span></div>
 </div>
 <script src="vendor/gsap.min.js"></script>
 <script>
@@ -339,61 +339,61 @@ tl.fromTo('.card[data-card-id="card-01"] #card-01-chip0',{opacity:0,scale:0.5},{
 tl.fromTo('.card[data-card-id="card-01"] #card-01-chip1',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},13.0);
 tl.to('.card-host[data-card-id="card-01"]',{opacity:0,duration:0.3,ease:'power2.in'},14.0333);
 tl.set('.card-host[data-card-id="card-01"]',{visibility:'hidden'},14.3333);
-// card-02 [14.4–26.6] How it works in three steps: create, upload samples, HeyGen AI copies your gestures — done
+// card-02 [14.4–25.9333] How it works in three steps: create, upload samples, HeyGen AI copies your gestures — done
 tl.set('.card-host[data-card-id="card-02"]',{visibility:'visible'},14.4);
 tl.fromTo('.card-host[data-card-id="card-02"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},14.4);
 tl.fromTo('.card[data-card-id="card-02"] #card-02-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},14.5);
-tl.fromTo('.card[data-card-id="card-02"] #card-02-done',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.5,ease:'back.out(1.8)'},25.8);
+tl.fromTo('.card[data-card-id="card-02"] #card-02-done',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},25.3333);
 tl.fromTo('.card[data-card-id="card-02"] #card-02-s0',{opacity:0,x:-120.0},{opacity:1,x:0,duration:0.5,ease:'power3.out'},14.8);
 tl.fromTo('.card[data-card-id="card-02"] #card-02-s1',{opacity:0,x:-120.0},{opacity:1,x:0,duration:0.5,ease:'power3.out'},17.4667);
 tl.fromTo('.card[data-card-id="card-02"] #card-02-s2',{opacity:0,x:-120.0},{opacity:1,x:0,duration:0.5,ease:'power3.out'},21.9);
-tl.to('.card-host[data-card-id="card-02"]',{opacity:0,duration:0.3,ease:'power2.in'},26.3);
-tl.set('.card-host[data-card-id="card-02"]',{visibility:'hidden'},26.6);
-// card-03 [26.6–31.1] Visualise the three examples on her own footage: hair on fire, frame fills with water, beach background
-tl.set('.card-host[data-card-id="card-03"]',{visibility:'visible'},26.6);
-tl.fromTo('.card-host[data-card-id="card-03"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},26.6);
-tl.fromTo('.card[data-card-id="card-03"] #card-03-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},26.7);
-tl.fromTo('.card[data-card-id="card-03"] #card-03-t0',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},27.2);
-tl.fromTo('.card[data-card-id="card-03"] #card-03-t1',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},29.3667);
-tl.to('.card[data-card-id="card-03"] #card-03-t0',{opacity:0,duration:0.25,ease:'power2.in'},29.0667);
-tl.to('.card-host[data-card-id="card-03"]',{opacity:0,duration:0.3,ease:'power2.in'},30.8);
-tl.set('.card-host[data-card-id="card-03"]',{visibility:'hidden'},31.1);
-// card-04 [31.1667–38.4] Just type what it should say — the AI says it in your voice with your movements
-tl.set('.card-host[data-card-id="card-04"]',{visibility:'visible'},31.1667);
-tl.fromTo('.card-host[data-card-id="card-04"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},31.1667);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},31.2667);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-box',{opacity:0},{opacity:1,duration:0.4,ease:'power2.out'},31.4667);
-tl.from('.card[data-card-id="card-04"] #card-04-typed .char',{opacity:0,duration:0.12,ease:'none',stagger:0.035},31.7667);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-arrow',{opacity:0,x:-40.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},34.0);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-o0',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},34.1667);
-tl.fromTo('.card[data-card-id="card-04"] #card-04-o1',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},34.8667);
-tl.to('.card-host[data-card-id="card-04"]',{opacity:0,duration:0.3,ease:'power2.in'},38.1);
-tl.set('.card-host[data-card-id="card-04"]',{visibility:'hidden'},38.4);
-// card-05 [38.5–46.6667] CTA: follow us and watch the HeyGen avatar-generation video series
-tl.set('.card-host[data-card-id="card-05"]',{visibility:'visible'},38.5);
-tl.fromTo('.card-host[data-card-id="card-05"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},38.5);
-tl.fromTo('.card[data-card-id="card-05"] #card-05-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},38.6);
-tl.from('.card[data-card-id="card-05"] #card-05-title .char',{opacity:0,y:28,scale:0.7,duration:0.45,ease:'back.out(2)',stagger:0.02},38.8);
-tl.fromTo('.card[data-card-id="card-05"] #card-05-cta',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.5,ease:'back.out(1.8)'},42.5333);
-tl.to('.card-host[data-card-id="card-05"]',{opacity:0,duration:0.3,ease:'power2.in'},46.3667);
-tl.set('.card-host[data-card-id="card-05"]',{visibility:'hidden'},46.6667);
-// card-06 [46.7333–51.4667] Neutral brand outro: Amazing AI logo + tagline
-tl.set('.card-host[data-card-id="card-06"]',{visibility:'visible'},46.7333);
-tl.fromTo('.card-host[data-card-id="card-06"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},46.7333);
-tl.fromTo('.card[data-card-id="card-06"] #card-06-logo',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.6,ease:'back.out(1.8)'},47.0);
-tl.fromTo('.card[data-card-id="card-06"] #card-06-line',{width:0},{width:560,duration:0.6,ease:'power1.inOut'},47.5333);
-tl.fromTo('.card[data-card-id="card-06"] #card-06-tag',{opacity:0},{opacity:1,duration:0.5,ease:'power2.out'},47.7333);
-tl.to('#video-inner',{x:-1303,y:0,scale:1,duration:0.6,ease:'power3.inOut'},26.3);
-tl.to('#captions',{y:0,duration:0.6,ease:'power3.inOut'},26.3);
-tl.to('#video-inner',{x:-382,y:960,scale:0.5,duration:0.6,ease:'power3.inOut'},30.8667);
-tl.to('#captions',{y:-460,duration:0.6,ease:'power3.inOut'},30.8667);
-tl.to('#video-inner',{x:-1303,y:0,scale:1,duration:0.6,ease:'power3.inOut'},38.2);
-tl.to('#captions',{y:0,duration:0.6,ease:'power3.inOut'},38.2);
-tl.to('#video-wrap',{scale:0.86,opacity:0,duration:0.6,ease:'power2.in'},46.4667);
+tl.to('.card-host[data-card-id="card-02"]',{opacity:0,duration:0.3,ease:'power2.in'},25.6333);
+tl.set('.card-host[data-card-id="card-02"]',{visibility:'hidden'},25.9333);
+// card-03 [25.9333–30.4333] Visualise the three examples on her own footage: hair on fire, frame fills with water, beach background
+tl.set('.card-host[data-card-id="card-03"]',{visibility:'visible'},25.9333);
+tl.fromTo('.card-host[data-card-id="card-03"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},25.9333);
+tl.fromTo('.card[data-card-id="card-03"] #card-03-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},26.0667);
+tl.fromTo('.card[data-card-id="card-03"] #card-03-t0',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},26.5333);
+tl.fromTo('.card[data-card-id="card-03"] #card-03-t1',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},28.7);
+tl.to('.card[data-card-id="card-03"] #card-03-t0',{opacity:0,duration:0.25,ease:'power2.in'},28.4);
+tl.to('.card-host[data-card-id="card-03"]',{opacity:0,duration:0.3,ease:'power2.in'},30.1333);
+tl.set('.card-host[data-card-id="card-03"]',{visibility:'hidden'},30.4333);
+// card-04 [30.5–37.7333] Just type what it should say — the AI says it in your voice with your movements
+tl.set('.card-host[data-card-id="card-04"]',{visibility:'visible'},30.5);
+tl.fromTo('.card-host[data-card-id="card-04"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},30.5);
+tl.fromTo('.card[data-card-id="card-04"] #card-04-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},30.6);
+tl.fromTo('.card[data-card-id="card-04"] #card-04-box',{opacity:0},{opacity:1,duration:0.4,ease:'power2.out'},30.8);
+tl.from('.card[data-card-id="card-04"] #card-04-typed .char',{opacity:0,duration:0.12,ease:'none',stagger:0.035},31.1);
+tl.fromTo('.card[data-card-id="card-04"] #card-04-arrow',{opacity:0,x:-40.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},33.3333);
+tl.fromTo('.card[data-card-id="card-04"] #card-04-o0',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},33.5);
+tl.fromTo('.card[data-card-id="card-04"] #card-04-o1',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.45,ease:'back.out(1.8)'},34.2);
+tl.to('.card-host[data-card-id="card-04"]',{opacity:0,duration:0.3,ease:'power2.in'},37.4333);
+tl.set('.card-host[data-card-id="card-04"]',{visibility:'hidden'},37.7333);
+// card-05 [37.8333–46.0] CTA: follow us and watch the HeyGen avatar-generation video series
+tl.set('.card-host[data-card-id="card-05"]',{visibility:'visible'},37.8333);
+tl.fromTo('.card-host[data-card-id="card-05"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},37.8333);
+tl.fromTo('.card[data-card-id="card-05"] #card-05-kicker',{opacity:0,x:-60.0},{opacity:1,x:0,duration:0.4,ease:'power3.out'},37.9333);
+tl.from('.card[data-card-id="card-05"] #card-05-title .char',{opacity:0,y:28,scale:0.7,duration:0.45,ease:'back.out(2)',stagger:0.02},38.1333);
+tl.fromTo('.card[data-card-id="card-05"] #card-05-cta',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.5,ease:'back.out(1.8)'},41.9);
+tl.to('.card-host[data-card-id="card-05"]',{opacity:0,duration:0.3,ease:'power2.in'},45.7);
+tl.set('.card-host[data-card-id="card-05"]',{visibility:'hidden'},46.0);
+// card-06 [46.1–50.8333] Neutral brand outro: Amazing AI logo + tagline
+tl.set('.card-host[data-card-id="card-06"]',{visibility:'visible'},46.1);
+tl.fromTo('.card-host[data-card-id="card-06"]',{opacity:0},{opacity:1,duration:0.35,ease:'power2.out'},46.1);
+tl.fromTo('.card[data-card-id="card-06"] #card-06-logo',{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.6,ease:'back.out(1.8)'},46.3333);
+tl.fromTo('.card[data-card-id="card-06"] #card-06-line',{width:0},{width:560,duration:0.6,ease:'power1.inOut'},46.9);
+tl.fromTo('.card[data-card-id="card-06"] #card-06-tag',{opacity:0},{opacity:1,duration:0.5,ease:'power2.out'},47.1);
+tl.to('#video-inner',{x:-1303,y:0,scale:1,duration:0.6,ease:'power3.inOut'},25.6667);
+tl.to('#captions',{y:0,duration:0.6,ease:'power3.inOut'},25.6667);
+tl.to('#video-inner',{x:-382,y:960,scale:0.5,duration:0.6,ease:'power3.inOut'},30.2);
+tl.to('#captions',{y:-460,duration:0.6,ease:'power3.inOut'},30.2);
+tl.to('#video-inner',{x:-1303,y:0,scale:1,duration:0.6,ease:'power3.inOut'},37.5333);
+tl.to('#captions',{y:0,duration:0.6,ease:'power3.inOut'},37.5333);
+tl.to('#video-wrap',{scale:0.86,opacity:0,duration:0.6,ease:'power2.in'},45.8);
 
 // ── FX: avatar cutaways, hard cut in with a small punch-out ──
-tl.fromTo('#fx-fire-clip', { scale: 1.12 }, { scale: 1, duration: 0.5, ease: 'power3.out' }, 27.1);
-tl.fromTo('#fx-water-clip', { scale: 1.12 }, { scale: 1, duration: 0.5, ease: 'power3.out' }, 29.3667);
+tl.fromTo('#fx-fire-clip', { scale: 1.12 }, { scale: 1, duration: 0.5, ease: 'power3.out' }, 26.4667);
+tl.fromTo('#fx-water-clip', { scale: 1.12 }, { scale: 1, duration: 0.5, ease: 'power3.out' }, 28.7);
 
 // ── captions ──
 tl.fromTo('#cap-0',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},0.4333);
@@ -528,124 +528,124 @@ tl.set('#cw-29-1',{className:'cw'},24.6);
 tl.set('#cw-29-2',{className:'cw on'},24.6);
 tl.fromTo('#cap-30',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},24.8333);
 tl.set('#cw-30-0',{className:'cw on'},24.8333);
-tl.fromTo('#cap-31',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},25.5);
-tl.set('#cw-31-0',{className:'cw on'},25.5);
-tl.set('#cw-31-0',{className:'cw'},25.6);
-tl.set('#cw-31-1',{className:'cw on'},25.6);
-tl.set('#cw-31-1',{className:'cw'},25.8);
-tl.set('#cw-31-2',{className:'cw on'},25.8);
-tl.set('#cw-31-2',{className:'cw'},26.2667);
-tl.set('#cw-31-3',{className:'cw on'},26.2667);
-tl.fromTo('#cap-32',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},26.4);
-tl.set('#cw-32-0',{className:'cw on'},26.4);
-tl.fromTo('#cap-33',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},26.6667);
-tl.set('#cw-33-0',{className:'cw on'},26.6667);
-tl.set('#cw-33-0',{className:'cw'},26.8667);
-tl.set('#cw-33-1',{className:'cw on'},26.8667);
-tl.set('#cw-33-1',{className:'cw'},27.1667);
-tl.set('#cw-33-2',{className:'cw on'},27.1667);
-tl.set('#cw-33-2',{className:'cw'},27.2667);
-tl.set('#cw-33-3',{className:'cw on'},27.2667);
-tl.fromTo('#cap-34',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},27.7);
-tl.set('#cw-34-0',{className:'cw on'},27.7);
-tl.fromTo('#cap-35',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},28.6333);
-tl.set('#cw-35-0',{className:'cw on'},28.6333);
-tl.set('#cw-35-0',{className:'cw'},28.8);
-tl.set('#cw-35-1',{className:'cw on'},28.8);
-tl.set('#cw-35-1',{className:'cw'},29.1);
-tl.set('#cw-35-2',{className:'cw on'},29.1);
-tl.fromTo('#cap-36',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},29.4);
-tl.set('#cw-36-0',{className:'cw on'},29.4);
-tl.set('#cw-36-0',{className:'cw'},29.6667);
-tl.set('#cw-36-1',{className:'cw on'},29.6667);
-tl.set('#cw-36-1',{className:'cw'},30.1667);
-tl.set('#cw-36-2',{className:'cw on'},30.1667);
-tl.fromTo('#cap-37',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},30.5667);
-tl.set('#cw-37-0',{className:'cw on'},30.5667);
-tl.fromTo('#cap-38',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},31.3667);
-tl.set('#cw-38-0',{className:'cw on'},31.3667);
-tl.fromTo('#cap-39',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},31.7);
-tl.set('#cw-39-0',{className:'cw on'},31.7);
-tl.set('#cw-39-0',{className:'cw'},31.9333);
-tl.set('#cw-39-1',{className:'cw on'},31.9333);
-tl.set('#cw-39-1',{className:'cw'},32.1);
-tl.set('#cw-39-2',{className:'cw on'},32.1);
-tl.fromTo('#cap-40',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},32.4667);
-tl.set('#cw-40-0',{className:'cw on'},32.4667);
-tl.set('#cw-40-0',{className:'cw'},32.6);
-tl.set('#cw-40-1',{className:'cw on'},32.6);
-tl.set('#cw-40-1',{className:'cw'},33.1);
-tl.set('#cw-40-2',{className:'cw on'},33.1);
-tl.fromTo('#cap-41',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},33.2);
-tl.set('#cw-41-0',{className:'cw on'},33.2);
-tl.fromTo('#cap-42',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},33.4333);
-tl.set('#cw-42-0',{className:'cw on'},33.4333);
-tl.set('#cw-42-0',{className:'cw'},33.5333);
-tl.set('#cw-42-1',{className:'cw on'},33.5333);
-tl.set('#cw-42-1',{className:'cw'},33.6);
-tl.set('#cw-42-2',{className:'cw on'},33.6);
-tl.fromTo('#cap-43',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},34.0);
-tl.set('#cw-43-0',{className:'cw on'},34.0);
-tl.fromTo('#cap-44',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},34.4);
-tl.set('#cw-44-0',{className:'cw on'},34.4);
-tl.set('#cw-44-0',{className:'cw'},34.4667);
-tl.set('#cw-44-1',{className:'cw on'},34.4667);
-tl.fromTo('#cap-45',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},34.7333);
-tl.set('#cw-45-0',{className:'cw on'},34.7333);
-tl.fromTo('#cap-46',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},35.5);
-tl.set('#cw-46-0',{className:'cw on'},35.5);
-tl.set('#cw-46-0',{className:'cw'},35.9333);
-tl.set('#cw-46-1',{className:'cw on'},35.9333);
-tl.fromTo('#cap-47',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},36.2);
-tl.set('#cw-47-0',{className:'cw on'},36.2);
-tl.set('#cw-47-0',{className:'cw'},36.5);
-tl.set('#cw-47-1',{className:'cw on'},36.5);
-tl.fromTo('#cap-48',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},37.1);
-tl.set('#cw-48-0',{className:'cw on'},37.1);
-tl.set('#cw-48-0',{className:'cw'},37.2);
-tl.set('#cw-48-1',{className:'cw on'},37.2);
-tl.fromTo('#cap-49',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},37.5667);
-tl.set('#cw-49-0',{className:'cw on'},37.5667);
-tl.fromTo('#cap-50',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},38.6333);
-tl.set('#cw-50-0',{className:'cw on'},38.6333);
-tl.set('#cw-50-0',{className:'cw'},38.8333);
-tl.set('#cw-50-1',{className:'cw on'},38.8333);
-tl.fromTo('#cap-51',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},39.0667);
-tl.set('#cw-51-0',{className:'cw on'},39.0667);
-tl.set('#cw-51-0',{className:'cw'},39.2667);
-tl.set('#cw-51-1',{className:'cw on'},39.2667);
-tl.set('#cw-51-1',{className:'cw'},39.6333);
-tl.set('#cw-51-2',{className:'cw on'},39.6333);
-tl.fromTo('#cap-52',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},39.9);
-tl.set('#cw-52-0',{className:'cw on'},39.9);
-tl.set('#cw-52-0',{className:'cw'},40.0667);
-tl.set('#cw-52-1',{className:'cw on'},40.0667);
-tl.fromTo('#cap-53',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},40.8);
-tl.set('#cw-53-0',{className:'cw on'},40.8);
-tl.fromTo('#cap-54',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},41.4);
-tl.set('#cw-54-0',{className:'cw on'},41.4);
-tl.fromTo('#cap-55',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},42.3667);
-tl.set('#cw-55-0',{className:'cw on'},42.3667);
-tl.set('#cw-55-0',{className:'cw'},42.5667);
-tl.set('#cw-55-1',{className:'cw on'},42.5667);
-tl.fromTo('#cap-56',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},43.0667);
-tl.set('#cw-56-0',{className:'cw on'},43.0667);
-tl.fromTo('#cap-57',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},43.7667);
-tl.set('#cw-57-0',{className:'cw on'},43.7667);
-tl.set('#cw-57-0',{className:'cw'},43.9);
-tl.set('#cw-57-1',{className:'cw on'},43.9);
-tl.set('#cw-57-1',{className:'cw'},44.1333);
-tl.set('#cw-57-2',{className:'cw on'},44.1333);
-tl.set('#cw-57-2',{className:'cw'},44.3);
-tl.set('#cw-57-3',{className:'cw on'},44.3);
-tl.fromTo('#cap-58',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},44.3667);
-tl.set('#cw-58-0',{className:'cw on'},44.3667);
-tl.set('#cw-58-0',{className:'cw'},44.6667);
-tl.set('#cw-58-1',{className:'cw on'},44.6667);
-tl.fromTo('#cap-59',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},45.0333);
-tl.set('#cw-59-0',{className:'cw on'},45.0333);
-tl.fromTo('#cap-60',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},45.6);
-tl.set('#cw-60-0',{className:'cw on'},45.6);
+tl.fromTo('#cap-31',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},24.9333);
+tl.set('#cw-31-0',{className:'cw on'},24.9333);
+tl.set('#cw-31-0',{className:'cw'},25.2667);
+tl.set('#cw-31-1',{className:'cw on'},25.2667);
+tl.set('#cw-31-1',{className:'cw'},25.4667);
+tl.set('#cw-31-2',{className:'cw on'},25.4667);
+tl.set('#cw-31-2',{className:'cw'},25.7333);
+tl.set('#cw-31-3',{className:'cw on'},25.7333);
+tl.fromTo('#cap-32',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},25.7667);
+tl.set('#cw-32-0',{className:'cw on'},25.7667);
+tl.fromTo('#cap-33',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},26.0);
+tl.set('#cw-33-0',{className:'cw on'},26.0);
+tl.set('#cw-33-0',{className:'cw'},26.2333);
+tl.set('#cw-33-1',{className:'cw on'},26.2333);
+tl.set('#cw-33-1',{className:'cw'},26.5333);
+tl.set('#cw-33-2',{className:'cw on'},26.5333);
+tl.set('#cw-33-2',{className:'cw'},26.6);
+tl.set('#cw-33-3',{className:'cw on'},26.6);
+tl.fromTo('#cap-34',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},27.0333);
+tl.set('#cw-34-0',{className:'cw on'},27.0333);
+tl.fromTo('#cap-35',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},27.9667);
+tl.set('#cw-35-0',{className:'cw on'},27.9667);
+tl.set('#cw-35-0',{className:'cw'},28.1333);
+tl.set('#cw-35-1',{className:'cw on'},28.1333);
+tl.set('#cw-35-1',{className:'cw'},28.4667);
+tl.set('#cw-35-2',{className:'cw on'},28.4667);
+tl.fromTo('#cap-36',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},28.7667);
+tl.set('#cw-36-0',{className:'cw on'},28.7667);
+tl.set('#cw-36-0',{className:'cw'},29.0333);
+tl.set('#cw-36-1',{className:'cw on'},29.0333);
+tl.set('#cw-36-1',{className:'cw'},29.5);
+tl.set('#cw-36-2',{className:'cw on'},29.5);
+tl.fromTo('#cap-37',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},29.9);
+tl.set('#cw-37-0',{className:'cw on'},29.9);
+tl.fromTo('#cap-38',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},30.7);
+tl.set('#cw-38-0',{className:'cw on'},30.7);
+tl.fromTo('#cap-39',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},31.0333);
+tl.set('#cw-39-0',{className:'cw on'},31.0333);
+tl.set('#cw-39-0',{className:'cw'},31.2667);
+tl.set('#cw-39-1',{className:'cw on'},31.2667);
+tl.set('#cw-39-1',{className:'cw'},31.4333);
+tl.set('#cw-39-2',{className:'cw on'},31.4333);
+tl.fromTo('#cap-40',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},31.8333);
+tl.set('#cw-40-0',{className:'cw on'},31.8333);
+tl.set('#cw-40-0',{className:'cw'},31.9333);
+tl.set('#cw-40-1',{className:'cw on'},31.9333);
+tl.set('#cw-40-1',{className:'cw'},32.4333);
+tl.set('#cw-40-2',{className:'cw on'},32.4333);
+tl.fromTo('#cap-41',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},32.5333);
+tl.set('#cw-41-0',{className:'cw on'},32.5333);
+tl.fromTo('#cap-42',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},32.7667);
+tl.set('#cw-42-0',{className:'cw on'},32.7667);
+tl.set('#cw-42-0',{className:'cw'},32.8667);
+tl.set('#cw-42-1',{className:'cw on'},32.8667);
+tl.set('#cw-42-1',{className:'cw'},32.9333);
+tl.set('#cw-42-2',{className:'cw on'},32.9333);
+tl.fromTo('#cap-43',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},33.3667);
+tl.set('#cw-43-0',{className:'cw on'},33.3667);
+tl.fromTo('#cap-44',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},33.7333);
+tl.set('#cw-44-0',{className:'cw on'},33.7333);
+tl.set('#cw-44-0',{className:'cw'},33.8);
+tl.set('#cw-44-1',{className:'cw on'},33.8);
+tl.fromTo('#cap-45',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},34.0667);
+tl.set('#cw-45-0',{className:'cw on'},34.0667);
+tl.fromTo('#cap-46',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},34.8333);
+tl.set('#cw-46-0',{className:'cw on'},34.8333);
+tl.set('#cw-46-0',{className:'cw'},35.2667);
+tl.set('#cw-46-1',{className:'cw on'},35.2667);
+tl.fromTo('#cap-47',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},35.5333);
+tl.set('#cw-47-0',{className:'cw on'},35.5333);
+tl.set('#cw-47-0',{className:'cw'},35.8333);
+tl.set('#cw-47-1',{className:'cw on'},35.8333);
+tl.fromTo('#cap-48',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},36.4333);
+tl.set('#cw-48-0',{className:'cw on'},36.4333);
+tl.set('#cw-48-0',{className:'cw'},36.5333);
+tl.set('#cw-48-1',{className:'cw on'},36.5333);
+tl.fromTo('#cap-49',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},36.9);
+tl.set('#cw-49-0',{className:'cw on'},36.9);
+tl.fromTo('#cap-50',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},37.9667);
+tl.set('#cw-50-0',{className:'cw on'},37.9667);
+tl.set('#cw-50-0',{className:'cw'},38.1667);
+tl.set('#cw-50-1',{className:'cw on'},38.1667);
+tl.fromTo('#cap-51',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},38.4);
+tl.set('#cw-51-0',{className:'cw on'},38.4);
+tl.set('#cw-51-0',{className:'cw'},38.6333);
+tl.set('#cw-51-1',{className:'cw on'},38.6333);
+tl.set('#cw-51-1',{className:'cw'},38.9667);
+tl.set('#cw-51-2',{className:'cw on'},38.9667);
+tl.fromTo('#cap-52',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},39.2333);
+tl.set('#cw-52-0',{className:'cw on'},39.2333);
+tl.set('#cw-52-0',{className:'cw'},39.4);
+tl.set('#cw-52-1',{className:'cw on'},39.4);
+tl.fromTo('#cap-53',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},40.1333);
+tl.set('#cw-53-0',{className:'cw on'},40.1333);
+tl.fromTo('#cap-54',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},40.7333);
+tl.set('#cw-54-0',{className:'cw on'},40.7333);
+tl.fromTo('#cap-55',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},41.7333);
+tl.set('#cw-55-0',{className:'cw on'},41.7333);
+tl.set('#cw-55-0',{className:'cw'},41.9);
+tl.set('#cw-55-1',{className:'cw on'},41.9);
+tl.fromTo('#cap-56',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},42.4);
+tl.set('#cw-56-0',{className:'cw on'},42.4);
+tl.fromTo('#cap-57',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},43.1);
+tl.set('#cw-57-0',{className:'cw on'},43.1);
+tl.set('#cw-57-0',{className:'cw'},43.2333);
+tl.set('#cw-57-1',{className:'cw on'},43.2333);
+tl.set('#cw-57-1',{className:'cw'},43.4667);
+tl.set('#cw-57-2',{className:'cw on'},43.4667);
+tl.set('#cw-57-2',{className:'cw'},43.6667);
+tl.set('#cw-57-3',{className:'cw on'},43.6667);
+tl.fromTo('#cap-58',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},43.7);
+tl.set('#cw-58-0',{className:'cw on'},43.7);
+tl.set('#cw-58-0',{className:'cw'},44.0);
+tl.set('#cw-58-1',{className:'cw on'},44.0);
+tl.fromTo('#cap-59',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},44.3667);
+tl.set('#cw-59-0',{className:'cw on'},44.3667);
+tl.fromTo('#cap-60',{opacity:0,y:18,scale:0.92},{opacity:1,y:0,scale:1,duration:0.14,ease:'power2.out'},44.9333);
+tl.set('#cw-60-0',{className:'cw on'},44.9333);
 window.__timelines = window.__timelines || {};
 window.__timelines["talking-head-recut"] = tl;
 })();

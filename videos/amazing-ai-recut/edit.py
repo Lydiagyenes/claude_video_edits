@@ -7,7 +7,7 @@ TRIM = 4.9  # sitting down in front of the camera
 
 # Removed ranges, snapped to the silences around the sentence boundaries.
 EDIT_CUTS = [
-    (26.61, 33.80),  # "Csak létrehozod olyan ruhában … amelyeket csak szeretnél."
+    (25.95, 33.80),  # "Csak létre… olyan ruhában … amelyeket csak szeretnél." (incl. the false start)
     (38.30, 44.66),  # "lehetsz akár egy napsütötte tengerparton … meg se kell szólalni."
 ]
 

@@ -166,7 +166,7 @@ card("card-02", 14.4, 26.7, "side-panel",
      {"kicker": "Így működik", "steps": ["Új avatár", "Feltöltés", "Az AI lemásol"], "badge": "Kész is vagy"},
      COMMON_SPLIT_CSS + STEPS_CSS,
      f"""<div class="kicker" id="card-02-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Így működik</div>
-<div class="done" id="card-02-done" data-anim="scale-pop" data-anim-at="11.4" data-anim-duration="0.5">Kész is vagy ✓</div>
+<div class="done" id="card-02-done" data-anim="scale-pop" data-anim-at="10.95" data-anim-duration="0.45">Kész is vagy ✓</div>
 <div class="steps">
   <div class="step" id="card-02-s0" data-anim="slide-in" data-anim-at="0.4" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n0">1</div><div class="txt"><b>Új avatár</b><span>Létrehozod, a saját alakodra formálod</span></div></div>
   <div class="step" id="card-02-s1" data-anim="slide-in" data-anim-at="3.05" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n1">2</div><div class="txt"><b>Feltöltés</b><span>Rövid szöveg · hangminta · videóminta</span></div></div>
@@ -410,6 +410,10 @@ tl.fromTo('#fx-fire-clip', {{ scale: 1.12 }}, {{ scale: 1, duration: 0.5, ease: 
 tl.fromTo('#fx-water-clip', {{ scale: 1.12 }}, {{ scale: 1, duration: 0.5, ease: 'power3.out' }}, {q(WATER[0])});
 """
 
+# The avatar (HeyGen, rendered from this edit's own audio, so lips match 1:1) is framed
+# like the bottom footage: same 16:9 studio shot, same speaker focus.
+AVATAR_POS = round((FOCUS_X * (960 * 16 / 9) - W / 2) / (960 * 16 / 9 - W) * 100, 1)
+
 START_KEY = CARDS[0]["framing"]
 START = SPLIT if START_KEY == "split" else FULL
 
@@ -446,7 +450,7 @@ html, body {{ margin:0; padding:0; width:100%; height:100%; overflow:hidden; bac
 .card-host {{ position:absolute; pointer-events:none; overflow:hidden; z-index:2; }}
 .fx-cut {{ position:absolute; left:0; top:0; width:{W}px; height:{H}px; overflow:hidden; z-index:1; pointer-events:none; }}
 .fx-cut video {{ width:100%; height:100%; object-fit:cover; display:block; }}
-#avatar-video {{ position:absolute; left:0; top:0; width:{W}px; height:960px; object-fit:cover; object-position:50% 30%; z-index:1; }}
+#avatar-video {{ position:absolute; left:0; top:0; width:{W}px; height:960px; object-fit:cover; object-position:{AVATAR_POS}% 50%; z-index:1; }}
 .card-host .card {{ position:relative; width:100%; height:100%; overflow:hidden; }}
 #captions {{ z-index:3; position:absolute; left:40px; right:40px; top:{CAP_TOP['full']}px; height:160px; pointer-events:none; }}
 .cap {{ position:absolute; left:0; right:0; top:0; text-align:center; font-family:'Barlow Condensed', sans-serif;
