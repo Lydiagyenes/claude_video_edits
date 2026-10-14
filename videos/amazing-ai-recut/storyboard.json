@@ -4,7 +4,7 @@
     "fps": 30,
     "width": 1080,
     "height": 1920,
-    "durationSeconds": 69.9333,
+    "durationSeconds": 65.0667,
     "layout": "portrait",
     "themeId": "amazing-ai-neon",
     "seed": 42
@@ -12,7 +12,7 @@
   "videoTrack": {
     "sourcePath": "input-video.mp4",
     "startSec": 0,
-    "endSec": 69.9333,
+    "endSec": 65.0667,
     "bounds": {
       "x": 0,
       "y": 0,
@@ -23,31 +23,21 @@
   "subtitles": {
     "enabled": true,
     "style": "karaoke word highlight",
-    "chunks": 57
+    "chunks": 76
   },
   "cards": [
     {
       "id": "card-01",
-      "intent": "Hook: this is the real footage; the avatar version was AI-generated",
-      "startSec": 0.1,
-      "endSec": 5.9,
+      "intent": "Comparison hook: the top video is her HeyGen avatar (muted), the bottom one is the real recording; then: lifelike avatar in minutes, any text, any language",
+      "startSec": 0.05,
+      "endSec": 14.35,
       "accentIndex": 0,
       "zone": "video-overlay",
       "contentHints": {
-        "kicker": "HeyGen AI-avatár",
-        "title": "Ez a videó az eredeti",
-        "detail": "Az avatár-verziót AI-val magam generáltam"
-      }
-    },
-    {
-      "id": "card-02",
-      "intent": "On HeyGen you can create a lifelike avatar of yourself in a few minutes; it says any text, any language",
-      "startSec": 6.0,
-      "endSec": 15.95,
-      "accentIndex": 1,
-      "zone": "side-panel",
-      "contentHints": {
-        "kicker": "HeyGen",
+        "badges": [
+          "AI-avatár",
+          "Eredeti felvétel"
+        ],
         "title": "Élethű avatár pár perc alatt",
         "chips": [
           "Bármilyen szöveg",
@@ -56,11 +46,11 @@
       }
     },
     {
-      "id": "card-03",
+      "id": "card-02",
       "intent": "How it works in three steps: create, upload samples, HeyGen AI copies your gestures — done",
-      "startSec": 16.0,
-      "endSec": 30.9,
-      "accentIndex": 2,
+      "startSec": 14.4,
+      "endSec": 26.7,
+      "accentIndex": 1,
       "zone": "side-panel",
       "contentHints": {
         "kicker": "Így működik",
@@ -73,11 +63,11 @@
       }
     },
     {
-      "id": "card-04",
+      "id": "card-03",
       "intent": "Create avatars in any outfit, colour or painted style you like",
-      "startSec": 31.0,
-      "endSec": 38.55,
-      "accentIndex": 3,
+      "startSec": 26.75,
+      "endSec": 33.7,
+      "accentIndex": 2,
       "zone": "video-overlay",
       "contentHints": {
         "kicker": "Bármilyen stílusban",
@@ -89,11 +79,11 @@
       }
     },
     {
-      "id": "card-05",
+      "id": "card-04",
       "intent": "Flaming hair, underwater, sunny beach — and you never leave home or say a word",
-      "startSec": 38.65,
-      "endSec": 49.45,
-      "accentIndex": 4,
+      "startSec": 33.8,
+      "endSec": 44.45,
+      "accentIndex": 3,
       "zone": "side-panel",
       "contentHints": {
         "tiles": [
@@ -108,11 +98,11 @@
       }
     },
     {
-      "id": "card-06",
+      "id": "card-05",
       "intent": "Just type what it should say — the AI says it in your voice with your movements",
-      "startSec": 49.55,
-      "endSec": 56.9,
-      "accentIndex": 0,
+      "startSec": 44.55,
+      "endSec": 51.95,
+      "accentIndex": 4,
       "zone": "side-panel",
       "contentHints": {
         "kicker": "Csak beírod",
@@ -124,11 +114,11 @@
       }
     },
     {
-      "id": "card-07",
+      "id": "card-06",
       "intent": "CTA: follow us and watch the HeyGen avatar-generation video series",
-      "startSec": 57.0,
-      "endSec": 65.25,
-      "accentIndex": 1,
+      "startSec": 52.05,
+      "endSec": 60.2,
+      "accentIndex": 0,
       "zone": "video-overlay",
       "contentHints": {
         "kicker": "Videósorozat",
@@ -137,11 +127,11 @@
       }
     },
     {
-      "id": "card-08",
+      "id": "card-07",
       "intent": "Neutral brand outro: Amazing AI logo + tagline",
-      "startSec": 65.35,
-      "endSec": 69.9333,
-      "accentIndex": 2,
+      "startSec": 60.3,
+      "endSec": 65.0667,
+      "accentIndex": 1,
       "zone": "fullscreen",
       "contentHints": {
         "logo": "Amazing AI",

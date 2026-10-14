@@ -97,57 +97,53 @@ S .char { display:inline-block; }
 S .sp { display:inline-block; width:.26em; }
 """
 
-# 1 — Hook (overlay) ─────────────────────────────────────────────────────────
-card("card-01", 0.1, 5.9, "video-overlay",
-     "Hook: this is the real footage; the avatar version was AI-generated",
-     {"kicker": "HeyGen AI-avatár", "title": "Ez a videó az eredeti",
-      "detail": "Az avatár-verziót AI-val magam generáltam"},
-     COMMON_OVERLAY_CSS + """
-S .sub { margin-top:26px; font-size:40px; font-weight:600; line-height:1.25; color:#E9E2FF;
-  text-shadow:0 2px 12px rgba(0,0,0,.7); max-width:900px; }
-S .badge { display:inline-flex; align-items:center; gap:14px; margin-top:30px; padding:12px 26px;
-  border:3px solid #9570FF; border-radius:999px; font-family:'Barlow Condensed', sans-serif; font-style:italic;
-  font-weight:800; font-size:44px; text-transform:uppercase; background:rgba(13,11,30,.55);
-  box-shadow:0 0 26px rgba(149,112,255,.7); }
-S .dot { width:20px; height:20px; border-radius:50%; background:#ff3b5c; box-shadow:0 0 14px #ff3b5c; }
-""",
-     f"""<div class="scrim"></div>
-<div class="top">
-  <div class="kicker" id="card-01-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.45" data-anim-from="left" data-anim-distance="60">HeyGen AI-avatár</div>
-  <h1 class="title" id="card-01-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.03">{chars("Ez a videó")}<br>{chars("az eredeti")}</h1>
-  <div class="badge" id="card-01-badge" data-anim="scale-pop" data-anim-at="1.6" data-anim-duration="0.5"><span class="dot"></span>Valódi felvétel</div>
-  <div class="sub" id="card-01-sub" data-anim="fade-in" data-anim-at="2.6" data-anim-duration="0.5">Az avatár-verziót AI-val magam generáltam.</div>
-</div>""", "full")
-
-# 2 — Your own avatar in minutes (split) ────────────────────────────────────
-card("card-02", 6.0, 15.95, "side-panel",
-     "On HeyGen you can create a lifelike avatar of yourself in a few minutes; it says any text, any language",
-     {"kicker": "HeyGen", "title": "Élethű avatár pár perc alatt",
+# 1 — Avatar vs. real comparison (split: muted HeyGen avatar on top, real footage below)
+AVATAR_END = 14.35  # "Csak létrehozol…" — the how-to section takes over the top half
+card("card-01", 0.05, AVATAR_END, "video-overlay",
+     "Comparison hook: the top video is her HeyGen avatar (muted), the bottom one is the real recording; "
+     "then: lifelike avatar in minutes, any text, any language",
+     {"badges": ["AI-avatár", "Eredeti felvétel"], "title": "Élethű avatár pár perc alatt",
       "chips": ["Bármilyen szöveg", "Bármilyen nyelv"]},
-     COMMON_SPLIT_CSS + """
-S .bar { margin-top:44px; height:22px; width:936px; border-radius:11px; background:rgba(255,255,255,.12); overflow:hidden; }
-S .fill { height:22px; width:0; border-radius:11px; background:linear-gradient(90deg,#5E44E4,#DF0EC4);
-  box-shadow:0 0 20px rgba(223,14,196,.7); }
-S .barlbl { display:flex; justify-content:space-between; margin-top:14px; font-size:30px; font-weight:600; color:#C9B6FF; }
-S .pct { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:40px; color:#fff; }
-S .chips { display:flex; gap:22px; margin-top:44px; flex-wrap:wrap; }
-S .chip { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:50px;
-  text-transform:uppercase; padding:14px 30px 10px; border-radius:18px; color:#fff; }
-S .c0 { background:#5E44E4; box-shadow:0 0 28px rgba(94,68,228,.8); }
-S .c1 { background:#C44DB8; box-shadow:0 0 28px rgba(196,77,184,.8); }
-S .langs { margin-top:26px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:700;
-  font-size:40px; letter-spacing:.12em; color:#9570FF; }
+     """
+S .root { position:absolute; inset:0; color:#fff; font-family:'Inter', sans-serif; background:transparent; }
+S .w { display:inline-block; white-space:nowrap; }
+S .char { display:inline-block; }
+S .sp { display:inline-block; width:.26em; }
+S .badge { position:absolute; display:inline-flex; align-items:center; gap:14px; padding:12px 26px 9px;
+  border-radius:999px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  font-size:44px; text-transform:uppercase; letter-spacing:.03em; }
+S .ai { left:40px; top:40px; background:#DF0EC4; box-shadow:0 0 30px rgba(223,14,196,.75); }
+S .real { left:40px; top:1000px; background:rgba(13,11,30,.6); border:3px solid #fff; box-shadow:0 0 22px rgba(255,255,255,.45); }
+S .dot { width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 0 12px #fff; }
+S .rec { width:18px; height:18px; border-radius:50%; background:#ff3b5c; box-shadow:0 0 12px #ff3b5c; }
+S .scrim { position:absolute; left:0; right:0; top:500px; height:460px;
+  background:linear-gradient(180deg, rgba(13,11,30,0) 0%, rgba(13,11,30,.78) 42%, rgba(13,11,30,.95) 100%); }
+S .seam { position:absolute; left:0; right:0; top:957px; height:6px;
+  background:linear-gradient(90deg,#5E44E4,#DF0EC4,#9570FF); box-shadow:0 0 28px 6px rgba(223,14,196,.55); }
+S .block { position:absolute; left:56px; right:56px; top:560px; }
+S .kicker { display:inline-block; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  font-size:32px; letter-spacing:.06em; text-transform:uppercase; color:#C9B6FF; }
+S .title { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; text-transform:uppercase;
+  font-size:84px; line-height:.95; margin:10px 0 0; color:#fff; text-shadow:0 0 30px rgba(149,112,255,.85); }
+S .title .hl { color:#C9B6FF; }
+S .chips { position:absolute; left:40px; top:130px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+S .chip { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:40px;
+  text-transform:uppercase; padding:10px 22px 7px; border-radius:14px; color:#fff; }
+S .c0 { background:#5E44E4; box-shadow:0 0 24px rgba(94,68,228,.85); }
+S .c1 { background:#C44DB8; box-shadow:0 0 24px rgba(196,77,184,.85); }
 """,
-     f"""<div class="kicker" id="card-02-kicker" data-anim="slide-in" data-anim-at="0.15" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Saját avatár · HeyGen</div>
-<h1 class="title" id="card-02-title" data-anim="kinetic-chars" data-anim-at="0.35" data-anim-duration="0.45" data-anim-stagger="0.025">{chars("Élethű avatár")}<br><span class="hl">{chars("pár perc alatt")}</span></h1>
-<div class="bar"><div class="fill" id="card-02-fill" data-anim="grow-x" data-anim-at="3.4" data-anim-duration="2.4" data-anim-target-w="936"></div></div>
-<div class="barlbl"><span>Avatár létrehozása…</span><span class="pct"><span id="card-02-pct" data-anim="count-up" data-anim-at="3.4" data-anim-duration="2.4" data-anim-from="0" data-anim-to="100" data-anim-format=".0f">0</span>%</span></div>
-<div class="chips">
-  <div class="chip c0" id="card-02-chip0" data-anim="scale-pop" data-anim-at="7.75" data-anim-duration="0.45">Bármilyen szöveg</div>
-  <div class="chip c1" id="card-02-chip1" data-anim="scale-pop" data-anim-at="8.8" data-anim-duration="0.45">Bármilyen nyelv</div>
+     f"""<div class="seam"></div>
+<div class="scrim" id="card-01-scrim" data-anim="fade-in" data-anim-at="4.3" data-anim-duration="0.5"></div>
+<div class="badge ai" id="card-01-ai" data-anim="scale-pop" data-anim-at="0.2" data-anim-duration="0.5"><span class="dot"></span>AI-avatár · HeyGen</div>
+<div class="badge real" id="card-01-real" data-anim="scale-pop" data-anim-at="2.95" data-anim-duration="0.5"><span class="rec"></span>Eredeti felvétel</div>
+<div class="block">
+  <div class="kicker" id="card-01-kicker" data-anim="slide-in" data-anim-at="4.45" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Saját avatár a HeyGenen</div>
+  <h1 class="title" id="card-01-title" data-anim="kinetic-chars" data-anim-at="7.7" data-anim-duration="0.45" data-anim-stagger="0.025">{chars("Élethű avatár")}<br><span class="hl">{chars("pár perc alatt")}</span></h1>
 </div>
-<div class="langs" id="card-02-langs" data-anim="fade-in" data-anim-at="9.1" data-anim-duration="0.4">HU · EN · DE · ES · FR · …</div>""",
-     "split")
+<div class="chips">
+  <div class="chip c0" id="card-01-chip0" data-anim="scale-pop" data-anim-at="11.9" data-anim-duration="0.45">Bármilyen szöveg</div>
+  <div class="chip c1" id="card-01-chip1" data-anim="scale-pop" data-anim-at="12.95" data-anim-duration="0.45">Bármilyen nyelv</div>
+</div>""", "split")
 
 # 3 — How it works: 3 steps (split) ─────────────────────────────────────────
 STEPS_CSS = """
@@ -166,21 +162,21 @@ S .done { position:absolute; right:64px; top:92px; font-family:'Barlow Condensed
   font-weight:800; font-size:52px; text-transform:uppercase; color:#0D0B1E; background:#fff; padding:10px 28px 6px;
   border-radius:16px; box-shadow:0 0 40px rgba(255,255,255,.75); transform:rotate(-4deg); }
 """
-card("card-03", 16.0, 30.9, "side-panel",
+card("card-02", 14.4, 26.7, "side-panel",
      "How it works in three steps: create, upload samples, HeyGen AI copies your gestures — done",
      {"kicker": "Így működik", "steps": ["Új avatár", "Feltöltés", "Az AI lemásol"], "badge": "Kész is vagy"},
      COMMON_SPLIT_CSS + STEPS_CSS,
-     f"""<div class="kicker" id="card-03-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Így működik</div>
-<div class="done" id="card-03-done" data-anim="scale-pop" data-anim-at="13.3" data-anim-duration="0.5">Kész is vagy ✓</div>
+     f"""<div class="kicker" id="card-02-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Így működik</div>
+<div class="done" id="card-02-done" data-anim="scale-pop" data-anim-at="11.4" data-anim-duration="0.5">Kész is vagy ✓</div>
 <div class="steps">
-  <div class="step" id="card-03-s0" data-anim="slide-in" data-anim-at="0.4" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n0">1</div><div class="txt"><b>Új avatár</b><span>Létrehozod, a saját alakodra formálod</span></div></div>
-  <div class="step" id="card-03-s1" data-anim="slide-in" data-anim-at="3.0" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n1">2</div><div class="txt"><b>Feltöltés</b><span>Rövid szöveg · hangminta · videóminta</span></div></div>
-  <div class="step" id="card-03-s2" data-anim="slide-in" data-anim-at="7.45" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n2">3</div><div class="txt"><b>A HeyGen AI lemásol</b><span>A gesztusaidat és a mozgásodat</span></div></div>
+  <div class="step" id="card-02-s0" data-anim="slide-in" data-anim-at="0.4" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n0">1</div><div class="txt"><b>Új avatár</b><span>Létrehozod, a saját alakodra formálod</span></div></div>
+  <div class="step" id="card-02-s1" data-anim="slide-in" data-anim-at="3.05" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n1">2</div><div class="txt"><b>Feltöltés</b><span>Rövid szöveg · hangminta · videóminta</span></div></div>
+  <div class="step" id="card-02-s2" data-anim="slide-in" data-anim-at="7.5" data-anim-duration="0.5" data-anim-from="left" data-anim-distance="120"><div class="num n2">3</div><div class="txt"><b>A HeyGen AI lemásol</b><span>A gesztusaidat és a mozgásodat</span></div></div>
 </div>""",
      "split")
 
 # 4 — Any outfit / colour / paint style (overlay) ───────────────────────────
-card("card-04", 31.0, 38.55, "video-overlay",
+card("card-03", 26.75, 33.7, "video-overlay",
      "Create avatars in any outfit, colour or painted style you like",
      {"kicker": "Bármilyen stílusban", "chips": ["Ruha", "Szín", "Festés"]},
      COMMON_OVERLAY_CSS + """
@@ -194,18 +190,18 @@ S .sub { margin-top:30px; font-size:42px; font-weight:600; color:#E9E2FF; text-s
 """,
      f"""<div class="scrim"></div>
 <div class="top">
-  <div class="kicker" id="card-04-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Avatár stílusok</div>
-  <h1 class="title" id="card-04-title" data-anim="kinetic-chars" data-anim-at="0.25" data-anim-duration="0.45" data-anim-stagger="0.03">{chars("Bármilyen")}<br>{chars("stílusban")}</h1>
+  <div class="kicker" id="card-03-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Avatár stílusok</div>
+  <h1 class="title" id="card-03-title" data-anim="kinetic-chars" data-anim-at="0.25" data-anim-duration="0.45" data-anim-stagger="0.03">{chars("Bármilyen")}<br>{chars("stílusban")}</h1>
   <div class="chips">
-    <div class="chip c0" id="card-04-c0" data-anim="scale-pop" data-anim-at="2.0" data-anim-duration="0.45">Ruha</div>
-    <div class="chip c1" id="card-04-c1" data-anim="scale-pop" data-anim-at="3.1" data-anim-duration="0.45">Szín</div>
-    <div class="chip c2" id="card-04-c2" data-anim="scale-pop" data-anim-at="3.8" data-anim-duration="0.45">Festés</div>
+    <div class="chip c0" id="card-03-c0" data-anim="scale-pop" data-anim-at="1.35" data-anim-duration="0.45">Ruha</div>
+    <div class="chip c1" id="card-03-c1" data-anim="scale-pop" data-anim-at="2.3" data-anim-duration="0.45">Szín</div>
+    <div class="chip c2" id="card-03-c2" data-anim="scale-pop" data-anim-at="3.4" data-anim-duration="0.45">Festés</div>
   </div>
-  <div class="sub" id="card-04-sub" data-anim="fade-in" data-anim-at="6.2" data-anim-duration="0.5">…amilyet csak szeretnél.</div>
+  <div class="sub" id="card-03-sub" data-anim="fade-in" data-anim-at="5.45" data-anim-duration="0.5">…amilyet csak szeretnél.</div>
 </div>""", "full")
 
 # 5 — Scenarios + no filming (split, two phases) ────────────────────────────
-card("card-05", 38.65, 49.45, "side-panel",
+card("card-04", 33.8, 44.45, "side-panel",
      "Flaming hair, underwater, sunny beach — and you never leave home or say a word",
      {"tiles": ["Lángoló haj", "Víz alatt", "Napsütötte tengerpart"],
       "statement": ["Nem kell kimozdulnod otthonról", "Meg se kell szólalnod"]},
@@ -225,23 +221,23 @@ S .big2 { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-styl
   text-transform:uppercase; font-size:76px; line-height:1; color:#fff; background:#DF0EC4; display:inline-block;
   padding:16px 30px 10px; border-radius:18px; box-shadow:0 0 36px rgba(223,14,196,.75); }
 """,
-     f"""<div class="phaseA" id="card-05-a" data-anim="fade-out" data-anim-at="6.95" data-anim-duration="0.3">
-  <div class="kicker" id="card-05-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Lehet akár…</div>
+     f"""<div class="phaseA" id="card-04-a" data-anim="fade-out" data-anim-at="6.9" data-anim-duration="0.3">
+  <div class="kicker" id="card-04-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Lehet akár…</div>
   <div class="tiles">
-    <div class="tile t0" id="card-05-t0" data-anim="mask-reveal" data-anim-at="0.75" data-anim-duration="0.5" data-anim-direction="left">Lángoló haj</div>
-    <div class="tile t1" id="card-05-t1" data-anim="mask-reveal" data-anim-at="3.0" data-anim-duration="0.5" data-anim-direction="left">Víz alatt</div>
-    <div class="tile t2" id="card-05-t2" data-anim="mask-reveal" data-anim-at="4.9" data-anim-duration="0.5" data-anim-direction="left">Napsütötte tengerpart</div>
+    <div class="tile t0" id="card-04-t0" data-anim="mask-reveal" data-anim-at="0.65" data-anim-duration="0.5" data-anim-direction="left">Lángoló haj</div>
+    <div class="tile t1" id="card-04-t1" data-anim="mask-reveal" data-anim-at="3.0" data-anim-duration="0.5" data-anim-direction="left">Víz alatt</div>
+    <div class="tile t2" id="card-04-t2" data-anim="mask-reveal" data-anim-at="5.4" data-anim-duration="0.5" data-anim-direction="left">Napsütötte tengerpart</div>
   </div>
 </div>
-<div class="phaseB" id="card-05-b" data-anim="fade-in" data-anim-at="7.2" data-anim-duration="0.3">
-  <div class="big" id="card-05-big" data-anim="kinetic-chars" data-anim-at="7.2" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("Nem kell")}<br>{chars("kimozdulnod")}<br>{chars("otthonról")}</div>
-  <div class="big2" id="card-05-big2" data-anim="scale-pop" data-anim-at="9.35" data-anim-duration="0.45">…meg se kell szólalnod</div>
+<div class="phaseB" id="card-04-b" data-anim="fade-in" data-anim-at="7.2" data-anim-duration="0.3">
+  <div class="big" id="card-04-big" data-anim="kinetic-chars" data-anim-at="7.2" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("Nem kell")}<br>{chars("kimozdulnod")}<br>{chars("otthonról")}</div>
+  <div class="big2" id="card-04-big2" data-anim="scale-pop" data-anim-at="9.35" data-anim-duration="0.45">…meg se kell szólalnod</div>
 </div>""",
      "split")
 
 # 6 — Just type the script (split) ───────────────────────────────────────────
 PROMPT = "Szia! Ma megmutatom, hogyan készül egy AI-avatár videó…"
-card("card-06", 49.55, 56.9, "side-panel",
+card("card-05", 44.55, 51.95, "side-panel",
      "Just type what it should say — the AI says it in your voice with your movements",
      {"kicker": "Csak beírod", "prompt": PROMPT, "outputs": ["Saját hang", "Saját mozgás"]},
      COMMON_SPLIT_CSS + """
@@ -257,20 +253,20 @@ S .out { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-wei
 S .o0 { background:#5E44E4; box-shadow:0 0 26px rgba(94,68,228,.85); }
 S .o1 { background:#C44DB8; box-shadow:0 0 26px rgba(196,77,184,.85); }
 """,
-     f"""<div class="kicker" id="card-06-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Csak beírod</div>
-<div class="box" id="card-06-box" data-anim="fade-in" data-anim-at="0.3" data-anim-duration="0.4">
+     f"""<div class="kicker" id="card-05-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Csak beírod</div>
+<div class="box" id="card-05-box" data-anim="fade-in" data-anim-at="0.3" data-anim-duration="0.4">
   <div class="lbl">Mit mondjon az avatár?</div>
-  <div class="typed" id="card-06-typed" data-anim="typewriter" data-anim-at="0.6" data-anim-duration="0.12" data-anim-stagger="0.035">{chars(PROMPT)}<span class="cursor"></span></div>
+  <div class="typed" id="card-05-typed" data-anim="typewriter" data-anim-at="0.6" data-anim-duration="0.12" data-anim-stagger="0.035">{chars(PROMPT)}<span class="cursor"></span></div>
 </div>
 <div class="row">
-  <div class="arrow" id="card-06-arrow" data-anim="slide-in" data-anim-at="2.6" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="40">→</div>
-  <div class="out o0" id="card-06-o0" data-anim="scale-pop" data-anim-at="2.75" data-anim-duration="0.45">Saját hang</div>
-  <div class="out o1" id="card-06-o1" data-anim="scale-pop" data-anim-at="3.55" data-anim-duration="0.45">Saját mozgás</div>
+  <div class="arrow" id="card-05-arrow" data-anim="slide-in" data-anim-at="2.85" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="40">→</div>
+  <div class="out o0" id="card-05-o0" data-anim="scale-pop" data-anim-at="3.0" data-anim-duration="0.45">Saját hang</div>
+  <div class="out o1" id="card-05-o1" data-anim="scale-pop" data-anim-at="3.7" data-anim-duration="0.45">Saját mozgás</div>
 </div>""",
      "split")
 
 # 7 — CTA (overlay) ──────────────────────────────────────────────────────────
-card("card-07", 57.0, 65.25, "video-overlay",
+card("card-06", 52.05, 60.2, "video-overlay",
      "CTA: follow us and watch the HeyGen avatar-generation video series",
      {"kicker": "Videósorozat", "title": "HeyGen avatár-generálás lépésről lépésre", "cta": "Kövess minket"},
      COMMON_OVERLAY_CSS + """
@@ -282,13 +278,13 @@ S .plus { font-size:70px; line-height:1; }
 """,
      f"""<div class="scrim"></div>
 <div class="top">
-  <div class="kicker" id="card-07-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Részletesen · videósorozat</div>
-  <h1 class="title" id="card-07-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("HeyGen avatár-")}<br>{chars("generálás")}<br>{chars("lépésről lépésre")}</h1>
-  <div class="cta" id="card-07-cta" data-anim="scale-pop" data-anim-at="4.0" data-anim-duration="0.5"><span class="plus">+</span>Kövess minket</div>
+  <div class="kicker" id="card-06-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Részletesen · videósorozat</div>
+  <h1 class="title" id="card-06-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("HeyGen avatár-")}<br>{chars("generálás")}<br>{chars("lépésről lépésre")}</h1>
+  <div class="cta" id="card-06-cta" data-anim="scale-pop" data-anim-at="4.05" data-anim-duration="0.5"><span class="plus">+</span>Kövess minket</div>
 </div>""", "full")
 
 # 8 — Outro (fullscreen) ─────────────────────────────────────────────────────
-card("card-08", 65.35, DURATION, "fullscreen",
+card("card-07", 60.3, DURATION, "fullscreen",
      "Neutral brand outro: Amazing AI logo + tagline",
      {"logo": "Amazing AI", "tagline": "AI-avatárok · videók · automatizáció"},
      """
@@ -301,9 +297,9 @@ S .tag { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style
 S .line { margin-top:30px; height:6px; width:0; border-radius:3px; background:linear-gradient(90deg,#5E44E4,#DF0EC4);
   box-shadow:0 0 22px rgba(223,14,196,.8); }
 """,
-     """<img class="logo" id="card-08-logo" src="img/amazing_logo.png" alt="Amazing AI" data-anim="scale-pop" data-anim-at="0.25" data-anim-duration="0.6">
-<div class="line" id="card-08-line" data-anim="grow-x" data-anim-at="0.8" data-anim-duration="0.6" data-anim-target-w="560"></div>
-<div class="tag" id="card-08-tag" data-anim="fade-in" data-anim-at="1.0" data-anim-duration="0.5">Kövess minket a további videókért</div>""",
+     """<img class="logo" id="card-07-logo" src="img/amazing_logo.png" alt="Amazing AI" data-anim="scale-pop" data-anim-at="0.25" data-anim-duration="0.6">
+<div class="line" id="card-07-line" data-anim="grow-x" data-anim-at="0.8" data-anim-duration="0.6" data-anim-target-w="560"></div>
+<div class="tag" id="card-07-tag" data-anim="fade-in" data-anim-at="1.0" data-anim-duration="0.5">Kövess minket a további videókért</div>""",
      "hidden")
 
 
@@ -370,8 +366,9 @@ for i, wd in enumerate(words):
     cur.append(wd)
     text_len = sum(len(x["text"]) + 1 for x in cur)
     nxt = words[i + 1] if i + 1 < len(words) else None
-    brk = (wd["text"][-1] in ".,?!" or len(cur) >= 4 or text_len >= 20 or nxt is None
-           or (nxt and nxt["start"] - wd["end"] > 0.35))
+    # keep every chunk on one caption line (~18 chars at 86px Barlow Condensed)
+    brk = (wd["text"][-1] in ".,?!" or len(cur) >= 4 or nxt is None
+           or text_len + len(nxt["text"]) > 18 or nxt["start"] - wd["end"] > 0.35)
     if brk:
         chunks.append(cur)
         cur = []
@@ -414,7 +411,7 @@ for c in CARDS:
 
 # Video + caption band follow the framing of each card. Transition starts 0.25s
 # before the incoming card so the move reads as a split-screen "wipe".
-prev = "full"
+prev = CARDS[0]["framing"]  # the opening framing is set at t=0 below
 for c in CARDS:
     f = c["framing"]
     if f == prev:
@@ -429,6 +426,9 @@ for c in CARDS:
     elif f == "hidden":
         js.append(f"tl.to('#video-wrap',{{scale:0.86,opacity:0,duration:0.6,ease:'power2.in'}},{t});")
     prev = f
+
+START_KEY = CARDS[0]["framing"]
+START = SPLIT if START_KEY == "split" else FULL
 
 # ── Assemble ────────────────────────────────────────────────────────────────
 def ff(family, file_stub, weight, style):
@@ -460,9 +460,10 @@ html, body {{ margin:0; padding:0; width:100%; height:100%; overflow:hidden; bac
 .video-wrapper {{ position:absolute; left:0; top:0; width:{W}px; height:{H}px; overflow:hidden; }}
 #video-inner {{ position:absolute; left:0; top:0; width:{SRC_W}px; height:{H}px; transform-origin:0 0; }}
 #video-inner video {{ width:100%; height:100%; display:block; }}
-.card-host {{ position:absolute; pointer-events:none; overflow:hidden; }}
+.card-host {{ position:absolute; pointer-events:none; overflow:hidden; z-index:2; }}
+#avatar-video {{ position:absolute; left:0; top:0; width:{W}px; height:960px; object-fit:cover; object-position:50% 30%; z-index:1; }}
 .card-host .card {{ position:relative; width:100%; height:100%; overflow:hidden; }}
-#captions {{ position:absolute; left:40px; right:40px; top:{CAP_TOP['full']}px; height:160px; pointer-events:none; }}
+#captions {{ z-index:3; position:absolute; left:40px; right:40px; top:{CAP_TOP['full']}px; height:160px; pointer-events:none; }}
 .cap {{ position:absolute; left:0; right:0; top:0; text-align:center; font-family:'Barlow Condensed', sans-serif;
   font-style:italic; font-weight:800; font-size:86px; line-height:1.05; text-transform:uppercase; color:#fff;
   -webkit-text-stroke:3px #0D0B1E; paint-order:stroke fill;
@@ -478,6 +479,7 @@ html, body {{ margin:0; padding:0; width:100%; height:100%; overflow:hidden; bac
 <video id="bg-video" src="input-video.mp4" playsinline data-has-audio="true" data-start="0" data-duration="{DURATION}" data-track-index="1"></video>
 </div>
 </div>
+<video id="avatar-video" class="clip" src="avatar-intro.mp4" muted playsinline data-start="0" data-duration="{q(AVATAR_END)}" data-track-index="4"></video>
 {chr(10).join(host_html)}
 <div id="captions">
 {chr(10).join(caption_html)}
@@ -491,7 +493,10 @@ window.__fmt = function (v, fmt) {{
   return String(Math.round(v));
 }};
 const tl = window.gsap.timeline({{ paused: true }});
-tl.set('#video-inner',{{x:{FULL['x']},y:0,scale:1}},0);
+tl.set('#video-inner',{{x:{START['x']},y:{START['y']},scale:{START['scale']}}},0);
+tl.set('#captions',{{y:{CAP_TOP[START_KEY] - CAP_TOP['full']}}},0);
+// muted HeyGen avatar on the top half, fades out as the how-to card takes over
+tl.to('#avatar-video',{{opacity:0,duration:0.3,ease:'power2.in'}},{q(AVATAR_END - 0.3)});
 {chr(10).join(js)}
 // ── captions ──
 {chr(10).join(caption_js)}

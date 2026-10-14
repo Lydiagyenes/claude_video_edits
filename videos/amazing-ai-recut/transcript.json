@@ -1,932 +1,938 @@
 [
 {
 "text": "A",
-"start": 0,
-"end": 0.09,
+"start": 0.441,
+"end": 0.581,
 "id": "w0"
 },
 {
-"text": "felső videót",
-"start": 0.09,
-"end": 1.19,
+"text": "felső",
+"start": 0.581,
+"end": 0.72,
 "id": "w1"
 },
 {
-"text": "AI-avatárral",
-"start": 1.19,
-"end": 2.41,
+"text": "videót",
+"start": 0.72,
+"end": 0.86,
+"id": "w2"
+},
+{
+"text": "AI-avatárommal",
+"start": 0.86,
+"end": 2,
 "id": "w3"
 },
 {
-"text": "magam",
-"start": 2.41,
-"end": 2.78,
-"id": "w4"
-},
-{
-"text": "generáltam,",
-"start": 2.78,
-"end": 3.99,
+"text": "generáltam.",
+"start": 2,
+"end": 3,
 "id": "w5"
 },
 {
-"text": "ez",
-"start": 4,
-"end": 4.19,
+"text": "Ez",
+"start": 3,
+"end": 3.13,
 "id": "w6"
 },
 {
 "text": "a",
-"start": 4.19,
-"end": 4.26,
+"start": 3.13,
+"end": 3.19,
 "id": "w7"
 },
 {
 "text": "videó",
-"start": 4.3,
-"end": 4.76,
+"start": 3.19,
+"end": 3.52,
 "id": "w8"
 },
 {
 "text": "az",
-"start": 4.78,
-"end": 4.95,
+"start": 3.52,
+"end": 3.65,
 "id": "w9"
 },
 {
 "text": "eredeti.",
-"start": 4.95,
-"end": 5.98,
+"start": 3.65,
+"end": 3.91225,
 "id": "w10"
 },
 {
 "text": "Ha",
-"start": 5.98,
-"end": 6.12,
+"start": 4.497,
+"end": 4.608,
 "id": "w11"
 },
 {
 "text": "felmész",
-"start": 6.12,
-"end": 6.58,
+"start": 4.608,
+"end": 4.72,
 "id": "w12"
 },
 {
 "text": "a",
-"start": 6.58,
-"end": 6.65,
+"start": 4.72,
+"end": 4.75,
 "id": "w13"
 },
 {
 "text": "HeyGen",
-"start": 6.65,
-"end": 7.44,
+"start": 4.82,
+"end": 5.29,
 "id": "w14"
 },
 {
 "text": "oldalára",
-"start": 7.44,
-"end": 7.97,
+"start": 5.29,
+"end": 5.7,
 "id": "w16"
 },
 {
 "text": "és",
-"start": 7.97,
-"end": 8.09,
+"start": 5.7,
+"end": 5.8,
 "id": "w17"
 },
 {
 "text": "saját",
-"start": 8.11,
-"end": 8.44,
+"start": 5.8,
+"end": 6.05,
 "id": "w18"
 },
 {
 "text": "avatárt",
-"start": 8.44,
-"end": 8.89,
+"start": 6.05,
+"end": 6.38,
 "id": "w19"
 },
 {
 "text": "akarsz",
-"start": 8.9,
-"end": 9.48,
+"start": 6.41,
+"end": 6.88,
 "id": "w20"
 },
 {
 "text": "létrehozni,",
-"start": 9.48,
-"end": 9.52,
+"start": 6.88,
+"end": 7.37,
 "id": "w21"
 },
 {
 "text": "akkor",
-"start": 9.52,
-"end": 9.62,
+"start": 7.38,
+"end": 7.67,
 "id": "w22"
 },
 {
 "text": "néhány",
-"start": 9.62,
-"end": 9.93,
+"start": 7.78,
+"end": 7.99,
 "id": "w23"
 },
 {
 "text": "perc",
-"start": 9.94,
-"end": 10.16,
+"start": 7.99,
+"end": 8.21,
 "id": "w24"
 },
 {
 "text": "alatt",
-"start": 10.16,
-"end": 10.5,
+"start": 8.21,
+"end": 8.49,
 "id": "w25"
 },
 {
 "text": "létre",
-"start": 10.5,
-"end": 10.71,
+"start": 8.49,
+"end": 8.77,
 "id": "w26"
 },
 {
 "text": "tudsz",
-"start": 10.72,
-"end": 10.98,
+"start": 8.77,
+"end": 9.05,
 "id": "w27"
 },
 {
 "text": "hozni",
-"start": 10.98,
-"end": 11,
+"start": 9.05,
+"end": 9.32,
 "id": "w28"
 },
 {
-"text": "olyan",
-"start": 11,
-"end": 11.04,
+"text": "egy",
+"start": 9.32,
+"end": 9.49,
 "id": "w29"
 },
 {
-"text": "élethű",
-"start": 11.25,
-"end": 12.3,
+"text": "olyan",
+"start": 9.49,
+"end": 9.77,
 "id": "w30"
 },
 {
-"text": "avatárt,",
-"start": 12.3,
-"end": 12.54,
+"text": "élethű",
+"start": 9.77,
+"end": 10.08,
 "id": "w31"
 },
 {
-"text": "aki",
-"start": 12.54,
-"end": 12.7,
+"text": "avatárt,",
+"start": 10.21,
+"end": 10.6448,
 "id": "w32"
 },
 {
-"text": "helyetted",
-"start": 12.7,
-"end": 13.25,
+"text": "aki",
+"start": 10.915,
+"end": 11.137,
 "id": "w33"
 },
 {
-"text": "elmondja",
-"start": 13.25,
-"end": 13.75,
+"text": "helyetted",
+"start": 11.137,
+"end": 11.36,
+"id": "w34"
+},
+{
+"text": "tud",
+"start": 11.36,
+"end": 11.5,
 "id": "w35"
 },
 {
-"text": "bármilyen",
-"start": 13.76,
-"end": 14.25,
+"text": "elmondani",
+"start": 11.5,
+"end": 11.96,
 "id": "w36"
 },
 {
-"text": "szöveget,",
-"start": 14.25,
-"end": 14.8,
+"text": "bármilyen",
+"start": 11.96,
+"end": 12.41,
 "id": "w37"
 },
 {
-"text": "bármilyen",
-"start": 14.8,
-"end": 15.29,
+"text": "szöveget,",
+"start": 12.41,
+"end": 13.02,
 "id": "w38"
 },
 {
-"text": "nyelven.",
-"start": 15.29,
-"end": 16,
+"text": "bármilyen",
+"start": 13.02,
+"end": 13.48,
 "id": "w39"
 },
 {
-"text": "Csak",
-"start": 16,
-"end": 16.24,
+"text": "nyelven.",
+"start": 13.73,
+"end": 14.0108,
 "id": "w40"
 },
 {
-"text": "létrehozol",
-"start": 16.24,
-"end": 16.78,
+"text": "Csak",
+"start": 14.462,
+"end": 14.542,
 "id": "w41"
 },
 {
-"text": "egy",
-"start": 16.82,
-"end": 16.96,
+"text": "létrehozol",
+"start": 14.53,
+"end": 15.07,
 "id": "w42"
 },
 {
-"text": "új",
-"start": 16.96,
-"end": 17.08,
+"text": "egy",
+"start": 15.07,
+"end": 15.23,
 "id": "w43"
 },
 {
-"text": "avatárt,",
-"start": 17.08,
-"end": 17.62,
+"text": "új",
+"start": 15.24,
+"end": 15.34,
 "id": "w44"
 },
 {
-"text": "a",
-"start": 17.62,
-"end": 17.68,
+"text": "avatárt,",
+"start": 15.34,
+"end": 15.92,
 "id": "w45"
 },
 {
-"text": "saját",
-"start": 17.68,
-"end": 17.98,
+"text": "a",
+"start": 15.92,
+"end": 15.99,
 "id": "w46"
 },
 {
-"text": "alakodra",
-"start": 17.98,
-"end": 18.39,
+"text": "saját",
+"start": 15.99,
+"end": 16.34,
 "id": "w47"
 },
 {
-"text": "formálod,",
-"start": 18.4,
-"end": 19.01,
+"text": "alakodra",
+"start": 16.34,
+"end": 16.79,
 "id": "w48"
 },
 {
-"text": "feltöltesz",
-"start": 19.02,
-"end": 19.62,
+"text": "formálod,",
+"start": 16.87,
+"end": 17.47,
 "id": "w49"
 },
 {
-"text": "magadról",
-"start": 19.62,
-"end": 20.01,
+"text": "feltöltesz",
+"start": 17.48,
+"end": 18.09,
 "id": "w50"
 },
 {
-"text": "egy",
-"start": 20.06,
-"end": 20.22,
+"text": "magadról",
+"start": 18.09,
+"end": 18.57,
 "id": "w51"
 },
 {
-"text": "rövidke",
-"start": 20.22,
-"end": 20.64,
+"text": "egy",
+"start": 18.57,
+"end": 18.75,
 "id": "w52"
 },
 {
-"text": "szöveget,",
-"start": 20.64,
-"end": 21.5,
+"text": "rövidebb",
+"start": 18.75,
+"end": 19.18,
 "id": "w53"
 },
 {
-"text": "hangmintát,",
-"start": 21.5,
-"end": 22.94,
+"text": "szöveget,",
+"start": 19.25,
+"end": 19.6692,
 "id": "w54"
 },
 {
-"text": "videó",
-"start": 22.94,
-"end": 23.14,
+"text": "hangmintát,",
+"start": 20.077,
+"end": 20.8365,
 "id": "w55"
 },
 {
-"text": "mintát,",
-"start": 23.14,
-"end": 23.48,
+"text": "videómintát,",
+"start": 21.144,
+"end": 21.9,
 "id": "w56"
 },
 {
 "text": "hogy",
-"start": 23.48,
-"end": 23.86,
-"id": "w57"
-},
-{
-"text": "a",
-"start": 23.86,
-"end": 23.94,
+"start": 21.9,
+"end": 22.16,
 "id": "w58"
 },
 {
-"text": "HeyGen AI",
-"start": 23.95,
-"end": 24.78,
+"text": "a",
+"start": 22.16,
+"end": 22.28,
 "id": "w59"
 },
 {
-"text": "le",
-"start": 24.78,
-"end": 24.96,
+"text": "HeyGen AI",
+"start": 22.28,
+"end": 22.77,
 "id": "w60"
 },
 {
-"text": "tudja",
-"start": 24.97,
-"end": 25.44,
-"id": "w61"
-},
-{
-"text": "másolni",
-"start": 25.44,
-"end": 26.19,
+"text": "le",
+"start": 22.82,
+"end": 22.92,
 "id": "w62"
 },
 {
-"text": "a",
-"start": 26.19,
-"end": 26.28,
+"text": "tudja",
+"start": 22.92,
+"end": 23.23,
 "id": "w63"
 },
 {
-"text": "gesztusaidat",
-"start": 26.28,
-"end": 27.49,
+"text": "másolni",
+"start": 23.23,
+"end": 23.69,
 "id": "w64"
 },
 {
-"text": "és",
-"start": 27.5,
-"end": 27.69,
+"text": "a",
+"start": 23.69,
+"end": 23.75,
+"id": "w65"
+},
+{
+"text": "gesztusaidat",
+"start": 23.75,
+"end": 24.52,
 "id": "w66"
 },
 {
-"text": "a",
-"start": 27.69,
-"end": 27.76,
+"text": "és",
+"start": 24.52,
+"end": 24.6,
 "id": "w67"
 },
 {
-"text": "mozgásodat,",
-"start": 27.78,
-"end": 28.87,
+"text": "a",
+"start": 24.6,
+"end": 24.84,
 "id": "w68"
 },
 {
-"text": "és",
-"start": 28.96,
-"end": 29.1,
+"text": "mozgásodat,",
+"start": 24.84,
+"end": 25.47,
 "id": "w69"
 },
 {
-"text": "már",
-"start": 29.1,
-"end": 29.38,
+"text": "és",
+"start": 25.49,
+"end": 25.61,
 "id": "w70"
 },
 {
-"text": "készen",
-"start": 29.38,
-"end": 29.94,
+"text": "már",
+"start": 25.61,
+"end": 25.8,
 "id": "w71"
 },
 {
-"text": "is",
-"start": 29.94,
-"end": 30.08,
+"text": "készen",
+"start": 25.8,
+"end": 25.9486,
 "id": "w72"
 },
 {
-"text": "vagy.",
-"start": 30.15,
-"end": 30.98,
+"text": "is",
+"start": 26.262,
+"end": 26.39,
 "id": "w73"
 },
 {
-"text": "Csak",
-"start": 30.98,
-"end": 31.28,
+"text": "vagy.",
+"start": 26.39,
+"end": 26.76,
 "id": "w74"
 },
 {
-"text": "létrehozod",
-"start": 31.34,
-"end": 32.1,
+"text": "Csak",
+"start": 26.76,
+"end": 27.01,
 "id": "w75"
 },
 {
-"text": "olyan",
-"start": 32.1,
-"end": 32.92,
+"text": "létrehozod",
+"start": 27.01,
+"end": 27.77,
 "id": "w76"
 },
 {
-"text": "ruhában,",
-"start": 33,
-"end": 33.82,
-"id": "w77"
-},
-{
-"text": "vagy",
-"start": 33.83,
-"end": 34.1,
+"text": "olyan",
+"start": 27.77,
+"end": 28.09,
 "id": "w78"
 },
 {
-"text": "színben,",
-"start": 34.1,
-"end": 34.62,
+"text": "ruhában",
+"start": 28.09,
+"end": 28.71,
 "id": "w79"
 },
 {
 "text": "vagy",
-"start": 34.67,
-"end": 34.8,
+"start": 28.72,
+"end": 28.97,
 "id": "w80"
 },
 {
-"text": "festésben",
-"start": 34.8,
-"end": 35.8,
+"text": "színben",
+"start": 29.06,
+"end": 29.56,
 "id": "w81"
 },
 {
-"text": "szereplő",
-"start": 35.8,
-"end": 36.48,
+"text": "vagy",
+"start": 29.56,
+"end": 30.08,
 "id": "w82"
 },
 {
-"text": "avatárokat,",
-"start": 36.48,
-"end": 37.22,
+"text": "festésben",
+"start": 30.17,
+"end": 30.86,
 "id": "w83"
 },
 {
-"text": "amelyeket",
-"start": 37.22,
-"end": 37.64,
+"text": "szereplő",
+"start": 30.92,
+"end": 31.58,
 "id": "w84"
 },
 {
-"text": "csak",
-"start": 37.8,
-"end": 37.94,
+"text": "avatárokat,",
+"start": 31.6,
+"end": 32.2,
 "id": "w85"
 },
 {
-"text": "szeretnél.",
-"start": 37.94,
-"end": 38.64,
+"text": "amelyeket",
+"start": 32.2,
+"end": 32.7,
 "id": "w86"
 },
 {
-"text": "Lehet",
-"start": 38.64,
-"end": 39.01,
+"text": "csak",
+"start": 32.81,
+"end": 32.93,
 "id": "w87"
 },
 {
-"text": "akár",
-"start": 39.01,
-"end": 39.31,
+"text": "szeretnél.",
+"start": 32.93,
+"end": 33.4771,
 "id": "w88"
 },
 {
-"text": "a",
-"start": 39.31,
-"end": 39.37,
+"text": "Lehet",
+"start": 33.852,
+"end": 34.05,
 "id": "w89"
 },
 {
-"text": "hajad",
-"start": 39.38,
-"end": 39.75,
+"text": "akár",
+"start": 34.07,
+"end": 34.37,
 "id": "w90"
 },
 {
-"text": "lángoló,",
-"start": 39.75,
-"end": 40.42,
+"text": "a",
+"start": 34.37,
+"end": 34.43,
 "id": "w91"
 },
 {
-"text": "lehet",
-"start": 40.42,
-"end": 40.75,
+"text": "hajad",
+"start": 34.45,
+"end": 34.84,
 "id": "w92"
 },
 {
-"text": "akár",
-"start": 40.78,
-"end": 41.09,
+"text": "lángoló,",
+"start": 34.89,
+"end": 35.5568,
 "id": "w93"
 },
 {
-"text": "az",
-"start": 41.09,
-"end": 41.23,
+"text": "lehet",
+"start": 35.814,
+"end": 35.97,
 "id": "w94"
 },
 {
-"text": "egész",
-"start": 41.24,
-"end": 41.6,
+"text": "akár",
+"start": 35.98,
+"end": 36.3,
 "id": "w95"
 },
 {
-"text": "tested",
-"start": 41.6,
-"end": 42.06,
+"text": "az",
+"start": 36.3,
+"end": 36.34,
 "id": "w96"
 },
 {
-"text": "víz",
-"start": 42.06,
-"end": 42.28,
+"text": "egész",
+"start": 36.6,
+"end": 36.87,
 "id": "w97"
 },
 {
-"text": "alatt,",
-"start": 42.28,
-"end": 42.8,
+"text": "tested",
+"start": 36.87,
+"end": 37.36,
 "id": "w98"
 },
 {
-"text": "lehet",
-"start": 42.8,
-"end": 43.16,
+"text": "víz",
+"start": 37.36,
+"end": 37.56,
 "id": "w99"
 },
 {
-"text": "akár",
-"start": 43.2,
-"end": 43.62,
+"text": "alatt,",
+"start": 37.76,
+"end": 38.36,
 "id": "w100"
 },
 {
-"text": "egy",
-"start": 43.62,
-"end": 43.84,
+"text": "lehetsz",
+"start": 38.36,
+"end": 38.78,
 "id": "w101"
 },
 {
-"text": "napsütötte",
-"start": 43.91,
-"end": 44.65,
+"text": "akár",
+"start": 38.78,
+"end": 39.01,
 "id": "w102"
 },
 {
-"text": "tengerparton,",
-"start": 44.65,
-"end": 45.72,
+"text": "egy",
+"start": 39.08,
+"end": 39.2,
 "id": "w103"
 },
 {
-"text": "és",
-"start": 45.72,
-"end": 45.84,
+"text": "napsütötte",
+"start": 39.2,
+"end": 39.8,
 "id": "w104"
 },
 {
-"text": "ehhez",
-"start": 45.84,
-"end": 46.14,
+"text": "tengerparton,",
+"start": 39.8,
+"end": 40.6087,
 "id": "w105"
 },
 {
-"text": "neked",
-"start": 46.14,
-"end": 46.44,
+"text": "és",
+"start": 40.898,
+"end": 41.044,
 "id": "w106"
 },
 {
-"text": "nem",
-"start": 46.5,
-"end": 46.62,
+"text": "ehhez",
+"start": 41.044,
+"end": 41.19,
 "id": "w107"
 },
 {
-"text": "kell",
-"start": 46.62,
-"end": 46.86,
+"text": "neked",
+"start": 41.19,
+"end": 41.48,
 "id": "w108"
 },
 {
-"text": "kimozdulni",
-"start": 46.86,
-"end": 47.46,
+"text": "nem",
+"start": 41.48,
+"end": 41.63,
 "id": "w109"
 },
 {
-"text": "otthonról,",
-"start": 47.58,
-"end": 48.06,
+"text": "kell",
+"start": 41.68,
+"end": 41.9,
 "id": "w110"
 },
 {
-"text": "sőt",
-"start": 48.06,
-"end": 48.24,
+"text": "kimozdulni",
+"start": 41.9,
+"end": 42.46,
 "id": "w111"
 },
 {
-"text": "meg",
-"start": 48.24,
-"end": 48.42,
+"text": "otthonról,",
+"start": 42.53,
+"end": 43.16,
 "id": "w112"
 },
 {
-"text": "se",
-"start": 48.44,
-"end": 48.51,
+"text": "sőt",
+"start": 43.16,
+"end": 43.34,
 "id": "w113"
 },
 {
-"text": "kell",
-"start": 48.56,
-"end": 48.82,
+"text": "meg",
+"start": 43.34,
+"end": 43.46,
 "id": "w114"
 },
 {
-"text": "szólalni.",
-"start": 48.82,
-"end": 49.52,
+"text": "se",
+"start": 43.46,
+"end": 43.72,
 "id": "w115"
 },
 {
-"text": "Csak",
-"start": 49.52,
-"end": 49.72,
+"text": "kell",
+"start": 43.72,
+"end": 43.88,
 "id": "w116"
 },
 {
-"text": "beírod,",
-"start": 49.73,
-"end": 50.21,
+"text": "szólalni.",
+"start": 43.88,
+"end": 44.6,
 "id": "w117"
 },
 {
-"text": "hogy",
-"start": 50.24,
-"end": 50.45,
+"text": "Csak",
+"start": 44.6,
+"end": 44.81,
 "id": "w118"
 },
 {
-"text": "mit",
-"start": 50.45,
-"end": 50.62,
+"text": "beírod,",
+"start": 44.92,
+"end": 45.25,
 "id": "w119"
 },
 {
-"text": "mondjon",
-"start": 50.62,
-"end": 51,
+"text": "hogy",
+"start": 45.25,
+"end": 45.47,
 "id": "w120"
 },
 {
-"text": "el",
-"start": 51.01,
-"end": 51.23,
+"text": "mit",
+"start": 45.47,
+"end": 45.64,
 "id": "w121"
 },
 {
-"text": "helyetted,",
-"start": 51.24,
-"end": 51.73,
+"text": "mondjon",
+"start": 45.64,
+"end": 46.03,
 "id": "w122"
 },
 {
-"text": "az",
-"start": 51.75,
-"end": 51.84,
+"text": "el",
+"start": 46.03,
+"end": 46.14,
 "id": "w123"
 },
 {
-"text": "AI",
-"start": 51.88,
-"end": 51.95,
+"text": "helyetted",
+"start": 46.14,
+"end": 46.64,
 "id": "w124"
 },
 {
-"text": "és",
-"start": 51.95,
-"end": 52.06,
+"text": "az",
+"start": 46.64,
+"end": 46.72,
 "id": "w125"
 },
 {
-"text": "a",
-"start": 52.06,
-"end": 52.11,
+"text": "AI,",
+"start": 46.75,
+"end": 46.97,
 "id": "w126"
 },
 {
-"text": "saját",
-"start": 52.11,
-"end": 52.37,
+"text": "és",
+"start": 46.97,
+"end": 47.07,
 "id": "w127"
 },
 {
-"text": "hangodon",
-"start": 52.37,
-"end": 52.83,
+"text": "a",
+"start": 47.07,
+"end": 47.15,
 "id": "w128"
 },
 {
-"text": "a",
-"start": 52.83,
-"end": 52.88,
+"text": "saját",
+"start": 47.15,
+"end": 47.3,
 "id": "w129"
 },
 {
-"text": "saját",
-"start": 52.88,
-"end": 53.15,
+"text": "hangodon,",
+"start": 47.56,
+"end": 47.95,
 "id": "w130"
 },
 {
-"text": "mozgásodnak",
-"start": 53.15,
-"end": 53.74,
+"text": "a",
+"start": 47.95,
+"end": 48,
 "id": "w131"
 },
 {
-"text": "megfelelően",
-"start": 53.77,
-"end": 54.36,
+"text": "saját",
+"start": 48,
+"end": 48.26,
 "id": "w132"
 },
 {
-"text": "fogod",
-"start": 54.36,
-"end": 54.64,
+"text": "mozgásodnak",
+"start": 48.27,
+"end": 48.87,
 "id": "w133"
 },
 {
-"text": "tudni",
-"start": 54.81,
-"end": 54.91,
+"text": "megfelelően",
+"start": 49.04,
+"end": 49.47,
 "id": "w134"
 },
 {
-"text": "megcsinálni",
-"start": 55,
-"end": 55.53,
+"text": "fogod",
+"start": 49.47,
+"end": 49.75,
 "id": "w135"
 },
 {
-"text": "az",
-"start": 55.53,
-"end": 55.62,
+"text": "tudni",
+"start": 49.75,
+"end": 50.02,
 "id": "w136"
 },
 {
-"text": "avatár",
-"start": 55.67,
-"end": 55.97,
+"text": "megcsinálni",
+"start": 50.05,
+"end": 50.64,
 "id": "w137"
 },
 {
-"text": "videókat.",
-"start": 55.97,
-"end": 56.89,
+"text": "az",
+"start": 50.64,
+"end": 50.75,
 "id": "w138"
 },
 {
-"text": "Ha",
-"start": 56.96,
-"end": 57.07,
+"text": "avatár",
+"start": 50.75,
+"end": 51.03,
 "id": "w139"
 },
 {
-"text": "érdekel,",
-"start": 57.07,
-"end": 57.56,
+"text": "videókat.",
+"start": 51.1,
+"end": 51.7959,
 "id": "w140"
 },
 {
-"text": "hogy",
-"start": 57.56,
-"end": 57.79,
+"text": "Ha",
+"start": 52.182,
+"end": 52.391,
 "id": "w141"
 },
 {
-"text": "hogyan",
-"start": 57.79,
-"end": 58.13,
+"text": "érdekel,",
+"start": 52.391,
+"end": 52.6,
 "id": "w142"
 },
 {
-"text": "tudod",
-"start": 58.13,
-"end": 58.4,
+"text": "hogy",
+"start": 52.6,
+"end": 52.83,
 "id": "w143"
 },
 {
-"text": "ezt",
-"start": 58.41,
-"end": 58.57,
+"text": "hogyan",
+"start": 52.83,
+"end": 53.17,
 "id": "w144"
 },
 {
-"text": "részletesen",
-"start": 58.57,
-"end": 59.16,
+"text": "tudod",
+"start": 53.17,
+"end": 53.45,
 "id": "w145"
 },
 {
-"text": "ténylegesen",
-"start": 59.19,
-"end": 59.79,
+"text": "ezt",
+"start": 53.45,
+"end": 53.61,
 "id": "w146"
 },
 {
-"text": "létrehozni,",
-"start": 59.79,
-"end": 60.64,
+"text": "részletesen,",
+"start": 53.61,
+"end": 54.33,
 "id": "w147"
 },
 {
-"text": "akkor",
-"start": 60.64,
-"end": 60.97,
+"text": "ténylegesen",
+"start": 54.34,
+"end": 54.95,
 "id": "w148"
 },
 {
-"text": "kövess",
-"start": 61.02,
-"end": 61.41,
+"text": "létrehozni,",
+"start": 54.96,
+"end": 55.6556,
 "id": "w149"
 },
 {
-"text": "bennünket",
-"start": 61.43,
-"end": 62.08,
+"text": "akkor",
+"start": 55.933,
+"end": 56.013,
 "id": "w150"
 },
 {
-"text": "és",
-"start": 62.08,
-"end": 62.29,
+"text": "kövess",
+"start": 56.12,
+"end": 56.54,
 "id": "w151"
 },
 {
-"text": "nézd",
-"start": 62.29,
-"end": 62.34,
+"text": "bennünket,",
+"start": 56.62,
+"end": 57.32,
 "id": "w152"
 },
 {
-"text": "meg",
-"start": 62.44,
-"end": 62.62,
+"text": "és",
+"start": 57.32,
+"end": 57.42,
 "id": "w153"
 },
 {
-"text": "a",
-"start": 62.62,
-"end": 62.68,
+"text": "nézd",
+"start": 57.44,
+"end": 57.68,
 "id": "w154"
 },
 {
-"text": "HeyGen",
-"start": 62.68,
-"end": 63.04,
+"text": "meg",
+"start": 57.68,
+"end": 57.86,
 "id": "w155"
 },
 {
-"text": "avatár",
-"start": 63.04,
-"end": 63.4,
+"text": "a",
+"start": 57.86,
+"end": 57.92,
 "id": "w156"
 },
 {
-"text": "generálós",
-"start": 63.4,
-"end": 63.95,
+"text": "HeyGen",
+"start": 57.92,
+"end": 58.22,
 "id": "w157"
 },
 {
-"text": "videósorozatomat.",
-"start": 63.95,
-"end": 65.24,
+"text": "avatár",
+"start": 58.22,
+"end": 58.58,
 "id": "w158"
+},
+{
+"text": "generálós",
+"start": 58.58,
+"end": 59.07,
+"id": "w159"
+},
+{
+"text": "videósorozatomat.",
+"start": 59.14,
+"end": 60.34,
+"id": "w160"
 }
 ]

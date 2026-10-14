@@ -1,34 +1,44 @@
 <div class="card" data-card-id="card-01">
 <style>
 .card[data-card-id="card-01"] .root { position:absolute; inset:0; color:#fff; font-family:'Inter', sans-serif; background:transparent; }
-.card[data-card-id="card-01"] .scrim { position:absolute; left:0; right:0; top:0; height:760px;
-  background:linear-gradient(180deg, rgba(13,11,30,.92) 0%, rgba(13,11,30,.6) 55%, rgba(13,11,30,0) 100%); }
-.card[data-card-id="card-01"] .top { position:absolute; left:64px; right:64px; top:110px; }
-.card[data-card-id="card-01"] .kicker { display:inline-block; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
-  font-size:34px; letter-spacing:.06em; text-transform:uppercase; color:#fff;
-  background:#DF0EC4; padding:8px 22px 6px; border-radius:12px; box-shadow:0 0 30px rgba(223,14,196,.6); }
-.card[data-card-id="card-01"] .title { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; text-transform:uppercase;
-  font-size:120px; line-height:.95; margin:26px 0 0; color:#fff;
-  text-shadow:0 0 36px rgba(149,112,255,.85), 0 4px 18px rgba(0,0,0,.6); }
 .card[data-card-id="card-01"] .w { display:inline-block; white-space:nowrap; }
 .card[data-card-id="card-01"] .char { display:inline-block; }
 .card[data-card-id="card-01"] .sp { display:inline-block; width:.26em; }
-
-.card[data-card-id="card-01"] .sub { margin-top:26px; font-size:40px; font-weight:600; line-height:1.25; color:#E9E2FF;
-  text-shadow:0 2px 12px rgba(0,0,0,.7); max-width:900px; }
-.card[data-card-id="card-01"] .badge { display:inline-flex; align-items:center; gap:14px; margin-top:30px; padding:12px 26px;
-  border:3px solid #9570FF; border-radius:999px; font-family:'Barlow Condensed', sans-serif; font-style:italic;
-  font-weight:800; font-size:44px; text-transform:uppercase; background:rgba(13,11,30,.55);
-  box-shadow:0 0 26px rgba(149,112,255,.7); }
-.card[data-card-id="card-01"] .dot { width:20px; height:20px; border-radius:50%; background:#ff3b5c; box-shadow:0 0 14px #ff3b5c; }
+.card[data-card-id="card-01"] .badge { position:absolute; display:inline-flex; align-items:center; gap:14px; padding:12px 26px 9px;
+  border-radius:999px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  font-size:44px; text-transform:uppercase; letter-spacing:.03em; }
+.card[data-card-id="card-01"] .ai { left:40px; top:40px; background:#DF0EC4; box-shadow:0 0 30px rgba(223,14,196,.75); }
+.card[data-card-id="card-01"] .real { left:40px; top:1000px; background:rgba(13,11,30,.6); border:3px solid #fff; box-shadow:0 0 22px rgba(255,255,255,.45); }
+.card[data-card-id="card-01"] .dot { width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 0 12px #fff; }
+.card[data-card-id="card-01"] .rec { width:18px; height:18px; border-radius:50%; background:#ff3b5c; box-shadow:0 0 12px #ff3b5c; }
+.card[data-card-id="card-01"] .scrim { position:absolute; left:0; right:0; top:500px; height:460px;
+  background:linear-gradient(180deg, rgba(13,11,30,0) 0%, rgba(13,11,30,.78) 42%, rgba(13,11,30,.95) 100%); }
+.card[data-card-id="card-01"] .seam { position:absolute; left:0; right:0; top:957px; height:6px;
+  background:linear-gradient(90deg,#5E44E4,#DF0EC4,#9570FF); box-shadow:0 0 28px 6px rgba(223,14,196,.55); }
+.card[data-card-id="card-01"] .block { position:absolute; left:56px; right:56px; top:560px; }
+.card[data-card-id="card-01"] .kicker { display:inline-block; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
+  font-size:32px; letter-spacing:.06em; text-transform:uppercase; color:#C9B6FF; }
+.card[data-card-id="card-01"] .title { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; text-transform:uppercase;
+  font-size:84px; line-height:.95; margin:10px 0 0; color:#fff; text-shadow:0 0 30px rgba(149,112,255,.85); }
+.card[data-card-id="card-01"] .title .hl { color:#C9B6FF; }
+.card[data-card-id="card-01"] .chips { position:absolute; left:40px; top:130px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+.card[data-card-id="card-01"] .chip { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:40px;
+  text-transform:uppercase; padding:10px 22px 7px; border-radius:14px; color:#fff; }
+.card[data-card-id="card-01"] .c0 { background:#5E44E4; box-shadow:0 0 24px rgba(94,68,228,.85); }
+.card[data-card-id="card-01"] .c1 { background:#C44DB8; box-shadow:0 0 24px rgba(196,77,184,.85); }
 </style>
 <div class="root">
-<div class="scrim"></div>
-<div class="top">
-  <div class="kicker" id="card-01-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.45" data-anim-from="left" data-anim-distance="60">HeyGen AI-avatár</div>
-  <h1 class="title" id="card-01-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.03"><span class="w"><span class="char">E</span><span class="char">z</span></span><span class="sp"> </span><span class="w"><span class="char">a</span></span><span class="sp"> </span><span class="w"><span class="char">v</span><span class="char">i</span><span class="char">d</span><span class="char">e</span><span class="char">ó</span></span><br><span class="w"><span class="char">a</span><span class="char">z</span></span><span class="sp"> </span><span class="w"><span class="char">e</span><span class="char">r</span><span class="char">e</span><span class="char">d</span><span class="char">e</span><span class="char">t</span><span class="char">i</span></span></h1>
-  <div class="badge" id="card-01-badge" data-anim="scale-pop" data-anim-at="1.6" data-anim-duration="0.5"><span class="dot"></span>Valódi felvétel</div>
-  <div class="sub" id="card-01-sub" data-anim="fade-in" data-anim-at="2.6" data-anim-duration="0.5">Az avatár-verziót AI-val magam generáltam.</div>
+<div class="seam"></div>
+<div class="scrim" id="card-01-scrim" data-anim="fade-in" data-anim-at="4.3" data-anim-duration="0.5"></div>
+<div class="badge ai" id="card-01-ai" data-anim="scale-pop" data-anim-at="0.2" data-anim-duration="0.5"><span class="dot"></span>AI-avatár · HeyGen</div>
+<div class="badge real" id="card-01-real" data-anim="scale-pop" data-anim-at="2.95" data-anim-duration="0.5"><span class="rec"></span>Eredeti felvétel</div>
+<div class="block">
+  <div class="kicker" id="card-01-kicker" data-anim="slide-in" data-anim-at="4.45" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Saját avatár a HeyGenen</div>
+  <h1 class="title" id="card-01-title" data-anim="kinetic-chars" data-anim-at="7.7" data-anim-duration="0.45" data-anim-stagger="0.025"><span class="w"><span class="char">É</span><span class="char">l</span><span class="char">e</span><span class="char">t</span><span class="char">h</span><span class="char">ű</span></span><span class="sp"> </span><span class="w"><span class="char">a</span><span class="char">v</span><span class="char">a</span><span class="char">t</span><span class="char">á</span><span class="char">r</span></span><br><span class="hl"><span class="w"><span class="char">p</span><span class="char">á</span><span class="char">r</span></span><span class="sp"> </span><span class="w"><span class="char">p</span><span class="char">e</span><span class="char">r</span><span class="char">c</span></span><span class="sp"> </span><span class="w"><span class="char">a</span><span class="char">l</span><span class="char">a</span><span class="char">t</span><span class="char">t</span></span></span></h1>
+</div>
+<div class="chips">
+  <div class="chip c0" id="card-01-chip0" data-anim="scale-pop" data-anim-at="11.9" data-anim-duration="0.45">Bármilyen szöveg</div>
+  <div class="chip c1" id="card-01-chip1" data-anim="scale-pop" data-anim-at="12.95" data-anim-duration="0.45">Bármilyen nyelv</div>
 </div>
 </div>
 </div>
