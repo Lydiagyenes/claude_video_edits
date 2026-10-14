@@ -1,0 +1,8 @@
+# Large / regenerable media and render artifacts
+audio.mp3
+public/input-video.mp4
+output.mp4
+public/.hyperframes/
+.hyperframes/
+.output.hf-transaction-*/
+work-*/

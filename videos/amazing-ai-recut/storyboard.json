@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 3,
+  "composition": {
+    "fps": 30,
+    "width": 1080,
+    "height": 1920,
+    "durationSeconds": 69.9333,
+    "layout": "portrait",
+    "themeId": "amazing-ai-neon",
+    "seed": 42
+  },
+  "videoTrack": {
+    "sourcePath": "input-video.mp4",
+    "startSec": 0,
+    "endSec": 69.9333,
+    "bounds": {
+      "x": 0,
+      "y": 0,
+      "width": 1080,
+      "height": 1920
+    }
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "karaoke word highlight",
+    "chunks": 57
+  },
+  "cards": [
+    {
+      "id": "card-01",
+      "intent": "Hook: this is the real footage; the avatar version was AI-generated",
+      "startSec": 0.1,
+      "endSec": 5.9,
+      "accentIndex": 0,
+      "zone": "video-overlay",
+      "contentHints": {
+        "kicker": "HeyGen AI-avatár",
+        "title": "Ez a videó az eredeti",
+        "detail": "Az avatár-verziót AI-val magam generáltam"
+      }
+    },
+    {
+      "id": "card-02",
+      "intent": "On HeyGen you can create a lifelike avatar of yourself in a few minutes; it says any text, any language",
+      "startSec": 6.0,
+      "endSec": 15.95,
+      "accentIndex": 1,
+      "zone": "side-panel",
+      "contentHints": {
+        "kicker": "HeyGen",
+        "title": "Élethű avatár pár perc alatt",
+        "chips": [
+          "Bármilyen szöveg",
+          "Bármilyen nyelv"
+        ]
+      }
+    },
+    {
+      "id": "card-03",
+      "intent": "How it works in three steps: create, upload samples, HeyGen AI copies your gestures — done",
+      "startSec": 16.0,
+      "endSec": 30.9,
+      "accentIndex": 2,
+      "zone": "side-panel",
+      "contentHints": {
+        "kicker": "Így működik",
+        "steps": [
+          "Új avatár",
+          "Feltöltés",
+          "Az AI lemásol"
+        ],
+        "badge": "Kész is vagy"
+      }
+    },
+    {
+      "id": "card-04",
+      "intent": "Create avatars in any outfit, colour or painted style you like",
+      "startSec": 31.0,
+      "endSec": 38.55,
+      "accentIndex": 3,
+      "zone": "video-overlay",
+      "contentHints": {
+        "kicker": "Bármilyen stílusban",
+        "chips": [
+          "Ruha",
+          "Szín",
+          "Festés"
+        ]
+      }
+    },
+    {
+      "id": "card-05",
+      "intent": "Flaming hair, underwater, sunny beach — and you never leave home or say a word",
+      "startSec": 38.65,
+      "endSec": 49.45,
+      "accentIndex": 4,
+      "zone": "side-panel",
+      "contentHints": {
+        "tiles": [
+          "Lángoló haj",
+          "Víz alatt",
+          "Napsütötte tengerpart"
+        ],
+        "statement": [
+          "Nem kell kimozdulnod otthonról",
+          "Meg se kell szólalnod"
+        ]
+      }
+    },
+    {
+      "id": "card-06",
+      "intent": "Just type what it should say — the AI says it in your voice with your movements",
+      "startSec": 49.55,
+      "endSec": 56.9,
+      "accentIndex": 0,
+      "zone": "side-panel",
+      "contentHints": {
+        "kicker": "Csak beírod",
+        "prompt": "Szia! Ma megmutatom, hogyan készül egy AI-avatár videó…",
+        "outputs": [
+          "Saját hang",
+          "Saját mozgás"
+        ]
+      }
+    },
+    {
+      "id": "card-07",
+      "intent": "CTA: follow us and watch the HeyGen avatar-generation video series",
+      "startSec": 57.0,
+      "endSec": 65.25,
+      "accentIndex": 1,
+      "zone": "video-overlay",
+      "contentHints": {
+        "kicker": "Videósorozat",
+        "title": "HeyGen avatár-generálás lépésről lépésre",
+        "cta": "Kövess minket"
+      }
+    },
+    {
+      "id": "card-08",
+      "intent": "Neutral brand outro: Amazing AI logo + tagline",
+      "startSec": 65.35,
+      "endSec": 69.9333,
+      "accentIndex": 2,
+      "zone": "fullscreen",
+      "contentHints": {
+        "logo": "Amazing AI",
+        "tagline": "AI-avatárok · videók · automatizáció"
+      }
+    }
+  ]
+}
