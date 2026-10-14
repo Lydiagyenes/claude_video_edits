@@ -11,6 +11,8 @@ import json
 import re
 from pathlib import Path
 
+from edit import in_cut, remap
+
 ROOT = Path(__file__).resolve().parent
 PUB = ROOT / "public"
 FPS = 30
@@ -60,6 +62,8 @@ CARDS = []
 
 
 def card(cid, start, end, zone, intent, hints, css, body, framing):
+    """start/end are on the uncut timeline (see edit.py); end=None runs to the end."""
+    start, end = remap(start), (DURATION if end is None else remap(end))
     CARDS.append(dict(id=cid, start=start, end=end, zone=zone, intent=intent,
                       hints=hints, css=css, body=body, framing=framing))
 
@@ -133,13 +137,8 @@ S .c0 { background:#5E44E4; box-shadow:0 0 24px rgba(94,68,228,.85); }
 S .c1 { background:#C44DB8; box-shadow:0 0 24px rgba(196,77,184,.85); }
 """,
      f"""<div class="seam"></div>
-<div class="scrim" id="card-01-scrim" data-anim="fade-in" data-anim-at="4.3" data-anim-duration="0.5"></div>
 <div class="badge ai" id="card-01-ai" data-anim="scale-pop" data-anim-at="0.2" data-anim-duration="0.5"><span class="dot"></span>AI-avatár · HeyGen</div>
 <div class="badge real" id="card-01-real" data-anim="scale-pop" data-anim-at="2.95" data-anim-duration="0.5"><span class="rec"></span>Eredeti felvétel</div>
-<div class="block">
-  <div class="kicker" id="card-01-kicker" data-anim="slide-in" data-anim-at="4.45" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Saját avatár a HeyGenen</div>
-  <h1 class="title" id="card-01-title" data-anim="kinetic-chars" data-anim-at="7.7" data-anim-duration="0.45" data-anim-stagger="0.025">{chars("Élethű avatár")}<br><span class="hl">{chars("pár perc alatt")}</span></h1>
-</div>
 <div class="chips">
   <div class="chip c0" id="card-01-chip0" data-anim="scale-pop" data-anim-at="11.9" data-anim-duration="0.45">Bármilyen szöveg</div>
   <div class="chip c1" id="card-01-chip1" data-anim="scale-pop" data-anim-at="12.95" data-anim-duration="0.45">Bármilyen nyelv</div>
@@ -175,35 +174,10 @@ card("card-02", 14.4, 26.7, "side-panel",
 </div>""",
      "split")
 
-# 4 — Any outfit / colour / paint style (overlay) ───────────────────────────
-card("card-03", 26.75, 33.7, "video-overlay",
-     "Create avatars in any outfit, colour or painted style you like",
-     {"kicker": "Bármilyen stílusban", "chips": ["Ruha", "Szín", "Festés"]},
-     COMMON_OVERLAY_CSS + """
-S .chips { display:flex; gap:20px; margin-top:34px; }
-S .chip { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800; font-size:64px;
-  text-transform:uppercase; padding:14px 34px 8px; border-radius:20px; color:#fff; }
-S .c0 { background:#5E44E4; box-shadow:0 0 30px rgba(94,68,228,.9); }
-S .c1 { background:#C44DB8; box-shadow:0 0 30px rgba(196,77,184,.9); }
-S .c2 { background:#DF0EC4; box-shadow:0 0 30px rgba(223,14,196,.9); }
-S .sub { margin-top:30px; font-size:42px; font-weight:600; color:#E9E2FF; text-shadow:0 2px 12px rgba(0,0,0,.7); }
-""",
-     f"""<div class="scrim"></div>
-<div class="top">
-  <div class="kicker" id="card-03-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Avatár stílusok</div>
-  <h1 class="title" id="card-03-title" data-anim="kinetic-chars" data-anim-at="0.25" data-anim-duration="0.45" data-anim-stagger="0.03">{chars("Bármilyen")}<br>{chars("stílusban")}</h1>
-  <div class="chips">
-    <div class="chip c0" id="card-03-c0" data-anim="scale-pop" data-anim-at="1.35" data-anim-duration="0.45">Ruha</div>
-    <div class="chip c1" id="card-03-c1" data-anim="scale-pop" data-anim-at="2.3" data-anim-duration="0.45">Szín</div>
-    <div class="chip c2" id="card-03-c2" data-anim="scale-pop" data-anim-at="3.4" data-anim-duration="0.45">Festés</div>
-  </div>
-  <div class="sub" id="card-03-sub" data-anim="fade-in" data-anim-at="5.45" data-anim-duration="0.5">…amilyet csak szeretnél.</div>
-</div>""", "full")
-
 # 5 — FX scene (full-bleed): flaming hair → underwater → sunny beach ─────────
 # The effects themselves are layers inside #video-wrap (see FX below); this card
 # only carries the "Lehet akár…" kicker and one label chip per effect.
-card("card-04", 33.8, 40.75, "video-overlay",
+card("card-03", 33.8, 38.28, "video-overlay",
      "Visualise the three examples on her own footage: hair on fire, frame fills with water, beach background",
      {"kicker": "Lehet akár…", "chips": ["Lángoló haj", "Víz alatt", "Napsütötte tengerpart"]},
      """
@@ -221,35 +195,18 @@ S .t1 { background:linear-gradient(100deg,#1d8fe0 0%,#5E44E4 80%); box-shadow:0 
 S .t2 { font-size:72px; background:linear-gradient(100deg,#f5b52e 0%,#C44DB8 85%); box-shadow:0 0 40px rgba(245,181,46,.75); }
 """,
      """<div class="top">
-  <div class="kicker" id="card-04-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Lehet akár…</div>
+  <div class="kicker" id="card-03-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Lehet akár…</div>
   <div class="slot">
-    <div class="chip t0" id="card-04-t0" data-anim="scale-pop" data-anim-at="0.6" data-anim-duration="0.45">Lángoló haj</div>
-    <div class="chip t1" id="card-04-t1" data-anim="scale-pop" data-anim-at="2.75" data-anim-duration="0.45">Víz alatt</div>
-    <div class="chip t2" id="card-04-t2" data-anim="scale-pop" data-anim-at="5.25" data-anim-duration="0.45">Napsütötte tengerpart</div>
+    <div class="chip t0" id="card-03-t0" data-anim="scale-pop" data-anim-at="0.6" data-anim-duration="0.45">Lángoló haj</div>
+    <div class="chip t1" id="card-03-t1" data-anim="scale-pop" data-anim-at="2.75" data-anim-duration="0.45">Víz alatt</div>
   </div>
 </div>
-<i id="card-04-t0x" data-anim="fade-out" data-anim-at="2.45" data-anim-duration="0.25" data-anim-target="card-04-t0"></i>
-<i id="card-04-t1x" data-anim="fade-out" data-anim-at="4.95" data-anim-duration="0.25" data-anim-target="card-04-t1"></i>""",
+<i id="card-03-t0x" data-anim="fade-out" data-anim-at="2.45" data-anim-duration="0.25" data-anim-target="card-03-t0"></i>""",
      "full")
-
-# 5b — No filming needed (split) ────────────────────────────────────────────
-card("card-05", 40.85, 44.45, "side-panel",
-     "And you never have to leave home — or even say a word",
-     {"statement": ["Nem kell kimozdulnod otthonról", "Meg se kell szólalnod"]},
-     COMMON_SPLIT_CSS + """
-S .big { margin-top:40px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
-  text-transform:uppercase; font-size:118px; line-height:.95; color:#fff; text-shadow:0 0 34px rgba(149,112,255,.8); }
-S .big2 { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style:italic; font-weight:800;
-  text-transform:uppercase; font-size:76px; line-height:1; color:#fff; background:#DF0EC4; display:inline-block;
-  padding:16px 30px 10px; border-radius:18px; box-shadow:0 0 36px rgba(223,14,196,.75); }
-""",
-     f"""<div class="big" id="card-05-big" data-anim="kinetic-chars" data-anim-at="0.15" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("Nem kell")}<br>{chars("kimozdulnod")}<br>{chars("otthonról")}</div>
-<div class="big2" id="card-05-big2" data-anim="scale-pop" data-anim-at="2.3" data-anim-duration="0.45">…meg se kell szólalnod</div>""",
-     "split")
 
 # 6 — Just type the script (split) ───────────────────────────────────────────
 PROMPT = "Szia! Ma megmutatom, hogyan készül egy AI-avatár videó…"
-card("card-06", 44.55, 51.95, "side-panel",
+card("card-04", 44.7, 51.95, "side-panel",
      "Just type what it should say — the AI says it in your voice with your movements",
      {"kicker": "Csak beírod", "prompt": PROMPT, "outputs": ["Saját hang", "Saját mozgás"]},
      COMMON_SPLIT_CSS + """
@@ -265,20 +222,20 @@ S .out { font-family:'Barlow Condensed', sans-serif; font-style:italic; font-wei
 S .o0 { background:#5E44E4; box-shadow:0 0 26px rgba(94,68,228,.85); }
 S .o1 { background:#C44DB8; box-shadow:0 0 26px rgba(196,77,184,.85); }
 """,
-     f"""<div class="kicker" id="card-06-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Csak beírod</div>
-<div class="box" id="card-06-box" data-anim="fade-in" data-anim-at="0.3" data-anim-duration="0.4">
+     f"""<div class="kicker" id="card-04-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Csak beírod</div>
+<div class="box" id="card-04-box" data-anim="fade-in" data-anim-at="0.3" data-anim-duration="0.4">
   <div class="lbl">Mit mondjon az avatár?</div>
-  <div class="typed" id="card-06-typed" data-anim="typewriter" data-anim-at="0.6" data-anim-duration="0.12" data-anim-stagger="0.035">{chars(PROMPT)}<span class="cursor"></span></div>
+  <div class="typed" id="card-04-typed" data-anim="typewriter" data-anim-at="0.6" data-anim-duration="0.12" data-anim-stagger="0.035">{chars(PROMPT)}<span class="cursor"></span></div>
 </div>
 <div class="row">
-  <div class="arrow" id="card-06-arrow" data-anim="slide-in" data-anim-at="2.85" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="40">→</div>
-  <div class="out o0" id="card-06-o0" data-anim="scale-pop" data-anim-at="3.0" data-anim-duration="0.45">Saját hang</div>
-  <div class="out o1" id="card-06-o1" data-anim="scale-pop" data-anim-at="3.7" data-anim-duration="0.45">Saját mozgás</div>
+  <div class="arrow" id="card-04-arrow" data-anim="slide-in" data-anim-at="2.85" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="40">→</div>
+  <div class="out o0" id="card-04-o0" data-anim="scale-pop" data-anim-at="3.0" data-anim-duration="0.45">Saját hang</div>
+  <div class="out o1" id="card-04-o1" data-anim="scale-pop" data-anim-at="3.7" data-anim-duration="0.45">Saját mozgás</div>
 </div>""",
      "split")
 
 # 7 — CTA (overlay) ──────────────────────────────────────────────────────────
-card("card-07", 52.05, 60.2, "video-overlay",
+card("card-05", 52.05, 60.2, "video-overlay",
      "CTA: follow us and watch the HeyGen avatar-generation video series",
      {"kicker": "Videósorozat", "title": "HeyGen avatár-generálás lépésről lépésre", "cta": "Kövess minket"},
      COMMON_OVERLAY_CSS + """
@@ -290,13 +247,13 @@ S .plus { font-size:70px; line-height:1; }
 """,
      f"""<div class="scrim"></div>
 <div class="top">
-  <div class="kicker" id="card-07-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Részletesen · videósorozat</div>
-  <h1 class="title" id="card-07-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("HeyGen avatár-")}<br>{chars("generálás")}<br>{chars("lépésről lépésre")}</h1>
-  <div class="cta" id="card-07-cta" data-anim="scale-pop" data-anim-at="4.05" data-anim-duration="0.5"><span class="plus">+</span>Kövess minket</div>
+  <div class="kicker" id="card-05-kicker" data-anim="slide-in" data-anim-at="0.1" data-anim-duration="0.4" data-anim-from="left" data-anim-distance="60">Részletesen · videósorozat</div>
+  <h1 class="title" id="card-05-title" data-anim="kinetic-chars" data-anim-at="0.3" data-anim-duration="0.45" data-anim-stagger="0.02">{chars("HeyGen avatár-")}<br>{chars("generálás")}<br>{chars("lépésről lépésre")}</h1>
+  <div class="cta" id="card-05-cta" data-anim="scale-pop" data-anim-at="4.05" data-anim-duration="0.5"><span class="plus">+</span>Kövess minket</div>
 </div>""", "full")
 
 # 8 — Outro (fullscreen) ─────────────────────────────────────────────────────
-card("card-08", 60.3, DURATION, "fullscreen",
+card("card-06", 60.3, None, "fullscreen",
      "Neutral brand outro: Amazing AI logo + tagline",
      {"logo": "Amazing AI", "tagline": "AI-avatárok · videók · automatizáció"},
      """
@@ -309,9 +266,9 @@ S .tag { margin-top:46px; font-family:'Barlow Condensed', sans-serif; font-style
 S .line { margin-top:30px; height:6px; width:0; border-radius:3px; background:linear-gradient(90deg,#5E44E4,#DF0EC4);
   box-shadow:0 0 22px rgba(223,14,196,.8); }
 """,
-     """<img class="logo" id="card-08-logo" src="img/amazing_logo.png" alt="Amazing AI" data-anim="scale-pop" data-anim-at="0.25" data-anim-duration="0.6">
-<div class="line" id="card-08-line" data-anim="grow-x" data-anim-at="0.8" data-anim-duration="0.6" data-anim-target-w="560"></div>
-<div class="tag" id="card-08-tag" data-anim="fade-in" data-anim-at="1.0" data-anim-duration="0.5">Kövess minket a további videókért</div>""",
+     """<img class="logo" id="card-06-logo" src="img/amazing_logo.png" alt="Amazing AI" data-anim="scale-pop" data-anim-at="0.25" data-anim-duration="0.6">
+<div class="line" id="card-06-line" data-anim="grow-x" data-anim-at="0.8" data-anim-duration="0.6" data-anim-target-w="560"></div>
+<div class="tag" id="card-06-tag" data-anim="fade-in" data-anim-at="1.0" data-anim-duration="0.5">Kövess minket a további videókért</div>""",
      "hidden")
 
 
@@ -372,7 +329,8 @@ def compile_anims(c):
 
 
 # ── Captions (word-level, Hungarian) ────────────────────────────────────────
-words = json.loads((ROOT / "transcript.json").read_text())
+words = [dict(w, start=remap(w["start"]), end=remap(w["end"]))
+         for w in json.loads((ROOT / "transcript.json").read_text()) if not in_cut(w["start"])]
 chunks, cur = [], []
 for i, wd in enumerate(words):
     cur.append(wd)
@@ -439,36 +397,17 @@ for c in CARDS:
         js.append(f"tl.to('#video-wrap',{{scale:0.86,opacity:0,duration:0.6,ease:'power2.in'}},{t});")
     prev = f
 
-# ── FX: flaming hair → underwater → beach (inside the full-bleed card-04) ──────
-# Fire and underwater are cutaways to her HeyGen avatar promo (heygen_promo_cio_.mp4,
-# 5.52–8.82s and 9.0–12.8s, muted, cropped to 9:16 → public/fx-fire.mp4 / fx-water.mp4);
-# her own voice keeps running underneath. The beach is her cut-out (fx-matte.webm,
-# hyperframes remove-background, cleaned by fx/clean_matte.py) over a beach plate.
-FX_SEG_START, FX_SEG_DUR = 33.5, 8.0
-FIRE = (34.3, 36.55)             # "…a hajad lángoló, lehet akár…"
-WATER = (36.55, 38.95)           # "…az egész tested víz alatt, lehetsz akár…"
-BEACH = (39.0, 40.55)            # "…egy napsütötte tengerparton"
-
-FX_INNER_HTML = f"""<img id="fx-beach" src="img/beach.jpg" alt="" style="position:absolute;left:{-FULL['x']}px;top:0;width:{W}px;height:{H}px;object-fit:cover;object-position:34% 50%;opacity:0;">
-<video id="fx-matte" class="clip" src="fx-matte.webm" muted playsinline data-start="{FX_SEG_START}" data-duration="{FX_SEG_DUR}" data-track-index="5" style="position:absolute;left:0;top:0;width:{SRC_W}px;height:{H}px;opacity:0;filter:brightness(1.14) contrast(1.06) saturate(1.12) sepia(.12);"></video>"""
-
-FX_STAGE_HTML = f"""<div id="fx-sun" style="position:absolute;inset:0;opacity:0;mix-blend-mode:screen;background:radial-gradient(60% 34% at 82% 6%, rgba(255,244,214,.95) 0%, rgba(255,214,140,.45) 35%, rgba(255,200,120,0) 70%);"></div>
-<div id="fx-flash" style="position:absolute;inset:0;opacity:0;background:#fff8e6;"></div>"""
+# ── FX: flaming hair → underwater (inside the full-bleed card-03) ─────────────
+# Cutaways to her HeyGen avatar promo (heygen_promo_cio_.mp4, 5.52–8.82s and
+# 9.0–12.8s, muted, cropped to 9:16 → public/fx-fire.mp4 / fx-water.mp4); her
+# own voice keeps running underneath. Times on the uncut timeline, remapped.
+FIRE = (remap(34.3), remap(36.55))     # "…a hajad lángoló, lehet akár…"
+WATER = (remap(36.55), remap(38.28))   # "…az egész tested víz alatt"
 
 FX_JS = f"""
-// ── FX ──
-// avatar cutaways: hard cut in with a small punch-out, quick flash between them
+// ── FX: avatar cutaways, hard cut in with a small punch-out ──
 tl.fromTo('#fx-fire-clip', {{ scale: 1.12 }}, {{ scale: 1, duration: 0.5, ease: 'power3.out' }}, {q(FIRE[0])});
 tl.fromTo('#fx-water-clip', {{ scale: 1.12 }}, {{ scale: 1, duration: 0.5, ease: 'power3.out' }}, {q(WATER[0])});
-// beach: her cut-out over the beach plate, sun flash hides the swap
-tl.fromTo('#fx-flash', {{ opacity: 0 }}, {{ opacity: 0.85, duration: 0.18, ease: 'power2.out' }}, {q(BEACH[0] - 0.18)});
-tl.to('#fx-flash', {{ opacity: 0, duration: 0.4, ease: 'power2.in' }}, {q(BEACH[0] + 0.04)});
-tl.set('#bg-video', {{ opacity: 0 }}, {q(BEACH[0])});
-tl.set(['#fx-beach', '#fx-matte'], {{ opacity: 1 }}, {q(BEACH[0])});
-tl.fromTo('#fx-sun', {{ opacity: 0 }}, {{ opacity: 0.75, duration: 0.4 }}, {q(BEACH[0])});
-tl.fromTo('#fx-beach', {{ scale: 1.08 }}, {{ scale: 1, duration: {round(BEACH[1] - BEACH[0], 3)}, ease: 'none' }}, {q(BEACH[0])});
-tl.set('#bg-video', {{ opacity: 1 }}, {q(BEACH[1])});
-tl.to(['#fx-beach', '#fx-matte', '#fx-sun'], {{ opacity: 0, duration: 0.3, ease: 'power2.in' }}, {q(BEACH[1])});
 """
 
 START_KEY = CARDS[0]["framing"]
@@ -523,9 +462,7 @@ html, body {{ margin:0; padding:0; width:100%; height:100%; overflow:hidden; bac
 <div class="video-wrapper" id="video-wrap">
 <div id="video-inner">
 <video id="bg-video" src="input-video.mp4" playsinline data-has-audio="true" data-start="0" data-duration="{DURATION}" data-track-index="1"></video>
-{FX_INNER_HTML}
 </div>
-{FX_STAGE_HTML}
 </div>
 <div class="fx-cut" id="fx-fire-clip"><video id="fx-fire-video" class="clip" src="fx-fire.mp4" muted playsinline data-start="{q(FIRE[0])}" data-duration="{q(FIRE[1] - FIRE[0])}" data-track-index="6"></video></div>
 <div class="fx-cut" id="fx-water-clip"><video id="fx-water-video" class="clip" src="fx-water.mp4" muted playsinline data-start="{q(WATER[0])}" data-duration="{q(WATER[1] - WATER[0])}" data-track-index="7"></video></div>
