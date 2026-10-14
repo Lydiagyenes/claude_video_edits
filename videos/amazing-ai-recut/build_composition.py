@@ -440,124 +440,26 @@ for c in CARDS:
     prev = f
 
 # ── FX: flaming hair → underwater → beach (inside the full-bleed card-04) ──────
-# fx-matte.webm is her cut-out (hyperframes remove-background) for source
-# 33.5–41.5s, logo blob removed by fx/clean_matte.py, which also writes the
-# per-frame head track the flames follow. Everything is a pure function of
-# timeline time, so seeking renders identically.
+# Fire and underwater are cutaways to her HeyGen avatar promo (heygen_promo_cio_.mp4,
+# 5.52–8.82s and 9.0–12.8s, muted, cropped to 9:16 → public/fx-fire.mp4 / fx-water.mp4);
+# her own voice keeps running underneath. The beach is her cut-out (fx-matte.webm,
+# hyperframes remove-background, cleaned by fx/clean_matte.py) over a beach plate.
 FX_SEG_START, FX_SEG_DUR = 33.5, 8.0
-FIRE = (34.35, 36.35)            # "…a hajad lángoló, lehet akár…"
-WATER = (36.45, 38.8)            # "…az egész tested víz alatt…" (rise, hold, drain)
+FIRE = (34.3, 36.55)             # "…a hajad lángoló, lehet akár…"
+WATER = (36.55, 38.95)           # "…az egész tested víz alatt, lehetsz akár…"
 BEACH = (39.0, 40.55)            # "…egy napsütötte tengerparton"
-HEAD = json.loads((ROOT / "fx" / "head-track.json").read_text())
-SRC_SCALE = H / 1080             # source px → canvas px (full framing, scale 1)
 
 FX_INNER_HTML = f"""<img id="fx-beach" src="img/beach.jpg" alt="" style="position:absolute;left:{-FULL['x']}px;top:0;width:{W}px;height:{H}px;object-fit:cover;object-position:34% 50%;opacity:0;">
 <video id="fx-matte" class="clip" src="fx-matte.webm" muted playsinline data-start="{FX_SEG_START}" data-duration="{FX_SEG_DUR}" data-track-index="5" style="position:absolute;left:0;top:0;width:{SRC_W}px;height:{H}px;opacity:0;filter:brightness(1.14) contrast(1.06) saturate(1.12) sepia(.12);"></video>"""
 
-FX_STAGE_HTML = f"""<canvas id="fx-water-deep" width="{W}" height="{H}" style="position:absolute;inset:0;mix-blend-mode:multiply;"></canvas>
-<canvas id="fx-water-light" width="{W}" height="{H}" style="position:absolute;inset:0;mix-blend-mode:screen;"></canvas>
-<canvas id="fx-fire" width="{W}" height="{H}" style="position:absolute;inset:0;mix-blend-mode:screen;"></canvas>
-<div id="fx-sun" style="position:absolute;inset:0;opacity:0;mix-blend-mode:screen;background:radial-gradient(60% 34% at 82% 6%, rgba(255,244,214,.95) 0%, rgba(255,214,140,.45) 35%, rgba(255,200,120,0) 70%);"></div>
+FX_STAGE_HTML = f"""<div id="fx-sun" style="position:absolute;inset:0;opacity:0;mix-blend-mode:screen;background:radial-gradient(60% 34% at 82% 6%, rgba(255,244,214,.95) 0%, rgba(255,214,140,.45) 35%, rgba(255,200,120,0) 70%);"></div>
 <div id="fx-flash" style="position:absolute;inset:0;opacity:0;background:#fff8e6;"></div>"""
 
 FX_JS = f"""
 // ── FX ──
-const HEAD = {json.dumps(HEAD)};
-const K = {SRC_SCALE}, X0 = {FULL['x']};
-const FIRE = {list(FIRE)}, WATER = {list(WATER)};
-function hash(n) {{ const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v); }}
-function clamp01(v) {{ return v < 0 ? 0 : v > 1 ? 1 : v; }}
-function head(t) {{
-  const i = Math.max(0, Math.min(HEAD.top.length - 1, Math.round((t - HEAD.start) * HEAD.fps)));
-  return {{ x: HEAD.x[i] * K + X0, top: HEAD.top[i] * K, w: HEAD.w[i] * K }};
-}}
-const fireCtx = document.getElementById('fx-fire').getContext('2d');
-function drawFire(t) {{
-  const c = fireCtx; c.clearRect(0, 0, {W}, {H});
-  const env = clamp01((t - FIRE[0]) / 0.35) * clamp01((FIRE[1] - t) / 0.45);
-  if (env <= 0) return;
-  const h = head(t), hw = h.w;
-  c.globalCompositeOperation = 'lighter';
-  const g = c.createRadialGradient(h.x, h.top + hw * 0.25, 0, h.x, h.top + hw * 0.25, hw * 1.5);
-  g.addColorStop(0, 'rgba(255,120,30,' + (0.42 * env) + ')');
-  g.addColorStop(1, 'rgba(255,40,0,0)');
-  c.fillStyle = g; c.fillRect(0, 0, {W}, {H});
-  for (let k = 0; k < 320; k++) {{
-    const u = hash(k) * 2 - 1;
-    const bx = h.x + u * hw * 0.5;
-    const by = h.top + 18 + hw * 0.46 * (1 - Math.sqrt(Math.max(0, 1 - u * u)));
-    const life = 0.42 + hash(k + 7) * 0.45;
-    const age = ((t + hash(k + 3) * life) % life) / life;
-    const rise = (170 + hash(k + 11) * 330) * (1 - 0.35 * Math.abs(u));
-    const x = bx + Math.sin(t * 7 + k) * 16 * age + u * 40 * age;
-    const y = by - rise * age;
-    const r = (30 + hash(k + 5) * 42) * (1 - age * 0.75) * (0.6 + 0.4 * env);
-    const a = (1 - age) * 0.5 * env;
-    const col = age < 0.2 ? '255,236,170' : age < 0.55 ? '255,150,40' : '235,60,15';
-    // tongue-shaped: stretch each soft blob vertically, narrower as it rises
-    c.save(); c.translate(x, y); c.scale(0.7 - age * 0.25, 1.7 + age * 0.8);
-    const gr = c.createRadialGradient(0, 0, 0, 0, 0, r);
-    gr.addColorStop(0, 'rgba(' + col + ',' + a + ')');
-    gr.addColorStop(1, 'rgba(' + col + ',0)');
-    c.fillStyle = gr; c.beginPath(); c.arc(0, 0, r, 0, 6.2832); c.fill(); c.restore();
-  }}
-  for (let k = 0; k < 46; k++) {{          // embers
-    const life = 0.9 + hash(k + 41) * 0.8;
-    const age = ((t + hash(k + 43) * life) % life) / life;
-    const x = h.x + (hash(k + 45) * 2 - 1) * hw * 0.6 + Math.sin(t * 5 + k * 3) * 30 * age;
-    const y = h.top + 30 - (220 + hash(k + 47) * 520) * age;
-    c.fillStyle = 'rgba(255,210,120,' + ((1 - age) * 0.9 * env) + ')';
-    c.beginPath(); c.arc(x, y, 3 + hash(k + 49) * 4, 0, 6.2832); c.fill();
-  }}
-}}
-const deepCtx = document.getElementById('fx-water-deep').getContext('2d');
-const lightCtx = document.getElementById('fx-water-light').getContext('2d');
-function waterLevel(t) {{
-  const rise = clamp01((t - WATER[0]) / 0.7), drain = clamp01((t - (WATER[1] - 0.4)) / 0.4);
-  const up = 1 - Math.pow(1 - rise, 3), down = drain * drain;
-  return {H} + 80 - (up - down) * ({H} + 200);
-}}
-function surface(x, t, L) {{ return L + 22 * Math.sin(x * 0.011 + t * 4.2) + 10 * Math.sin(x * 0.029 - t * 6.3); }}
-function drawWater(t) {{
-  deepCtx.clearRect(0, 0, {W}, {H}); lightCtx.clearRect(0, 0, {W}, {H});
-  if (t < WATER[0] || t > WATER[1]) return;
-  const L = waterLevel(t);
-  if (L >= {H}) return;
-  const path = new Path2D();
-  path.moveTo(0, {H});
-  for (let x = 0; x <= {W}; x += 20) path.lineTo(x, surface(x, t, L));
-  path.lineTo({W}, {H}); path.closePath();
-  const g = deepCtx.createLinearGradient(0, Math.max(0, L), 0, {H});
-  g.addColorStop(0, 'rgb(120,215,255)'); g.addColorStop(0.5, 'rgb(40,140,220)'); g.addColorStop(1, 'rgb(12,60,150)');
-  deepCtx.fillStyle = g; deepCtx.fill(path);
-  const c = lightCtx;
-  c.save(); c.clip(path);
-  c.fillStyle = 'rgba(30,120,200,0.22)'; c.fillRect(0, 0, {W}, {H});
-  for (let k = 0; k < 7; k++) {{           // light shafts from the surface
-    const x = (hash(k + 61) * 1.3 - 0.15) * {W} + Math.sin(t * 0.9 + k) * 60;
-    const gr = c.createLinearGradient(0, L, 0, L + 1300);
-    gr.addColorStop(0, 'rgba(190,240,255,0.28)'); gr.addColorStop(1, 'rgba(190,240,255,0)');
-    c.fillStyle = gr; c.beginPath();
-    c.moveTo(x - 40, L); c.lineTo(x + 50, L); c.lineTo(x + 260, L + 1300); c.lineTo(x + 60, L + 1300); c.closePath(); c.fill();
-  }}
-  for (let k = 0; k < 70; k++) {{          // bubbles
-    const sp = 260 + hash(k + 71) * 420, ph = hash(k + 73) * 2400;
-    const y = {H} + 60 - ((t * sp + ph) % 2400);
-    if (y < L + 20) continue;
-    const x = hash(k + 75) * {W} + Math.sin(t * 3 + k) * 14;
-    const r = 5 + hash(k + 77) * 18;
-    c.strokeStyle = 'rgba(230,250,255,0.75)'; c.lineWidth = 2.5;
-    c.beginPath(); c.arc(x, y, r, 0, 6.2832); c.stroke();
-    c.fillStyle = 'rgba(255,255,255,0.8)'; c.beginPath(); c.arc(x - r * 0.35, y - r * 0.35, r * 0.25, 0, 6.2832); c.fill();
-  }}
-  c.restore();
-  c.strokeStyle = 'rgba(235,252,255,0.9)'; c.lineWidth = 7; c.beginPath();
-  for (let x = 0; x <= {W}; x += 20) {{ const y = surface(x, t, L); x ? c.lineTo(x, y) : c.moveTo(x, y); }}
-  c.stroke();
-}}
-const fxClock = {{ t: {FIRE[0] - 0.1} }};
-tl.fromTo(fxClock, {{ t: {FIRE[0] - 0.1} }}, {{ t: {WATER[1] + 0.1}, duration: {round(WATER[1] - FIRE[0] + 0.2, 4)}, ease: 'none',
-  onUpdate: function () {{ drawFire(fxClock.t); drawWater(fxClock.t); }} }}, {FIRE[0] - 0.1});
+// avatar cutaways: hard cut in with a small punch-out, quick flash between them
+tl.fromTo('#fx-fire-clip', {{ scale: 1.12 }}, {{ scale: 1, duration: 0.5, ease: 'power3.out' }}, {q(FIRE[0])});
+tl.fromTo('#fx-water-clip', {{ scale: 1.12 }}, {{ scale: 1, duration: 0.5, ease: 'power3.out' }}, {q(WATER[0])});
 // beach: her cut-out over the beach plate, sun flash hides the swap
 tl.fromTo('#fx-flash', {{ opacity: 0 }}, {{ opacity: 0.85, duration: 0.18, ease: 'power2.out' }}, {q(BEACH[0] - 0.18)});
 tl.to('#fx-flash', {{ opacity: 0, duration: 0.4, ease: 'power2.in' }}, {q(BEACH[0] + 0.04)});
@@ -603,6 +505,8 @@ html, body {{ margin:0; padding:0; width:100%; height:100%; overflow:hidden; bac
 #video-inner {{ position:absolute; left:0; top:0; width:{SRC_W}px; height:{H}px; transform-origin:0 0; }}
 #video-inner video {{ width:100%; height:100%; display:block; }}
 .card-host {{ position:absolute; pointer-events:none; overflow:hidden; z-index:2; }}
+.fx-cut {{ position:absolute; left:0; top:0; width:{W}px; height:{H}px; overflow:hidden; z-index:1; pointer-events:none; }}
+.fx-cut video {{ width:100%; height:100%; object-fit:cover; display:block; }}
 #avatar-video {{ position:absolute; left:0; top:0; width:{W}px; height:960px; object-fit:cover; object-position:50% 30%; z-index:1; }}
 .card-host .card {{ position:relative; width:100%; height:100%; overflow:hidden; }}
 #captions {{ z-index:3; position:absolute; left:40px; right:40px; top:{CAP_TOP['full']}px; height:160px; pointer-events:none; }}
@@ -623,6 +527,8 @@ html, body {{ margin:0; padding:0; width:100%; height:100%; overflow:hidden; bac
 </div>
 {FX_STAGE_HTML}
 </div>
+<div class="fx-cut" id="fx-fire-clip"><video id="fx-fire-video" class="clip" src="fx-fire.mp4" muted playsinline data-start="{q(FIRE[0])}" data-duration="{q(FIRE[1] - FIRE[0])}" data-track-index="6"></video></div>
+<div class="fx-cut" id="fx-water-clip"><video id="fx-water-video" class="clip" src="fx-water.mp4" muted playsinline data-start="{q(WATER[0])}" data-duration="{q(WATER[1] - WATER[0])}" data-track-index="7"></video></div>
 <video id="avatar-video" class="clip" src="avatar-intro.mp4" muted playsinline data-start="0" data-duration="{q(AVATAR_END)}" data-track-index="4"></video>
 {chr(10).join(host_html)}
 <div id="captions">
