@@ -7,3 +7,5 @@ studio/.hyperframes/
 public/presenter.webm
 public/*.mp4
 public/*.wav
+.output.hf-transaction-*/
+work-*/
