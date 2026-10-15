@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+FEFF,U+FFFD; }
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-ext-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0100-02AF,U+1E00-1E9F; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0000-00FF,U+2000-206F; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-ext-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0100-02AF; }
+:root { --ink:#0d0b1e; --yellow:#dfff84; --lilac:#9570ff; --violet:#5e44e4; --white:#ffffff; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1920px; height:1080px; overflow:hidden; background:var(--ink); }
+#root { position:relative; width:1920px; height:1080px; overflow:hidden; font-family:"Archivo","Inter",sans-serif; }
+#studio { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+#sweep { position:absolute; top:60px; height:760px; left:90px; width:260px; opacity:.0;
+  background:linear-gradient(100deg, rgba(201,182,255,0), rgba(201,182,255,.22), rgba(201,182,255,0)); filter:blur(8px); }
+.presenter { position:absolute; left:0; top:0; width:1920px; height:1080px; object-fit:cover;
+  filter: drop-shadow(0 0 18px rgba(149,112,255,.38)); }
+#intro { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; z-index:20; }
+#flash { position:absolute; inset:0; z-index:21; opacity:0; background:radial-gradient(60% 60% at 50% 50%, #ffffff, rgba(149,112,255,.9) 60%, rgba(13,11,30,.9)); pointer-events:none; }
+
+/* show bug */
+#bug { position:absolute; left:64px; top:52px; z-index:6; display:flex; align-items:center; gap:14px; }
+#bug .b1 { font-stretch:125%; font-weight:800; font-size:34px; color:#fff; letter-spacing:.02em; text-shadow:0 0 16px rgba(149,112,255,.6); }
+#bug .b1 b { color:var(--yellow); font-weight:800; }
+#bug .b2 { font-stretch:115%; font-weight:600; font-size:13px; letter-spacing:.42em; color:#fff; background:var(--lilac); padding:6px 8px 6px 14px; border-radius:3px; }
+
+/* lower third */
+.lt-wrap { position:absolute; inset:0; z-index:5; pointer-events:none; }
+.lt { position:absolute; left:64px; bottom:70px; max-width:1340px; }
+.lt-kicker { display:inline-block; transform-origin:left center; background:var(--yellow); color:var(--ink);
+  font-stretch:115%; font-weight:800; font-size:22px; letter-spacing:.14em; text-transform:uppercase; padding:9px 18px 8px; border-radius:3px 3px 0 0; }
+.lt-title { background:rgba(13,11,30,.86); border-left:8px solid var(--lilac); color:#fff; font-stretch:108%; font-weight:750;
+  font-size:44px; line-height:1.12; padding:16px 30px 18px 24px; box-shadow:0 10px 40px rgba(0,0,0,.45), 0 0 30px rgba(149,112,255,.25); }
+.lt-line { height:5px; background:linear-gradient(90deg, var(--lilac), rgba(149,112,255,0)); transform-origin:left center; }
+
+/* info card */
+.card-wrap { position:absolute; inset:0; z-index:4; pointer-events:none; }
+.card { position:absolute; right:60px; top:300px; width:400px; background:rgba(13,11,30,.82);
+  border:2px solid rgba(149,112,255,.55); border-radius:16px; padding:22px 26px 24px; box-shadow:0 0 40px rgba(149,112,255,.3); }
+.card-tag { font-stretch:115%; font-weight:700; font-size:15px; letter-spacing:.32em; text-transform:uppercase; color:var(--lilac); }
+.card-big { margin-top:10px; font-stretch:118%; font-weight:800; font-size:44px; line-height:1.02; color:var(--yellow); text-shadow:0 0 18px rgba(223,255,132,.35); }
+.card-small { margin-top:12px; font-family:"Inter",sans-serif; font-weight:600; font-size:21px; line-height:1.35; color:#e9e2ff; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="ai-hirado-01" data-start="0" data-duration="255.5" data-fps="30" data-width="1920" data-height="1080">
+<img id="studio" src="img/studio.png" alt="" />
+<div id="sweep"></div>
+<video id="pres-0" class="clip presenter" src="presenter.webm" muted playsinline data-start="0.0" data-duration="17.0333" data-media-start="4.9" data-track-index="1"></video>
+<video id="pres-2" class="clip presenter" src="presenter.webm" muted playsinline data-start="22.5333" data-duration="69.1333" data-media-start="22.25" data-track-index="1"></video>
+<video id="pres-3" class="clip presenter" src="presenter.webm" muted playsinline data-start="91.7" data-duration="4.7333" data-media-start="93.0" data-track-index="1"></video>
+<video id="pres-4" class="clip presenter" src="presenter.webm" muted playsinline data-start="96.4667" data-duration="57.4667" data-media-start="98.95" data-track-index="1"></video>
+<video id="pres-5" class="clip presenter" src="presenter.webm" muted playsinline data-start="153.9" data-duration="4.2" data-media-start="156.6" data-track-index="1"></video>
+<video id="pres-6" class="clip presenter" src="presenter.webm" muted playsinline data-start="158.1" data-duration="97.4" data-media-start="162.35" data-track-index="1"></video>
+<div id="card-0" class="clip card-wrap" data-start="26.3" data-duration="7.5" data-track-index="3"><div class="card"><div class="card-tag">Kulcsadat</div><div class="card-big">EU AI Act</div><div class="card-small">Első éles érvényesítés · célpont: OpenAI és Anthropic</div></div></div>
+<div id="card-1" class="clip card-wrap" data-start="64.5" data-duration="7.5" data-track-index="3"><div class="card"><div class="card-tag">Kulcsadat</div><div class="card-big">8 állam</div><div class="card-small">Kétpárti per az OpenAI ellen · bírság és kártérítés</div></div></div>
+<div id="card-2" class="clip card-wrap" data-start="97.1" data-duration="7.5" data-track-index="3"><div class="card"><div class="card-tag">Kulcsadat</div><div class="card-big">Claude Haiku 4.5</div><div class="card-small">Tesztelés közben beküldött rendőrségi űrlap</div></div></div>
+<div id="card-3" class="clip card-wrap" data-start="131.9" data-duration="7.5" data-track-index="3"><div class="card"><div class="card-tag">Kulcsadat</div><div class="card-big">Muse Wonder</div><div class="card-small">A Meta új csúcsmodellje az OpenAI és az Anthropic ellen</div></div></div>
+<div id="card-4" class="clip card-wrap" data-start="159.0667" data-duration="7.5" data-track-index="3"><div class="card"><div class="card-tag">Kulcsadat</div><div class="card-big">Gemini 4 Argon</div><div class="card-small">Google AI Pro és Ultra · 40+ app integráció</div></div></div>
+<div id="card-5" class="clip card-wrap" data-start="194.7667" data-duration="7.5" data-track-index="3"><div class="card"><div class="card-tag">Kulcsadat</div><div class="card-big">20 millió $</div><div class="card-small">A Disney ajánlata a Character.AI licenceiért</div></div></div>
+<div id="card-6" class="clip card-wrap" data-start="223.7667" data-duration="7.5" data-track-index="3"><div class="card"><div class="card-tag">Kulcsadat</div><div class="card-big">&lt; 30 Mrd paraméter</div><div class="card-small">Kis modellek önmásolása — hónapokon belül?</div></div></div>
+<div id="lt-0" class="clip lt-wrap" data-start="0.2667" data-duration="5.6333" data-track-index="4"><div class="lt"><div class="lt-kicker">Az adásban</div><div class="lt-title">Mi történik, ha egy AI‑ügynök kiszabadul?</div><div class="lt-line"></div></div></div>
+<div id="lt-1" class="clip lt-wrap" data-start="5.9" data-duration="4.7667" data-track-index="4"><div class="lt"><div class="lt-kicker">Az adásban</div><div class="lt-title">Lépnek a hatóságok: Brüsszel és 8 amerikai állam</div><div class="lt-line"></div></div></div>
+<div id="lt-2" class="clip lt-wrap" data-start="10.6667" data-duration="3.1666" data-track-index="4"><div class="lt"><div class="lt-kicker">Az adásban</div><div class="lt-title">Új csúcsmodell a Google‑től és a Metától</div><div class="lt-line"></div></div></div>
+<div id="lt-3" class="clip lt-wrap" data-start="13.8333" data-duration="3.2" data-track-index="4"><div class="lt"><div class="lt-kicker">AI hírek</div><div class="lt-title">A hét legfontosabb technológiai eseményei</div><div class="lt-line"></div></div></div>
+<div id="lt-4" class="clip lt-wrap" data-start="22.6667" data-duration="39.0666" data-track-index="4"><div class="lt"><div class="lt-kicker">1 / 7</div><div class="lt-title">Brüsszel először lép az AI Act alapján</div><div class="lt-line"></div></div></div>
+<div id="lt-5" class="clip lt-wrap" data-start="61.7333" data-duration="30.4667" data-track-index="4"><div class="lt"><div class="lt-kicker">2 / 7</div><div class="lt-title">Nyolc amerikai állam pereli az OpenAI‑t</div><div class="lt-line"></div></div></div>
+<div id="lt-6" class="clip lt-wrap" data-start="92.2" data-duration="35.8" data-track-index="4"><div class="lt"><div class="lt-kicker">3 / 7</div><div class="lt-title">A Claude hamis gyilkossági tippet küldött a rendőrségnek</div><div class="lt-line"></div></div></div>
+<div id="lt-7" class="clip lt-wrap" data-start="128.0" data-duration="26.3667" data-track-index="4"><div class="lt"><div class="lt-kicker">4 / 7</div><div class="lt-title">A Meta beszállt a csúcsligába: itt a Muse Wonder</div><div class="lt-line"></div></div></div>
+<div id="lt-8" class="clip lt-wrap" data-start="154.3667" data-duration="31.9333" data-track-index="4"><div class="lt"><div class="lt-kicker">5 / 7</div><div class="lt-title">Gemini 4 Argon: élesben a Google új csúcsmodellje</div><div class="lt-line"></div></div></div>
+<div id="lt-9" class="clip lt-wrap" data-start="186.3" data-duration="32.0667" data-track-index="4"><div class="lt"><div class="lt-kicker">6 / 7</div><div class="lt-title">Csődbe ment a Character.AI, a Disney licitál</div><div class="lt-line"></div></div></div>
+<div id="lt-10" class="clip lt-wrap" data-start="218.3667" data-duration="27.2" data-track-index="4"><div class="lt"><div class="lt-kicker">7 / 7</div><div class="lt-title">Anthropic: hónapokon belül jöhetnek az önmagukat másoló MI‑k</div><div class="lt-line"></div></div></div>
+<div id="lt-11" class="clip lt-wrap" data-start="245.5667" data-duration="9.9333" data-track-index="4"><div class="lt"><div class="lt-kicker">Kövess minket</div><div class="lt-title">Iratkozz fel, hogy ne maradj le a legfrissebb AI‑hírekről</div><div class="lt-line"></div></div></div>
+<div id="bug" class="clip" data-start="0" data-duration="255.5" data-track-index="6"><div class="b1"><b>AI</b> HÍREK</div><div class="b2">A NAGYVILÁGBÓL</div></div>
+<video id="intro" class="clip" src="intro.mp4" muted playsinline data-start="17.0333" data-duration="5.5" data-track-index="7"></video>
+<div id="flash"></div>
+<audio id="mix" src="mix.wav" data-start="0" data-duration="255.5" data-track-index="10"></audio>
+</div>
+<script>
+(function () {
+const tl = gsap.timeline({ paused: true });
+// slow light sweep across the LED wall (finite repeats)
+tl.fromTo('#sweep', { x: 0, opacity: 0 }, { x: 1480, opacity: 1, duration: 9, ease: 'sine.inOut', repeat: 27, yoyo: true }, 0);
+// intro: flash in / flash out
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.18, ease: 'power2.out' }, 16.8667);
+tl.to('#flash', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 17.0667);
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.15, ease: 'power2.out' }, 22.4);
+tl.to('#flash', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 22.5667);
+tl.fromTo('#lt-0 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},0.2667);
+tl.fromTo('#lt-0 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},0.3667);
+tl.fromTo('#lt-0 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},0.4333);
+tl.fromTo('#lt-0 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},0.5667);
+tl.to('#lt-0 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},5.6667);
+tl.fromTo('#lt-1 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},5.9);
+tl.fromTo('#lt-1 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},6.0);
+tl.fromTo('#lt-1 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},6.0667);
+tl.fromTo('#lt-1 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},6.2);
+tl.to('#lt-1 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},10.4333);
+tl.fromTo('#lt-2 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},10.6667);
+tl.fromTo('#lt-2 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},10.7667);
+tl.fromTo('#lt-2 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},10.8333);
+tl.fromTo('#lt-2 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},10.9667);
+tl.to('#lt-2 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},13.5667);
+tl.fromTo('#lt-3 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},13.8333);
+tl.fromTo('#lt-3 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},13.9333);
+tl.fromTo('#lt-3 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},14.0);
+tl.fromTo('#lt-3 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},14.1333);
+tl.fromTo('#lt-4 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},22.6667);
+tl.fromTo('#lt-4 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},22.7667);
+tl.fromTo('#lt-4 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},22.8333);
+tl.fromTo('#lt-4 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},22.9667);
+tl.to('#lt-4 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},61.4667);
+tl.fromTo('#lt-5 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},61.7333);
+tl.fromTo('#lt-5 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},61.8333);
+tl.fromTo('#lt-5 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},61.9);
+tl.fromTo('#lt-5 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},62.0333);
+tl.to('#lt-5 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},91.9333);
+tl.fromTo('#lt-6 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},92.2);
+tl.fromTo('#lt-6 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},92.3);
+tl.fromTo('#lt-6 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},92.3667);
+tl.fromTo('#lt-6 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},92.5);
+tl.to('#lt-6 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},127.7333);
+tl.fromTo('#lt-7 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},128.0);
+tl.fromTo('#lt-7 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},128.1);
+tl.fromTo('#lt-7 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},128.1667);
+tl.fromTo('#lt-7 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},128.3);
+tl.to('#lt-7 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},154.1333);
+tl.fromTo('#lt-8 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},154.3667);
+tl.fromTo('#lt-8 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},154.4667);
+tl.fromTo('#lt-8 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},154.5333);
+tl.fromTo('#lt-8 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},154.6667);
+tl.to('#lt-8 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},186.0667);
+tl.fromTo('#lt-9 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},186.3);
+tl.fromTo('#lt-9 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},186.4);
+tl.fromTo('#lt-9 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},186.4667);
+tl.fromTo('#lt-9 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},186.6);
+tl.to('#lt-9 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},218.1333);
+tl.fromTo('#lt-10 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},218.3667);
+tl.fromTo('#lt-10 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},218.4667);
+tl.fromTo('#lt-10 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},218.5333);
+tl.fromTo('#lt-10 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},218.6667);
+tl.to('#lt-10 > .lt',{autoAlpha:0,x:-30,duration:0.25,ease:'power2.in'},245.3333);
+tl.fromTo('#lt-11 > .lt',{autoAlpha:0,x:-60},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},245.5667);
+tl.fromTo('#lt-11 > .lt .lt-kicker',{scaleX:0},{scaleX:1,duration:0.35,ease:'expo.out'},245.6667);
+tl.fromTo('#lt-11 > .lt .lt-title',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.55,ease:'power3.inOut'},245.7333);
+tl.fromTo('#lt-11 > .lt .lt-line',{scaleX:0},{scaleX:1,duration:0.7,ease:'expo.out'},245.8667);
+tl.fromTo('#card-0 > .card',{autoAlpha:0,x:50},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out'},26.3);
+tl.fromTo('#card-0 .card-big',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},26.5);
+tl.to('#card-0 > .card',{autoAlpha:0,x:30,duration:0.35,ease:'power2.in'},33.4333);
+tl.fromTo('#card-1 > .card',{autoAlpha:0,x:50},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out'},64.5);
+tl.fromTo('#card-1 .card-big',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},64.7);
+tl.to('#card-1 > .card',{autoAlpha:0,x:30,duration:0.35,ease:'power2.in'},71.6667);
+tl.fromTo('#card-2 > .card',{autoAlpha:0,x:50},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out'},97.1);
+tl.fromTo('#card-2 .card-big',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},97.3);
+tl.to('#card-2 > .card',{autoAlpha:0,x:30,duration:0.35,ease:'power2.in'},104.2667);
+tl.fromTo('#card-3 > .card',{autoAlpha:0,x:50},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out'},131.9);
+tl.fromTo('#card-3 .card-big',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},132.1);
+tl.to('#card-3 > .card',{autoAlpha:0,x:30,duration:0.35,ease:'power2.in'},139.0667);
+tl.fromTo('#card-4 > .card',{autoAlpha:0,x:50},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out'},159.0667);
+tl.fromTo('#card-4 .card-big',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},159.2667);
+tl.to('#card-4 > .card',{autoAlpha:0,x:30,duration:0.35,ease:'power2.in'},166.2333);
+tl.fromTo('#card-5 > .card',{autoAlpha:0,x:50},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out'},194.7667);
+tl.fromTo('#card-5 .card-big',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},194.9667);
+tl.to('#card-5 > .card',{autoAlpha:0,x:30,duration:0.35,ease:'power2.in'},201.9333);
+tl.fromTo('#card-6 > .card',{autoAlpha:0,x:50},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out'},223.7667);
+tl.fromTo('#card-6 .card-big',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},223.9667);
+tl.to('#card-6 > .card',{autoAlpha:0,x:30,duration:0.35,ease:'power2.in'},230.9333);
+window.__timelines = window.__timelines || {};
+window.__timelines["ai-hirado-01"] = tl;
+tl.seek(0);
+})();
+</script>
+</body>
+</html>
