@@ -1,0 +1,6 @@
+src/
+work/
+snaps/
+.hyperframes/
+node_modules/
+studio/.hyperframes/
