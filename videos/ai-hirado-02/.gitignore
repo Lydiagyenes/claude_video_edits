@@ -1,0 +1,9 @@
+src/
+work/
+.hyperframes/
+node_modules/
+public/source.mp4
+public/*.mp4
+.output.hf-transaction-*/
+work-*/
+__pycache__/
