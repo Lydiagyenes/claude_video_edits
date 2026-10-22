@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2190-22FF,U+FEFF,U+FFFD; }
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-ext-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0100-02AF,U+1E00-1E9F; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0000-00FF,U+2000-206F,U+2190-22FF; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-ext-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0100-02AF; }
+:root { --ink:#0d0b1e; --violet:#5e44e4; --lilac:#9570ff; --magenta:#df0ec4; --white:#ffffff; --soft:#e4dcff; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1920px; height:1080px; overflow:hidden; background:#000; }
+#root { position:relative; width:1920px; height:1080px; overflow:hidden; font-family:"Inter","Archivo",sans-serif; }
+#main { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+
+/* subtitles */
+.subw { position:absolute; inset:0; z-index:6; pointer-events:none; }
+.sub { position:absolute; left:50%; bottom:44px; transform:translateX(-50%); max-width:1240px; width:max-content;
+  text-align:center; font-family:"Inter",sans-serif; font-weight:600; font-size:40px; line-height:1.3; color:#fff;
+  background:rgba(13,11,30,.72); padding:10px 26px 12px; border-radius:12px; border-bottom:3px solid var(--lilac);
+  text-shadow:0 2px 8px rgba(0,0,0,.6); }
+
+/* graphic card */
+.gw { position:absolute; inset:0; z-index:4; pointer-events:none; }
+.gcard { position:absolute; right:44px; top:70px; width:480px; min-height:660px; padding:26px 28px 22px;
+  background:linear-gradient(160deg, rgba(30,20,78,.92), rgba(13,11,30,.94)); border:2px solid rgba(149,112,255,.65);
+  border-radius:20px; box-shadow:0 18px 60px rgba(0,0,0,.5), 0 0 40px rgba(149,112,255,.35); color:#fff;
+  display:flex; flex-direction:column; }
+.kick { font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase;
+  color:#fff; background:var(--violet); align-self:flex-start; padding:7px 12px 6px; border-radius:4px; }
+.phases { position:relative; flex:1; margin-top:16px; }
+.phase { position:absolute; inset:0; }
+.ptitle { font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:30px; line-height:1.1; color:var(--soft); margin-bottom:18px; }
+.big { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:58px; line-height:1; color:#fff; margin-top:8px; white-space:nowrap;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+.note { font-size:20px; line-height:1.35; color:#cfc4ff; margin-top:8px; }
+.sub2 { font-family:"Archivo"; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase; color:var(--lilac); margin:18px 0 8px; }
+.row { display:flex; align-items:center; gap:12px; margin:12px 0; }
+.rl { width:96px; font-size:19px; color:#d9d0ff; }
+.track { flex:1; height:30px; background:rgba(149,112,255,.14); border-radius:6px; overflow:hidden; }
+.fill { height:100%; border-radius:6px; transform-origin:left center; }
+.rv { width:136px; text-align:right; white-space:nowrap; font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:22px; }
+.lil { background:var(--lilac); } .mag { background:linear-gradient(90deg,var(--violet),var(--magenta)); } .vio { background:var(--violet); }
+.stack { display:flex; height:34px; border-radius:6px; overflow:hidden; margin:18px 0 12px; gap:3px; }
+.seg { height:100%; transform-origin:left center; }
+.legend { display:flex; align-items:center; font-size:20px; color:#e4dcff; margin:8px 0; }
+.dot { width:16px; height:16px; border-radius:4px; margin-right:10px; flex:none; }
+.duo { display:flex; gap:12px; }
+.pill { font-family:"Archivo"; font-weight:800; font-size:22px; padding:8px 16px; border-radius:999px; border:2px solid var(--lilac); }
+.list { list-style:none; margin-top:8px; }
+.li { display:flex; align-items:flex-start; gap:12px; font-size:20px; line-height:1.28; margin:8px 0; color:#f1edff; }
+.mark { flex:none; width:24px; height:24px; border-radius:50%; margin-top:2px; position:relative; }
+.ok .mark { background:var(--lilac); }
+.ok .mark::after { content:""; position:absolute; left:8px; top:4px; width:6px; height:11px; border:solid #fff; border-width:0 3px 3px 0; transform:rotate(45deg); }
+.no .mark { background:var(--magenta); }
+.no .mark::before, .no .mark::after { content:""; position:absolute; left:11px; top:5px; width:3px; height:14px; background:#fff; border-radius:2px; }
+.no .mark::before { transform:rotate(45deg); } .no .mark::after { transform:rotate(-45deg); }
+.warn .mark { background:transparent; border:2px solid var(--magenta); }
+.warn .mark::after { content:""; position:absolute; left:9px; top:3px; width:3px; height:10px; background:var(--magenta); box-shadow:0 13px 0 -0.5px var(--magenta); border-radius:2px; }
+.donut-wrap { position:relative; width:230px; height:230px; margin:0 auto 6px; }
+.donut { width:230px; height:230px; }
+.ring { fill:none; stroke:rgba(149,112,255,.15); stroke-width:30; }
+.arc { fill:none; stroke-width:30; }
+.arc.mag { stroke:var(--magenta); background:none; } .arc.lil { stroke:var(--lilac); background:none; } .arc.vio { stroke:var(--violet); background:none; }
+.donut-c { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.donut-c b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:60px; line-height:1; }
+.donut-c span { font-size:18px; color:#cfc4ff; }
+.range { position:relative; height:70px; margin-top:26px; }
+.rtrack { position:absolute; left:0; right:0; top:10px; height:14px; border-radius:7px; background:rgba(149,112,255,.18); }
+.rband { position:absolute; left:50%; width:33.3%; top:6px; height:22px; border-radius:6px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--violet),var(--magenta)); box-shadow:0 0 18px rgba(223,14,196,.5); }
+.rtick { position:absolute; top:38px; transform:translateX(-50%); font-size:16px; color:#cfc4ff; }
+.lock { position:relative; width:76px; height:86px; margin:0 0 6px 4px; }
+.lock .shackle { position:absolute; left:14px; top:0; width:48px; height:48px; border:9px solid var(--lilac); border-bottom:none; border-radius:26px 26px 0 0; }
+.lock .body { position:absolute; left:0; bottom:0; width:76px; height:52px; border-radius:10px; background:linear-gradient(135deg,var(--violet),var(--magenta)); }
+.lock .kh { position:absolute; left:33px; top:16px; width:10px; height:18px; border-radius:5px; background:#fff; }
+.src { margin-top:12px; font-size:13.5px; line-height:1.35; color:#a99bd9; border-top:1px solid rgba(149,112,255,.3); padding-top:10px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="ai-hirado-1022" data-start="0" data-duration="287.4333" data-fps="30" data-width="1920" data-height="1080">
+<video id="main" src="source.mp4" playsinline data-has-audio="true" data-start="0" data-duration="287.4333" data-track-index="1"></video>
+<div id="g1" class="clip gw" data-start="26.0" data-duration="21.6" data-track-index="3"><div class="gcard"><div class="kick">Anthropic · tőzsdei tervezet</div><div class="phases"><div class="phase" id="g1-p0"><div class="ptitle">Bevétel, első félév</div><div class="row"><div class="rl">2025 I.</div><div class="track"><div class="fill lil" id="" data-w="6.7"></div></div><div class="rv">1,1 Mrd $</div></div><div class="row"><div class="rl">2026 I.</div><div class="track"><div class="fill mag" id="" data-w="100"></div></div><div class="rv">16,3 Mrd $</div></div><div class="big">~15×</div><div class="note">növekedés egy év alatt</div></div><div class="phase" id="g1-p1"><div class="ptitle">Nettó veszteség, 2026 I. félév</div><div class="big">80,7 Mrd $</div><div class="stack"><div class="seg lil" style="flex:72"></div><div class="seg mag" style="flex:8.7"></div></div><div class="legend"><span class="dot lil"></span>~72 Mrd $ nem készpénzes könyvelési tétel</div><div class="legend"><span class="dot mag"></span>~8,7 Mrd $ egyéb</div></div><div class="phase" id="g1-p2"><div class="ptitle">Felhőszerződések</div><div class="big">≈450 Mrd $</div><div class="note">fel nem mondható felhőkapacitás-szerződés, 7–10 évre</div><div class="row"><div class="rl">Google</div><div class="track"><div class="fill lil" id="" data-w="100"></div></div><div class="rv">111 Mrd $</div></div><div class="row"><div class="rl">AWS</div><div class="track"><div class="fill lil" id="" data-w="99"></div></div><div class="rv">110 Mrd $</div></div><div class="row"><div class="rl">Microsoft</div><div class="track"><div class="fill lil" id="" data-w="28"></div></div><div class="rv">31 Mrd $</div></div></div></div><div class="src">Forrás: Wall Street Journal (S‑1 tervezet), Fortune, 2026.10.20–21</div></div></div>
+<div id="g2" class="clip gw" data-start="73.4" data-duration="21.8" data-track-index="3"><div class="gcard"><div class="kick">FTC · polgári idézés</div><div class="phases"><div class="phase" id="g2-p0"><div class="ptitle">OpenAI · Anthropic</div><div class="duo"><div class="pill">OpenAI</div><div class="pill">Anthropic</div></div><div class="big">50+ oldal</div><div class="note">idézésenként, 2026. október 14.</div><div class="sub2">Bekért iratok</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Biztonsági incidensek</span></li><li class="li ok"><span class="mark"></span><span>Védelmi gyakorlatok</span></li><li class="li ok"><span class="mark"></span><span>Marketinganyagok</span></li><li class="li ok"><span class="mark"></span><span>Adatvédelmi szabályok</span></li></ul></div></div><div class="src">Forrás: Axios; az FTC megerősítette (CBS News), 2026.10.14–15</div></div></div>
+<div id="g3" class="clip gw" data-start="110.1" data-duration="20.9" data-track-index="3"><div class="gcard"><div class="kick">DHS · DeepSeek‑tiltás</div><div class="phases"><div class="phase" id="g3-p0"><div class="ptitle">Polgári szövetségi hivatalok</div><ul class="list"><li class="li no"><span class="mark"></span><span>Új DeepSeek‑termék nem vásárolható</span></li><li class="li no"><span class="mark"></span><span>A meglévőket el kell távolítani</span></li><li class="li no"><span class="mark"></span><span>A DeepSeekre épülő, más cégek szoftvereire is vonatkozik</span></li></ul><div class="sub2">Indok</div><div class="note">Nemzetbiztonsági és adatkezelési kockázat; a nemzetbiztonsági rendszerekre külön szabályok vonatkoznak.</div></div></div><div class="src">Forrás: DHS kizárási és eltávolítási rendelet #2026‑01 (FASCSA), Federal Register, 2026.10.20</div></div></div>
+<div id="g4" class="clip gw" data-start="151.0" data-duration="22.2" data-track-index="3"><div class="gcard"><div class="kick">Kína · exportkorlátozási tervezet</div><div class="phases"><div class="phase" id="g4-p0"><div class="ptitle">40 technológia a listán</div><div class="donut-wrap"><svg viewBox="0 0 200 200" class="donut"><circle cx="100" cy="100" r="78" class="ring"/><circle cx="100" cy="100" r="78" class="arc mag" id="g4-a1" data-frac="0.575" data-off="0"/><circle cx="100" cy="100" r="78" class="arc lil" id="g4-a2" data-frac="0.30" data-off="0.575"/><circle cx="100" cy="100" r="78" class="arc vio" id="g4-a3" data-frac="0.125" data-off="0.875"/></svg><div class="donut-c"><b>40</b><span>technológia</span></div></div><div class="legend"><span class="dot mag"></span><b>23</b>&nbsp;mesterséges intelligencia</div><div class="legend"><span class="dot lil"></span><b>12</b>&nbsp;napelemes</div><div class="legend"><span class="dot vio"></span><b>5</b>&nbsp;biotechnológia / orvosi</div></div></div><div class="src">Forrás: MOFCOM–MOST tervezet, AP, 2026.10.16 · véleményezés: nov. 15‑ig</div></div></div>
+<div id="g5" class="clip gw" data-start="190.1" data-duration="19.1" data-track-index="3"><div class="gcard"><div class="kick">NVIDIA · GTC Berlin</div><div class="phases"><div class="phase" id="g5-p0"><div class="ptitle">Szubsztrát‑kapacitás</div><div class="row"><div class="rl">Most</div><div class="track"><div class="fill lil" id="" data-w="40"></div></div><div class="rv">1×</div></div><div class="row"><div class="rl">3 év múlva</div><div class="track"><div class="fill mag" id="" data-w="100"></div></div><div class="rv">2,5×</div></div><div class="note">IBIDEN, Samsung Electro‑Mechanics, Unimicron</div></div><div class="phase" id="g5-p1"><div class="ptitle">DSX POD – helyszíni telepítés</div><div class="row"><div class="rl">Eddig</div><div class="track"><div class="fill lil" id="" data-w="100"></div></div><div class="rv">~6 hónap</div></div><div class="row"><div class="rl">DSX POD</div><div class="track"><div class="fill mag" id="" data-w="7.8"></div></div><div class="rv">~14 nap</div></div><div class="note">Az NVIDIA szerint, a helyszíni közművek elkészülte után; szállítás 2027 elejétől.</div></div></div><div class="src">Forrás: NVIDIA, GTC Berlin keynote, 2026.10.21</div></div></div>
+<div id="g6" class="clip gw" data-start="226.0" data-duration="16.2" data-track-index="3"><div class="gcard"><div class="kick">Meta · 3. negyedév</div><div class="phases"><div class="phase" id="g6-p0"><div class="ptitle">Bevétel</div><div class="row"><div class="rl">2025 Q3</div><div class="track"><div class="fill lil" id="" data-w="79"></div></div><div class="rv">51,2 Mrd $</div></div><div class="row"><div class="rl">2026 Q3</div><div class="track"><div class="fill mag" id="" data-w="100"></div></div><div class="rv">64,6 Mrd $</div></div><div class="big">+26%</div><div class="note">éves összevetésben</div></div><div class="phase" id="g6-p1"><div class="ptitle">2026‑os beruházási keret</div><div class="big">135–145 Mrd $</div><div class="note">korábban: 130–145 Mrd $</div><div class="range"><div class="rtrack"></div><div class="rband" id="g6-band"></div><div class="rtick" style="left:0%">120</div><div class="rtick" style="left:50%">135</div><div class="rtick" style="left:83.3%">145</div><div class="rtick" style="left:100%">150</div></div></div></div><div class="src">Forrás: Meta Q3 2026 gyorsjelentés (CNBC, Fortune), 2026.10.21</div></div></div>
+<div id="g7" class="clip gw" data-start="245.7" data-duration="24.5" data-track-index="3"><div class="gcard"><div class="kick">ChatGPT · zárolt csevegések</div><div class="phases"><div class="phase" id="g7-p0"><div class="ptitle">Bevezetés: 2026. október 20.</div><div class="lock"><div class="shackle"></div><div class="body"><div class="kh"></div></div></div><ul class="list"><li class="li ok"><span class="mark"></span><span>4 jegyű PIN, Face ID vagy Touch ID</span></li><li class="li ok"><span class="mark"></span><span>Rejtve az előzményekből és a keresésből</span></li><li class="li ok"><span class="mark"></span><span>Saját, külön memória</span></li><li class="li warn"><span class="mark"></span><span>Nem végponttól végpontig titkosítás</span></li><li class="li warn"><span class="mark"></span><span>PIN visszaállítása = a zárolt csevegések törlése</span></li></ul></div></div><div class="src">Forrás: OpenAI súgó, TechCrunch, 2026.10.20</div></div></div>
+<div id="sub-0" class="clip subw" data-start="0.1" data-duration="5.5" data-track-index="5"><div class="sub">Fél év alatt 16,3 milliárd dollár bevétel, és közben 80,7 milliárd dollár veszteség.</div></div>
+<div id="sub-1" class="clip subw" data-start="5.6" data-duration="2.5" data-track-index="5"><div class="sub">Kiszivárogtak az Anthropic tőzsdei papírjai.</div></div>
+<div id="sub-2" class="clip subw" data-start="8.1" data-duration="3.4" data-track-index="5"><div class="sub">Ez a hét a pénzről, a szabályozásról és a geopolitikáról szólt.</div></div>
+<div id="sub-3" class="clip subw" data-start="11.5" data-duration="0.9667" data-track-index="5"><div class="sub">Nézzük!</div></div>
+<div id="sub-4" class="clip subw" data-start="18.2" data-duration="3.3" data-track-index="5"><div class="sub">Kiszivárogtak az Anthropic tőzsdei számai.</div></div>
+<div id="sub-5" class="clip subw" data-start="21.5" data-duration="4.6" data-track-index="5"><div class="sub">A Wall Street Journal belelátott az Anthropic tőzsdei tájékoztatójának tervezetébe.</div></div>
+<div id="sub-6" class="clip subw" data-start="26.1" data-duration="2.9667" data-track-index="5"><div class="sub">Eszerint a Claude fejlesztője 2026 első</div></div>
+<div id="sub-7" class="clip subw" data-start="29.0667" data-duration="3.5333" data-track-index="5"><div class="sub">felében 16,3 milliárd dollár bevételt ért el.</div></div>
+<div id="sub-8" class="clip subw" data-start="32.6" data-duration="3.4" data-track-index="5"><div class="sub">Egy évvel korábban ez még 1,1 milliárd dollár volt.</div></div>
+<div id="sub-9" class="clip subw" data-start="36.0" data-duration="2.5" data-track-index="5"><div class="sub">A nettó veszteség 80,7 milliárd dollár, de</div></div>
+<div id="sub-10" class="clip subw" data-start="38.5" data-duration="3.0" data-track-index="5"><div class="sub">ebből 72 milliárd nem készpénzes könyvelési tétel.</div></div>
+<div id="sub-11" class="clip subw" data-start="41.5" data-duration="2.5" data-track-index="5"><div class="sub">A cég nagyjából 450 milliárd dollárnyi fel</div></div>
+<div id="sub-12" class="clip subw" data-start="44.0" data-duration="3.5" data-track-index="5"><div class="sub">nem mondható felhőszerződést vállalt a következő évtizedre.</div></div>
+<div id="sub-13" class="clip subw" data-start="47.5" data-duration="3.0" data-track-index="5"><div class="sub">A Reuters egy befektetői találkozóra hivatkozva azt írta:</div></div>
+<div id="sub-14" class="clip subw" data-start="50.5" data-duration="3.1333" data-track-index="5"><div class="sub">a harmadik negyedéves bevétel 16,8 milliárd dollár</div></div>
+<div id="sub-15" class="clip subw" data-start="53.6333" data-duration="2.9667" data-track-index="5"><div class="sub">volt, 45%‑kal több, mint az előző negyedévben.</div></div>
+<div id="sub-16" class="clip subw" data-start="56.6" data-duration="3.4" data-track-index="5"><div class="sub">Hivatalosan az Anthropic ezeket a számokat még nem tette közzé.</div></div>
+<div id="sub-17" class="clip subw" data-start="60.0" data-duration="5.1" data-track-index="5"><div class="sub">A tőzsdei bevezetés akár nagyjából 2000 milliárd dolláros értékelést hozhat.</div></div>
+<div id="sub-18" class="clip subw" data-start="65.1" data-duration="4.0" data-track-index="5"><div class="sub">Ez lehet az AI‑korszak egyik legnagyobb tőzsdei eseménye.</div></div>
+<div id="sub-19" class="clip subw" data-start="69.1" data-duration="4.0" data-track-index="5"><div class="sub">Az amerikai fogyasztóvédelem beidézte az OpenAI‑t és az Anthropicot.</div></div>
+<div id="sub-20" class="clip subw" data-start="73.1" data-duration="3.1" data-track-index="5"><div class="sub">Az amerikai Szövetségi Kereskedelmi Bizottság, az</div></div>
+<div id="sub-21" class="clip subw" data-start="76.2" data-duration="2.9" data-track-index="5"><div class="sub">FTC, polgári idézést küldött mindkét cégnek.</div></div>
+<div id="sub-22" class="clip subw" data-start="79.1" data-duration="2.0" data-track-index="5"><div class="sub">Mindegyik több mint 50 oldalas.</div></div>
+<div id="sub-23" class="clip subw" data-start="81.1" data-duration="3.9667" data-track-index="5"><div class="sub">Iratokat kérnek biztonsági incidensekről, védelmi gyakorlatokról,</div></div>
+<div id="sub-24" class="clip subw" data-start="85.0667" data-duration="2.9333" data-track-index="5"><div class="sub">marketinganyagokról és adatvédelmi szabályokról.</div></div>
+<div id="sub-25" class="clip subw" data-start="88.0" data-duration="4.0333" data-track-index="5"><div class="sub">A háttérben olyan esetek állnak, amikor kiadatlan modellek tesztelés közben</div></div>
+<div id="sub-26" class="clip subw" data-start="92.0333" data-duration="3.0667" data-track-index="5"><div class="sub">weboldalakat törtek fel vagy megtévesztően viselkedtek.</div></div>
+<div id="sub-27" class="clip subw" data-start="95.1" data-duration="2.8" data-track-index="5"><div class="sub">Az FTC a cégvezetőket is meg akarja hallgatni,</div></div>
+<div id="sub-28" class="clip subw" data-start="97.9" data-duration="3.2" data-track-index="5"><div class="sub">és később más AI‑cégek is kapnak ilyen megkeresést.</div></div>
+<div id="sub-29" class="clip subw" data-start="101.1" data-duration="2.7667" data-track-index="5"><div class="sub">Az AI‑biztonsági incidensek már nem csak a</div></div>
+<div id="sub-30" class="clip subw" data-start="103.8667" data-duration="3.2333" data-track-index="5"><div class="sub">cégek belügyei, egy hatóság is számon kéri őket.</div></div>
+<div id="sub-31" class="clip subw" data-start="107.1" data-duration="3.0" data-track-index="5"><div class="sub">Az USA kitiltja a DeepSeeket a szövetségi hivatalokból.</div></div>
+<div id="sub-32" class="clip subw" data-start="110.1" data-duration="4.5" data-track-index="5"><div class="sub">Az amerikai Belbiztonsági Minisztérium elrendelte: a polgári szövetségi hivatalok</div></div>
+<div id="sub-33" class="clip subw" data-start="114.6" data-duration="4.4" data-track-index="5"><div class="sub">nem vásárolhatnak DeepSeek‑termékeket, a meglévőket pedig el kell távolítaniuk.</div></div>
+<div id="sub-34" class="clip subw" data-start="119.0" data-duration="2.8" data-track-index="5"><div class="sub">A tilalom a DeepSeek technológiájára épülő,</div></div>
+<div id="sub-35" class="clip subw" data-start="121.8" data-duration="3.3" data-track-index="5"><div class="sub">más cégektől származó szoftverekre is vonatkozik.</div></div>
+<div id="sub-36" class="clip subw" data-start="125.1" data-duration="1.9" data-track-index="5"><div class="sub">Az indok: nemzetbiztonság.</div></div>
+<div id="sub-37" class="clip subw" data-start="127.0" data-duration="4.1" data-track-index="5"><div class="sub">A kínai szervereken tárolt adatokhoz a kínai hatóságok hozzáférhetnek.</div></div>
+<div id="sub-38" class="clip subw" data-start="131.1" data-duration="4.0" data-track-index="5"><div class="sub">Kivételt kérni lehet, de 60 nappal előre, nyomós indokkal.</div></div>
+<div id="sub-39" class="clip subw" data-start="135.1" data-duration="2.9" data-track-index="5"><div class="sub">Kína külügyminisztériuma tiltakozott.</div></div>
+<div id="sub-40" class="clip subw" data-start="138.0" data-duration="2.4667" data-track-index="5"><div class="sub">A beszállítóknak is tudniuk kell mostantól</div></div>
+<div id="sub-41" class="clip subw" data-start="140.4667" data-duration="2.6333" data-track-index="5"><div class="sub">pontosan, milyen modell fut a termékeikben.</div></div>
+<div id="sub-42" class="clip subw" data-start="143.1" data-duration="4.0" data-track-index="5"><div class="sub">Kína korlátozná az AI‑technológiák exportját.</div></div>
+<div id="sub-43" class="clip subw" data-start="147.1" data-duration="4.0" data-track-index="5"><div class="sub">Kína Kereskedelmi és Tudományos Minisztériuma tervezetet tett közzé.</div></div>
+<div id="sub-44" class="clip subw" data-start="151.1" data-duration="6.0" data-track-index="5"><div class="sub">40 technológia exportját tiltanák vagy korlátoznák, ebből 23 az AI‑hoz kötődik.</div></div>
+<div id="sub-45" class="clip subw" data-start="157.1" data-duration="4.0" data-track-index="5"><div class="sub">Tiltás alá esnének az érzékeny nemzeti adatokon tanított nagy modellek</div></div>
+<div id="sub-46" class="clip subw" data-start="161.1" data-duration="2.9" data-track-index="5"><div class="sub">kulcstechnológiái és a védelmi célú AI‑ügynökök is.</div></div>
+<div id="sub-47" class="clip subw" data-start="164.0" data-duration="4.0" data-track-index="5"><div class="sub">A 2 milliárd vagy annál több paraméteres modellek exportja is korlátozható.</div></div>
+<div id="sub-48" class="clip subw" data-start="168.0" data-duration="5.1" data-track-index="5"><div class="sub">A listán chiptervezési, napelemes és biotechnológiai technológiák is szerepelnek.</div></div>
+<div id="sub-49" class="clip subw" data-start="173.1" data-duration="4.7667" data-track-index="5"><div class="sub">Már nem csak az USA, hanem Kína is stratégiai fegyverként kezeli az AI‑tudást, a</div></div>
+<div id="sub-50" class="clip subw" data-start="177.8667" data-duration="2.2333" data-track-index="5"><div class="sub">technológiai verseny kétirányú lett.</div></div>
+<div id="sub-51" class="clip subw" data-start="180.1" data-duration="3.2" data-track-index="5"><div class="sub">NVIDIA: a kapacitás a szűk keresztmetszet.</div></div>
+<div id="sub-52" class="clip subw" data-start="183.3" data-duration="3.2" data-track-index="5"><div class="sub">A berlini GTC‑n Jensen Huang bejelentette: az</div></div>
+<div id="sub-53" class="clip subw" data-start="186.5" data-duration="3.6" data-track-index="5"><div class="sub">NVIDIA a beszállítóival együtt bővíti a gyártást.</div></div>
+<div id="sub-54" class="clip subw" data-start="190.1" data-duration="5.6" data-track-index="5"><div class="sub">3 év alatt két és félszeresére nő az egyik kulcsalkatrész, a szubsztrát kapacitása,</div></div>
+<div id="sub-55" class="clip subw" data-start="195.7" data-duration="4.4" data-track-index="5"><div class="sub">a chiptesztelési kapacitás pedig 2026‑ról 2027‑re megduplázódik.</div></div>
+<div id="sub-56" class="clip subw" data-start="200.1" data-duration="4.7667" data-track-index="5"><div class="sub">Bemutatták a DSX PODot is: konténerbe épített, előre tesztelt AI‑gyárat, amelynek</div></div>
+<div id="sub-57" class="clip subw" data-start="204.8667" data-duration="4.2333" data-track-index="5"><div class="sub">telepítése az NVIDIA szerint 6 hónap helyett akár 14 nap alatt megvan.</div></div>
+<div id="sub-58" class="clip subw" data-start="209.1" data-duration="2.4333" data-track-index="5"><div class="sub">Érkezett egy nyílt forráskódú keretrendszer</div></div>
+<div id="sub-59" class="clip subw" data-start="211.5333" data-duration="2.5667" data-track-index="5"><div class="sub">is az AI‑ügynökök biztonságos futtatásához.</div></div>
+<div id="sub-60" class="clip subw" data-start="214.1" data-duration="5.0" data-track-index="5"><div class="sub">Az AI‑boom ma nem az ötleteken, hanem a gyártáson és az infrastruktúrán akad el.</div></div>
+<div id="sub-61" class="clip subw" data-start="219.1" data-duration="4.1" data-track-index="5"><div class="sub">Meta:</div></div>
+<div id="sub-62" class="clip subw" data-start="223.2" data-duration="2.8" data-track-index="5"><div class="sub">erős negyedév, még több AI‑költés, új részvény.</div></div>
+<div id="sub-63" class="clip subw" data-start="226.0" data-duration="3.5667" data-track-index="5"><div class="sub">A Meta harmadik negyedéves bevétele 64,6 milliárd</div></div>
+<div id="sub-64" class="clip subw" data-start="229.5667" data-duration="3.5333" data-track-index="5"><div class="sub">dollár lett, 26 százalékkal több, mint egy éve.</div></div>
+<div id="sub-65" class="clip subw" data-start="233.1" data-duration="5.0" data-track-index="5"><div class="sub">Az idei beruházási keretét 135 és 145 milliárd dollár közé pontosította.</div></div>
+<div id="sub-66" class="clip subw" data-start="238.1" data-duration="4.0" data-track-index="5"><div class="sub">Ez főleg chipekre, adatközpontokra és a Muse nevű AI‑asszisztensre megy.</div></div>
+<div id="sub-67" class="clip subw" data-start="242.1" data-duration="3.6" data-track-index="5"><div class="sub">Jelszóval zárhatod a ChatGPT‑beszélgetéseidet.</div></div>
+<div id="sub-68" class="clip subw" data-start="245.7" data-duration="3.4" data-track-index="5"><div class="sub">Az OpenAI bevezette a zárolt csevegéseket.</div></div>
+<div id="sub-69" class="clip subw" data-start="249.1" data-duration="2.1" data-track-index="5"><div class="sub">Négyjegyű PIN‑kóddal, Face ID‑val vagy</div></div>
+<div id="sub-70" class="clip subw" data-start="251.2" data-duration="2.9" data-track-index="5"><div class="sub">Touch ID‑val védheted az érzékeny beszélgetéseket.</div></div>
+<div id="sub-71" class="clip subw" data-start="254.1" data-duration="5.0" data-track-index="5"><div class="sub">Ezek külön részbe kerülnek, nem jelennek meg a keresésben, és saját memóriájuk van.</div></div>
+<div id="sub-72" class="clip subw" data-start="259.1" data-duration="5.1667" data-track-index="5"><div class="sub">Figyelj: ez nem végponttól végpontig titkosítás, és ha újraállítod a PIN‑t, a zárolt</div></div>
+<div id="sub-73" class="clip subw" data-start="264.2667" data-duration="1.7333" data-track-index="5"><div class="sub">csevegések végleg törlődnek.</div></div>
+<div id="sub-74" class="clip subw" data-start="266.0" data-duration="4.1" data-track-index="5"><div class="sub">A funkció az ingyenes csomagtól felfelé fokozatosan érkezik.</div></div>
+<div id="sub-75" class="clip subw" data-start="270.1" data-duration="4.0" data-track-index="5"><div class="sub">Ez a hír egyelőre egy forrásból, a TechCrunch‑tól származik.</div></div>
+<div id="sub-76" class="clip subw" data-start="274.1" data-duration="5.0" data-track-index="5"><div class="sub">Ha mások is látják a képernyődet, végre elrejtheted, mit kérdeztél a ChatGPT‑től.</div></div>
+<div id="sub-77" class="clip subw" data-start="279.1" data-duration="3.0" data-track-index="5"><div class="sub">Pénz, szabályozás, geopolitika.</div></div>
+<div id="sub-78" class="clip subw" data-start="282.1" data-duration="1.9" data-track-index="5"><div class="sub">Ezen a héten minden az AI körül forgott.</div></div>
+<div id="sub-79" class="clip subw" data-start="284.0" data-duration="3.0" data-track-index="5"><div class="sub">Jövő héten jövünk a folytatással.</div></div>
+</div>
+<script>
+(function () {
+// static geometry: bar widths and donut arcs
+document.querySelectorAll('.fill[data-w]').forEach(function (el) { el.style.width = el.dataset.w + '%'; });
+document.querySelectorAll('.arc[data-frac]').forEach(function (el) {
+  var c = 490.088, f = parseFloat(el.dataset.frac), o = parseFloat(el.dataset.off);
+  el.style.strokeDasharray = (c * f - 3) + ' ' + c; el.style.strokeDashoffset = (-c * o);
+});
+const tl = gsap.timeline({ paused: true });
+tl.fromTo('#g1 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},26.0);
+tl.to('#g1 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},47.2);
+tl.fromTo('#g1-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},26.2667);
+tl.to('#g1-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},35.7);
+tl.fromTo('#g1-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},26.4667);
+tl.fromTo('#g1-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},26.6667);
+tl.fromTo('#g1-p0 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},26.5667);
+tl.fromTo('#g1-p0 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},26.6667);
+tl.fromTo('#g1-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},36.0);
+tl.to('#g1-p1',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},41.2);
+tl.fromTo('#g1-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},36.2);
+tl.fromTo('#g1-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},36.4);
+tl.fromTo('#g1-p1 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},36.3);
+tl.fromTo('#g1-p1 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},36.4);
+tl.fromTo('#g1-p2',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},41.5);
+tl.fromTo('#g1-p2 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},41.7);
+tl.fromTo('#g1-p2 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},41.9);
+tl.fromTo('#g1-p2 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},41.8);
+tl.fromTo('#g1-p2 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},41.9);
+tl.fromTo('#g2 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},73.4);
+tl.to('#g2 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},94.8);
+tl.fromTo('#g2-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},73.6667);
+tl.fromTo('#g2-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},73.8667);
+tl.fromTo('#g2-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},74.0667);
+tl.fromTo('#g2-p0 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},73.9667);
+tl.fromTo('#g2-p0 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},74.0667);
+tl.fromTo('#g3 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},110.1);
+tl.to('#g3 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},130.6);
+tl.fromTo('#g3-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},110.3333);
+tl.fromTo('#g3-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},110.5333);
+tl.fromTo('#g3-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},110.7333);
+tl.fromTo('#g3-p0 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},110.6333);
+tl.fromTo('#g3-p0 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},110.7333);
+tl.fromTo('#g4 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},151.0);
+tl.to('#g4 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},172.8);
+tl.fromTo('#g4-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},151.2667);
+tl.fromTo('#g4-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},151.4667);
+tl.fromTo('#g4-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},151.6667);
+tl.fromTo('#g4-p0 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},151.5667);
+tl.fromTo('#g4-p0 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},151.6667);
+tl.fromTo('#g5 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},190.1);
+tl.to('#g5 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},208.8);
+tl.fromTo('#g5-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},190.3333);
+tl.to('#g5-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},199.8);
+tl.fromTo('#g5-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},190.5333);
+tl.fromTo('#g5-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},190.7333);
+tl.fromTo('#g5-p0 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},190.6333);
+tl.fromTo('#g5-p0 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},190.7333);
+tl.fromTo('#g5-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},200.1);
+tl.fromTo('#g5-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},200.3);
+tl.fromTo('#g5-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},200.5);
+tl.fromTo('#g5-p1 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},200.4);
+tl.fromTo('#g5-p1 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},200.5);
+tl.fromTo('#g6 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},226.0);
+tl.to('#g6 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},241.8);
+tl.fromTo('#g6-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},226.2667);
+tl.to('#g6-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},232.8);
+tl.fromTo('#g6-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},226.4667);
+tl.fromTo('#g6-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},226.6667);
+tl.fromTo('#g6-p0 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},226.5667);
+tl.fromTo('#g6-p0 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},226.6667);
+tl.fromTo('#g6-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},233.1);
+tl.fromTo('#g6-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},233.3);
+tl.fromTo('#g6-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},233.5);
+tl.fromTo('#g6-p1 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},233.4);
+tl.fromTo('#g6-p1 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},233.5);
+tl.fromTo('#g7 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},245.7);
+tl.to('#g7 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},269.8);
+tl.fromTo('#g7-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},245.9333);
+tl.fromTo('#g7-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},246.1333);
+tl.fromTo('#g7-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},246.3333);
+tl.fromTo('#g7-p0 .seg',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out',stagger:0.25},246.2333);
+tl.fromTo('#g7-p0 .rband',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},246.3333);
+// donut sweep for the China card
+tl.fromTo('#g4 .donut', { rotation: -150, scale: 0.85, autoAlpha: 0 }, { rotation: -90, scale: 1, autoAlpha: 1, duration: 0.9, ease: 'power3.out' }, 151.5);
+window.__timelines = window.__timelines || {};
+window.__timelines["ai-hirado-1022"] = tl;
+tl.seek(0);
+})();
+</script>
+</body>
+</html>
