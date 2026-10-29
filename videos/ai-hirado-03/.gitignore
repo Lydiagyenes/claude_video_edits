@@ -8,3 +8,4 @@ public/*.mp4
 work-*/
 __pycache__/
 public/*.wav
+output-raw.mp4

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2190-22FF,U+FEFF,U+FFFD; }
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-ext-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0100-02AF,U+1E00-1E9F; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0000-00FF,U+2000-206F,U+2190-22FF; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-ext-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0100-02AF; }
+:root { --ink:#0d0b1e; --violet:#5e44e4; --lilac:#9570ff; --magenta:#df0ec4; --white:#ffffff; --soft:#e4dcff; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1920px; height:1080px; overflow:hidden; background:#000; }
+#root { position:relative; width:1920px; height:1080px; overflow:hidden; font-family:"Inter","Archivo",sans-serif; }
+#main { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+
+/* subtitles */
+.subw { position:absolute; inset:0; z-index:6; pointer-events:none; }
+.sub { position:absolute; left:50%; bottom:44px; transform:translateX(-50%); max-width:1240px; width:max-content;
+  text-align:center; font-family:"Inter",sans-serif; font-weight:600; font-size:40px; line-height:1.3; color:#fff;
+  background:rgba(13,11,30,.72); padding:10px 26px 12px; border-radius:12px; border-bottom:3px solid var(--lilac);
+  text-shadow:0 2px 8px rgba(0,0,0,.6); }
+
+/* graphic card */
+.gw { position:absolute; inset:0; z-index:4; pointer-events:none; }
+.gcard { position:absolute; right:44px; top:70px; width:480px; min-height:660px; padding:26px 28px 22px;
+  background:linear-gradient(160deg, rgba(30,20,78,.92), rgba(13,11,30,.94)); border:2px solid rgba(149,112,255,.65);
+  border-radius:20px; box-shadow:0 18px 60px rgba(0,0,0,.5), 0 0 40px rgba(149,112,255,.35); color:#fff;
+  display:flex; flex-direction:column; }
+.kick { font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase;
+  color:#fff; background:var(--violet); align-self:flex-start; padding:7px 12px 6px; border-radius:4px; }
+.phases { position:relative; flex:1; margin-top:16px; }
+.phase { position:absolute; inset:0; }
+.ptitle { font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:30px; line-height:1.1; color:var(--soft); margin-bottom:18px; }
+.big { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:58px; line-height:1; color:#fff; margin-top:8px; white-space:nowrap;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+.note { font-size:20px; line-height:1.35; color:#cfc4ff; margin-top:8px; }
+.sub2 { font-family:"Archivo"; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase; color:var(--lilac); margin:18px 0 8px; }
+.row { display:flex; align-items:center; gap:12px; margin:12px 0; }
+.rl { width:96px; font-size:19px; color:#d9d0ff; }
+.track { flex:1; height:30px; background:rgba(149,112,255,.14); border-radius:6px; overflow:hidden; }
+.fill { height:100%; border-radius:6px; transform-origin:left center; }
+.rv { width:136px; text-align:right; white-space:nowrap; font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:22px; }
+.lil { background:var(--lilac); } .mag { background:linear-gradient(90deg,var(--violet),var(--magenta)); } .vio { background:var(--violet); }
+.stack { display:flex; height:34px; border-radius:6px; overflow:hidden; margin:18px 0 12px; gap:3px; }
+.seg { height:100%; transform-origin:left center; }
+.legend { display:flex; align-items:center; font-size:20px; color:#e4dcff; margin:8px 0; }
+.dot { width:16px; height:16px; border-radius:4px; margin-right:10px; flex:none; }
+.duo { display:flex; gap:12px; }
+.pill { font-family:"Archivo"; font-weight:800; font-size:22px; padding:8px 16px; border-radius:999px; border:2px solid var(--lilac); }
+.list { list-style:none; margin-top:8px; }
+.li { display:flex; align-items:flex-start; gap:12px; font-size:20px; line-height:1.28; margin:8px 0; color:#f1edff; }
+.mark { flex:none; width:24px; height:24px; border-radius:50%; margin-top:2px; position:relative; }
+.ok .mark { background:var(--lilac); }
+.ok .mark::after { content:""; position:absolute; left:8px; top:4px; width:6px; height:11px; border:solid #fff; border-width:0 3px 3px 0; transform:rotate(45deg); }
+.no .mark { background:var(--magenta); }
+.no .mark::before, .no .mark::after { content:""; position:absolute; left:11px; top:5px; width:3px; height:14px; background:#fff; border-radius:2px; }
+.no .mark::before { transform:rotate(45deg); } .no .mark::after { transform:rotate(-45deg); }
+.warn .mark { background:transparent; border:2px solid var(--magenta); }
+.warn .mark::after { content:""; position:absolute; left:9px; top:3px; width:3px; height:10px; background:var(--magenta); box-shadow:0 13px 0 -0.5px var(--magenta); border-radius:2px; }
+.donut-wrap { position:relative; width:230px; height:230px; margin:0 auto 6px; }
+.donut { width:230px; height:230px; }
+.ring { fill:none; stroke:rgba(149,112,255,.15); stroke-width:30; }
+.arc { fill:none; stroke-width:30; }
+.arc.mag { stroke:var(--magenta); background:none; } .arc.lil { stroke:var(--lilac); background:none; } .arc.vio { stroke:var(--violet); background:none; }
+.donut-c { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.donut-c b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:60px; line-height:1; }
+.donut-c span { font-size:18px; color:#cfc4ff; }
+.range { position:relative; height:70px; margin-top:26px; }
+.rtrack { position:absolute; left:0; right:0; top:10px; height:14px; border-radius:7px; background:rgba(149,112,255,.18); }
+.rband { position:absolute; left:50%; width:33.3%; top:6px; height:22px; border-radius:6px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--violet),var(--magenta)); box-shadow:0 0 18px rgba(223,14,196,.5); }
+.rtick { position:absolute; top:38px; transform:translateX(-50%); font-size:16px; color:#cfc4ff; }
+.lock { position:relative; width:76px; height:86px; margin:0 0 6px 4px; }
+.lock .shackle { position:absolute; left:14px; top:0; width:48px; height:48px; border:9px solid var(--lilac); border-bottom:none; border-radius:26px 26px 0 0; }
+.lock .body { position:absolute; left:0; bottom:0; width:76px; height:52px; border-radius:10px; background:linear-gradient(135deg,var(--violet),var(--magenta)); }
+.lock .kh { position:absolute; left:33px; top:16px; width:10px; height:18px; border-radius:5px; background:#fff; }
+.src { margin-top:12px; font-size:13.5px; line-height:1.35; color:#a99bd9; border-top:1px solid rgba(149,112,255,.3); padding-top:10px; }
+
+
+.subw { z-index:12; }
+/* show bug */
+#bug { position:absolute; left:56px; top:46px; z-index:7; display:flex; align-items:center; gap:12px; }
+#bug .b1 { font-family:"Archivo"; font-stretch:125%; font-weight:800; font-size:30px; color:#fff; letter-spacing:.02em; text-shadow:0 0 16px rgba(149,112,255,.7); }
+#bug .b1 b { color:#dfff84; font-weight:800; }
+#bug .b2 { font-family:"Archivo"; font-stretch:115%; font-weight:600; font-size:12px; letter-spacing:.42em; color:#fff; background:var(--lilac); padding:6px 8px 6px 14px; border-radius:3px; }
+/* presenter footage + intro */
+.pres { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+#intro { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; z-index:20; }
+#flash { position:absolute; inset:0; z-index:21; opacity:0; pointer-events:none;
+  background:radial-gradient(60% 60% at 50% 50%, #ffffff, rgba(149,112,255,.9) 60%, rgba(13,11,30,.9)); }
+/* numbered list in the teaser card */
+.li.num { align-items:center; font-size:22px; margin:16px 0; }
+.nmark { flex:none; width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta));
+  display:flex; align-items:center; justify-content:center; font-family:"Archivo"; font-weight:800; font-size:19px; }
+.quote { font-family:"Archivo"; font-stretch:105%; font-weight:800; font-size:44px; line-height:1.12; color:#fff; margin:6px 0 14px;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+/* full-screen scenes */
+.fsw { position:absolute; inset:0; z-index:8; pointer-events:none; }
+.fs { position:absolute; inset:0; overflow:hidden; color:#fff; opacity:0; visibility:hidden;
+  background:radial-gradient(90% 80% at 75% 20%, #2a1a7a 0%, #160f45 45%, #0d0b1e 100%); }
+.fs-grid { position:absolute; inset:0; opacity:.35;
+  background-image:linear-gradient(rgba(149,112,255,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(149,112,255,.18) 1px, transparent 1px);
+  background-size:64px 64px; }
+.fs-glow { position:absolute; width:900px; height:900px; right:-200px; top:-300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(223,14,196,.28), rgba(223,14,196,0) 65%); }
+.fs-logo { position:absolute; right:64px; top:52px; width:210px; opacity:.9; }
+.bump { position:absolute; left:140px; right:140px; top:330px; }
+.bump-num { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:30px; letter-spacing:.2em;
+  background:var(--violet); padding:10px 20px 9px; border-radius:5px; }
+.bump-title { margin-top:34px; font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:96px; line-height:1.04;
+  text-shadow:0 0 40px rgba(149,112,255,.55); max-width:1500px; }
+.bump-line { margin-top:38px; width:620px; height:8px; border-radius:4px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--lilac),var(--magenta)); box-shadow:0 0 24px rgba(223,14,196,.6); }
+.fs-kick { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:20px; letter-spacing:.2em;
+  text-transform:uppercase; background:var(--violet); padding:8px 14px 7px; border-radius:4px; }
+.fs-title { margin-top:22px; font-family:"Archivo"; font-stretch:110%; font-weight:850; font-size:58px; line-height:1.06; }
+.fs-col { position:absolute; left:120px; top:150px; width:560px; }
+.stat { margin-top:30px; padding-left:22px; border-left:6px solid var(--lilac); }
+.stat b { display:block; font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:84px; line-height:1; }
+.stat span { display:block; margin-top:6px; font-size:24px; line-height:1.3; color:var(--soft); }
+.stat.hl { border-left-color:var(--magenta); }
+.stat.hl b { color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+.waffle { position:absolute; left:770px; top:190px; width:1036px; display:grid; grid-template-columns:repeat(38, 20px); gap:7px; }
+.waffle .d { position:relative; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.32); }
+.waffle .d b { position:absolute; inset:0; border-radius:50%; background:var(--magenta); box-shadow:0 0 10px rgba(223,14,196,.8); }
+.waffle .d:not(.h) b { display:none; }
+.fs-legend { position:absolute; left:770px; top:740px; display:flex; gap:40px; font-size:24px; color:var(--soft); }
+.fs-legend span { display:flex; align-items:center; gap:12px; }
+.lg { display:inline-block; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.45); }
+.lg.h { background:var(--magenta); }
+.fs-src { position:absolute; left:120px; bottom:200px; font-size:18px; color:#a99bd9; }
+.fphases { position:absolute; left:140px; right:140px; top:150px; height:640px; }
+.fphase { position:absolute; inset:0; }
+.fbars { margin-top:56px; width:1500px; }
+.fbars .row { margin:26px 0; gap:24px; }
+.fbars .rl { width:260px; font-size:30px; }
+.fbars .track { height:56px; border-radius:10px; }
+.fbars .fill { border-radius:10px; }
+.fbars .rv { width:220px; font-size:38px; }
+.fbig { position:absolute; left:0; top:400px; display:flex; align-items:baseline; gap:30px; }
+.fbig b { display:block; font-family:"Archivo"; font-stretch:120%; font-weight:850; font-size:200px; line-height:1; color:#fff;
+  text-shadow:0 0 50px rgba(223,14,196,.7); }
+.fbig span { display:block; font-size:40px; color:var(--soft); }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="ai-hirado-1029" data-start="0" data-duration="150.503" data-fps="25" data-width="1920" data-height="1080">
+<video id="pres-a" class="clip pres" src="source.mp4" muted playsinline data-start="0" data-duration="14.16" data-media-start="0" data-track-index="1"></video>
+<video id="pres-b" class="clip pres" src="source.mp4" muted playsinline data-start="19.64" data-duration="130.853" data-media-start="14.15" data-track-index="1"></video>
+<div id="b1" class="clip fsw" data-start="19.64" data-duration="4.32" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">1 / 4</div><div class="bump-title">OpenAI: 722 matekkézirat egy titkos modelltől</div><div class="bump-line"></div></div></div></div>
+<div id="b2" class="clip fsw" data-start="58.0" data-duration="3.04" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">2 / 4</div><div class="bump-title">A Claude Mythos 5 kvantumáramköröket tervez</div><div class="bump-line"></div></div></div></div>
+<div id="b3" class="clip fsw" data-start="91.0" data-duration="2.64" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">3 / 4</div><div class="bump-title">Megjött a Gemini 4 Argon</div><div class="bump-line"></div></div></div></div>
+<div id="b4" class="clip fsw" data-start="120.0" data-duration="2.48" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">4 / 4</div><div class="bump-title">„Elkezdődött a szingularitás”</div><div class="bump-line"></div></div></div></div>
+<div id="f1" class="clip fsw" data-start="31.52" data-duration="8.52" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col"><div class="fs-kick">OpenAI · 2026. október 6.</div><div class="fs-title">Mennyit ellenőrzött gép?</div><div class="stat"><b>722</b><span>kézirat</span></div><div class="stat"><b>17</b><span>matematikai terület</span></div><div class="stat hl"><b>162</b><span>kézirat fő eredménye Lean‑nel formalizálva (22%)</span></div></div><div class="waffle"><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d h"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i><i class="d"><b></b></i></div><div class="fs-legend"><span><i class="lg h"></i>Lean‑nel ellenőrzött fő eredmény</span><span><i class="lg"></i>gépi ellenőrzés nélkül</span></div><div class="fs-src">Forrás: OpenAI (GitHub-katalógus), Decrypt, 2026.10.06</div></div></div>
+<div id="f2" class="clip fsw" data-start="69.0" data-duration="10.08" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fphases"><div class="fphase" id="f2-p0"><div class="fs-kick">Anthropic · Claude Mythos 5</div><div class="fs-title">Elliptikus görbés áramkör: kapuk száma</div><div class="fbars"><div class="row"><div class="rl">Eddigi legjobb</div><div class="track"><div class="fill lil" data-w="100"></div></div><div class="rv">100%</div></div><div class="row"><div class="rl">Claude</div><div class="track"><div class="fill mag" data-w="5.9"></div></div><div class="rv">~6%</div></div></div><div class="fbig"><b>17×</b><span>kevesebb kapu</span></div></div><div class="fphase" id="f2-p1"><div class="fs-kick">Anthropic · Claude Mythos 5</div><div class="fs-title">DQI‑dekóder: Toffoli‑kapuk száma</div><div class="fbars"><div class="row"><div class="rl">Korábbi (Google)</div><div class="track"><div class="fill lil" data-w="100"></div></div><div class="rv">5,1 millió</div></div><div class="row"><div class="rl">Claude</div><div class="track"><div class="fill mag" data-w="8.6"></div></div><div class="rv">~440 ezer</div></div></div><div class="fbig"><b>~12×</b><span>olcsóbb a legdrágább lépés</span></div></div></div><div class="fs-src">Forrás: Anthropic Research – „Designing more efficient quantum circuits with Claude”, 2026.10.</div></div></div>
+<div id="c0" class="clip gw" data-start="0.4" data-duration="13.4" data-track-index="3"><div class="gcard"><div class="kick">Az adásban</div><div class="phases"><div class="phase" id="c0-p0"><div class="ptitle">A hét AI‑hírei</div><ul class="list"><li class="li num"><span class="nmark">1</span><span>OpenAI: 722 matekkézirat egy titkos modelltől</span></li><li class="li num"><span class="nmark">2</span><span>Claude Mythos 5: kvantumáramköröket tervez</span></li><li class="li num"><span class="nmark">3</span><span>Google: megjött a Gemini 4 Argon</span></li><li class="li num"><span class="nmark">4</span><span>Anthropic‑társalapító: „elkezdődött a szingularitás”</span></li></ul></div></div></div></div>
+<div id="c1" class="clip gw" data-start="24.08" data-duration="7.32" data-track-index="3"><div class="gcard"><div class="kick">OpenAI · matematika</div><div class="phases"><div class="phase" id="c1-p0"><div class="ptitle">Közzétéve: 2026. október 6.</div><div class="big">722</div><div class="note">matematikai kézirat egy belső, meg nem nevezett modelltől</div><ul class="list"><li class="li ok"><span class="mark"></span><span>372 eredménycsalád</span></li><li class="li ok"><span class="mark"></span><span>17 matematikai terület</span></li><li class="li warn"><span class="mark"></span><span>Egyik sem szakmailag lektorált</span></li></ul></div></div><div class="src">Forrás: OpenAI (GitHub-katalógus), Decrypt, 2026.10.06</div></div></div>
+<div id="c1b" class="clip gw" data-start="46.8" data-duration="5.92" data-track-index="3"><div class="gcard"><div class="kick">OpenAI · visszavonás</div><div class="phases"><div class="phase" id="c1b-p0"><div class="ptitle">Egy nappal később</div><div class="big">722 → 719</div><div class="note">3 kéziratot visszavontak egy előjelhiba miatt, további 14‑et javítottak.</div></div></div><div class="src">Forrás: Retraction Watch, OpenAI változásnapló, 2026.10.07</div></div></div>
+<div id="c2" class="clip gw" data-start="61.12" data-duration="7.68" data-track-index="3"><div class="gcard"><div class="kick">Anthropic · kvantumáramkörök</div><div class="phases"><div class="phase" id="c2-p0"><div class="ptitle">Egyetlen futás</div><div class="big">53 óra</div><div class="note">a Claude Mythos 5 zárt körben javasolt, kapott pontszámot és javított, emberi közbeavatkozás nélkül</div><div class="sub2">Partnerek</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Harvard: Susanne Yelin, Mikhail Lukin</span></li><li class="li ok"><span class="mark"></span><span>QuEra Computing</span></li></ul></div></div><div class="src">Forrás: Anthropic Research – „Designing more efficient quantum circuits with Claude”, 2026.10.</div></div></div>
+<div id="c2b" class="clip gw" data-start="80.32" data-duration="6.88" data-track-index="3"><div class="gcard"><div class="kick">A hátulütő</div><div class="phases"><div class="phase" id="c2b-p0"><div class="ptitle">Qubitigény</div><div class="big">+12%</div><div class="note">ennyivel több qubit kell, mint a legkisebb korábbi áramkörhöz – cserébe 17× kevesebb kapuval fut.</div></div></div><div class="src">Forrás: Anthropic Research – „Designing more efficient quantum circuits with Claude”, 2026.10.</div></div></div>
+<div id="c3" class="clip gw" data-start="93.68" data-duration="23.44" data-track-index="3"><div class="gcard"><div class="kick">Google · Gemini 4 Argon</div><div class="phases"><div class="phase" id="c3-p0"><div class="ptitle">Elérhető: 2026. október 13.</div><div class="duo"><div class="pill">Google AI Pro</div><div class="pill">Ultra</div></div><div class="note" style="margin-top:18px">a Gemini appban és a Keresés AI módjában; az ingyenes csomagban egyelőre nincs benne</div></div><div class="phase" id="c3-p1"><div class="ptitle">Hosszú válaszok</div><div class="big">~1M token</div><div class="note">kimeneti limit, az inputtal közös 1 048 576 tokenes kereten belül</div></div><div class="phase" id="c3-p2"><div class="ptitle">Feladatmód és appok</div><div class="big">40+ app</div><div class="note">a feladatok akkor is futnak, amikor nem vagy gépnél</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Instacart</span></li><li class="li ok"><span class="mark"></span><span>Shopify</span></li><li class="li ok"><span class="mark"></span><span>OpenTable</span></li><li class="li ok"><span class="mark"></span><span>Adobe</span></li></ul></div></div><div class="src">Forrás: Google blog, Google AI for Developers, 9to5Google, 2026.10.13–14</div></div></div>
+<div id="c4" class="clip gw" data-start="122.6" data-duration="19.8" data-track-index="3"><div class="gcard"><div class="kick">Anthropic · Jack Clark</div><div class="phases"><div class="phase" id="c4-p0"><div class="ptitle">Ki mondta és hol?</div><div class="quote">„A szingularitás elkezdődött.”</div><div class="note">Jack Clark, az Anthropic társalapítója, az IMF és a Világbank ülésén, Bangkokban, 2026. október 17‑én</div></div><div class="phase" id="c4-p1"><div class="ptitle">Amire hivatkozott</div><div class="sub2">Humanity’s Last Exam</div><div class="row"><div class="rl">2025</div><div class="track"><div class="fill lil" data-w="8"></div></div><div class="rv">8%</div></div><div class="row"><div class="rl">most</div><div class="track"><div class="fill mag" data-w="67.7"></div></div><div class="rv">67,7%</div></div><div class="sub2">FrontierMath</div><div class="row"><div class="rl">2025</div><div class="track"><div class="fill lil" data-w="2"></div></div><div class="rv">2%</div></div><div class="row"><div class="rl">most</div><div class="track"><div class="fill mag" data-w="94"></div></div><div class="rv">94%</div></div><div class="note">AI‑modellek legjobb eredménye a két nehéz teszten</div></div></div><div class="src">Forrás: The Rundown AI, indica News, 2026.10.17–18</div></div></div>
+<div id="c5" class="clip gw" data-start="142.8" data-duration="7.68" data-track-index="3"><div class="gcard"><div class="kick">A hét röviden</div><div class="phases"><div class="phase" id="c5-p0"><div class="ptitle">Matek · kvantum · új modellek</div><ul class="list"><li class="li ok"><span class="mark"></span><span>722 matekkézirat, ebből 162 Lean‑ellenőrzött</span></li><li class="li ok"><span class="mark"></span><span>17× kevesebb kapu egy kvantumáramkörben</span></li><li class="li ok"><span class="mark"></span><span>Gemini 4 Argon: 40+ app, feladatmód</span></li><li class="li warn"><span class="mark"></span><span>A kérdés: ki ellenőrzi, amit az AI kitalál?</span></li></ul></div></div></div></div>
+<div id="bug" class="clip" data-start="0" data-duration="150.503" data-track-index="6"><div class="b1"><b>AI</b> HÍREK</div><div class="b2">A NAGYVILÁGBÓL</div></div>
+<video id="intro" class="clip" src="intro.mp4" muted playsinline data-start="14.16" data-duration="5.48" data-track-index="7"></video>
+<div id="flash"></div>
+<div id="sub-0" class="clip subw" data-start="0.0" data-duration="4.48" data-track-index="9"><div class="sub">Egy mesterséges intelligencia 722 matekcikket tett fel egyszerre a netre.</div></div>
+<div id="sub-1" class="clip subw" data-start="4.48" data-duration="2.4" data-track-index="9"><div class="sub">Egy másik hatékonyabb kvantumáramköröket tervezett,</div></div>
+<div id="sub-2" class="clip subw" data-start="6.88" data-duration="2.12" data-track-index="9"><div class="sub">mint amit eddig valaha emberek kitaláltak.</div></div>
+<div id="sub-3" class="clip subw" data-start="9.0" data-duration="2.6" data-track-index="9"><div class="sub">És ez nem sci‑fi, hanem az elmúlt hetek hírei.</div></div>
+<div id="sub-4" class="clip subw" data-start="11.6" data-duration="2.4" data-track-index="9"><div class="sub">Ez itt az AI hírek a nagyvilágból.</div></div>
+<div id="sub-5" class="clip subw" data-start="24.0" data-duration="5.0" data-track-index="9"><div class="sub">Október 6‑án az OpenAI nyilvánosan feltett 722 matematikai kéziratot.</div></div>
+<div id="sub-6" class="clip subw" data-start="29.0" data-duration="2.52" data-track-index="9"><div class="sub">Ezeket egy belső, meg nem nevezett modell írta.</div></div>
+<div id="sub-7" class="clip subw" data-start="31.52" data-duration="5.24" data-track-index="9"><div class="sub">Nagyjából 17 témakörről van szó, és 162 kéziratnál a fő eredményt a Lean nevű</div></div>
+<div id="sub-8" class="clip subw" data-start="36.76" data-duration="3.24" data-track-index="9"><div class="sub">bizonyításellenőrző programmal is ellenőrizték.</div></div>
+<div id="sub-9" class="clip subw" data-start="40.0" data-duration="4.24" data-track-index="9"><div class="sub">Csakhogy egyik sem oldja meg a híres nagy matematikai problémák egyikét sem,</div></div>
+<div id="sub-10" class="clip subw" data-start="44.24" data-duration="2.76" data-track-index="9"><div class="sub">mindegyik csak egy szűkebb esetükkel foglalkozik.</div></div>
+<div id="sub-11" class="clip subw" data-start="47.0" data-duration="4.0" data-track-index="9"><div class="sub">Ráadásul hármat egy előjelhiba miatt szinte azonnal visszavontak.</div></div>
+<div id="sub-12" class="clip subw" data-start="51.0" data-duration="4.56" data-track-index="9"><div class="sub">A mesterséges intelligencia már tömegesen gyárt kutatásokat, de ellenőrizni még</div></div>
+<div id="sub-13" class="clip subw" data-start="55.56" data-duration="2.44" data-track-index="9"><div class="sub">mindig embereknek kell, és ez lassú munka.</div></div>
+<div id="sub-14" class="clip subw" data-start="69.0" data-duration="4.52" data-track-index="9"><div class="sub">Az egyik áramkör 17‑szer kevesebb kaput használ, mint egy korábbi megoldás.</div></div>
+<div id="sub-15" class="clip subw" data-start="73.52" data-duration="2.32" data-track-index="9"><div class="sub">Egy másik esetben egy ismert algoritmus</div></div>
+<div id="sub-16" class="clip subw" data-start="75.84" data-duration="3.16" data-track-index="9"><div class="sub">legdrágább lépését nagyjából 12‑szer olcsóbbá tették.</div></div>
+<div id="sub-17" class="clip subw" data-start="79.0" data-duration="1.48" data-track-index="9"><div class="sub">Van azonban egy hátulütő.</div></div>
+<div id="sub-18" class="clip subw" data-start="80.48" data-duration="4.92" data-track-index="9"><div class="sub">Az egyik változat 12%‑kal több qubitet igényel, a mai gépek pedig még nem elég</div></div>
+<div id="sub-19" class="clip subw" data-start="85.4" data-duration="1.6" data-track-index="9"><div class="sub">erősek ezek futtatásához.</div></div>
+<div id="sub-20" class="clip subw" data-start="87.0" data-duration="4.0" data-track-index="9"><div class="sub">Az AI már a jövő számítógépeinek a tervezésében is részt vesz.</div></div>
+<div id="sub-21" class="clip subw" data-start="100.0" data-duration="4.96" data-track-index="9"><div class="sub">Közvetlenebbül válaszol, kevesebbet kertel, sokat javult a kódolásban, és egyszerre</div></div>
+<div id="sub-22" class="clip subw" data-start="104.96" data-duration="3.04" data-track-index="9"><div class="sub">1 millió tokennyi outputot is képes kiadni magából.</div></div>
+<div id="sub-23" class="clip subw" data-start="108.0" data-duration="2.12" data-track-index="9"><div class="sub">Van már egy feladatmódja is, amiben akkor</div></div>
+<div id="sub-24" class="clip subw" data-start="110.12" data-duration="2.36" data-track-index="9"><div class="sub">is dolgozik tovább, amikor nem vagy gépnél.</div></div>
+<div id="sub-25" class="clip subw" data-start="112.48" data-duration="4.52" data-track-index="9"><div class="sub">Több mint 40 apphoz kapcsolódik, például az Instacarthoz és a Shopifyhoz.</div></div>
+<div id="sub-26" class="clip subw" data-start="117.0" data-duration="3.0" data-track-index="9"><div class="sub">A Google tehát újra beszállt az élmezőny versenyébe.</div></div>
+<div id="sub-27" class="clip subw" data-start="122.48" data-duration="2.64" data-track-index="9"><div class="sub">Egy cikk szerint az Anthropic egyik társalapítója</div></div>
+<div id="sub-28" class="clip subw" data-start="125.12" data-duration="2.4" data-track-index="9"><div class="sub">azt mondta, hogy a szingularitás már zajlik.</div></div>
+<div id="sub-29" class="clip subw" data-start="127.52" data-duration="3.48" data-track-index="9"><div class="sub">Hogy pontosan ki mondta és hol, azt a cikk sajnos nem jelöli.</div></div>
+<div id="sub-30" class="clip subw" data-start="131.0" data-duration="1.8" data-track-index="9"><div class="sub">Ez a hír egyelőre csak egyetlen</div></div>
+<div id="sub-31" class="clip subw" data-start="132.8" data-duration="3.68" data-track-index="9"><div class="sub">forrásból származik, tehát korántsem vehető abszolút igazságnak.</div></div>
+<div id="sub-32" class="clip subw" data-start="136.48" data-duration="2.56" data-track-index="9"><div class="sub">De már nem kívülállók, hanem a vezető cégek</div></div>
+<div id="sub-33" class="clip subw" data-start="139.04" data-duration="3.76" data-track-index="9"><div class="sub">alapítói is arról beszélnek, hogy az AI önmagát gyorsítja.</div></div>
+<div id="sub-34" class="clip subw" data-start="142.8" data-duration="4.72" data-track-index="9"><div class="sub">Matek, kvantum, új modellek: az AI már nem csak válaszol, hanem kutat is.</div></div>
+<div id="sub-35" class="clip subw" data-start="147.52" data-duration="2.96" data-track-index="9"><div class="sub">A kérdés: ki ellenőrzi, amit kitalál?</div></div>
+<audio id="mix" src="mix.wav" data-start="0" data-duration="150.4" data-track-index="10"></audio>
+</div>
+<script>
+(function () {
+document.querySelectorAll('.fill[data-w]').forEach(function (el) { el.style.width = el.dataset.w + '%'; });
+const tl = gsap.timeline({ paused: true });
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.16, ease: 'power2.out' }, 14.0);
+tl.to('#flash', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 14.2);
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.16, ease: 'power2.out' }, 19.48);
+tl.to('#flash', { opacity: 0, duration: 0.36, ease: 'power2.in' }, 19.68);
+tl.fromTo('#b1 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},19.64);
+tl.to('#b1 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},23.6);
+tl.fromTo('#b1 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},19.76);
+tl.fromTo('#b1 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},19.84);
+tl.fromTo('#b1 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},20.0);
+tl.fromTo('#b2 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},58.0);
+tl.to('#b2 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},60.68);
+tl.fromTo('#b2 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},58.08);
+tl.fromTo('#b2 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},58.2);
+tl.fromTo('#b2 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},58.36);
+tl.fromTo('#b3 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},91.0);
+tl.to('#b3 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},93.28);
+tl.fromTo('#b3 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},91.12);
+tl.fromTo('#b3 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},91.2);
+tl.fromTo('#b3 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},91.36);
+tl.fromTo('#b4 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},120.0);
+tl.to('#b4 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},122.12);
+tl.fromTo('#b4 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},120.08);
+tl.fromTo('#b4 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},120.2);
+tl.fromTo('#b4 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},120.36);
+tl.fromTo('#f1 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},31.52);
+tl.to('#f1 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},39.68);
+tl.fromTo('#f1 .stat',{autoAlpha:0,x:-30},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out',stagger:0.5},31.84);
+tl.fromTo('#f1 .d',{autoAlpha:0,scale:0.2},{autoAlpha:1,scale:1,duration:0.3,ease:'power2.out',stagger:0.0016},31.92);
+tl.fromTo('#f1 .d.h b',{scale:0},{scale:1,duration:0.35,ease:'back.out(2)',stagger:0.005},33.72);
+tl.fromTo('#f1 .fs-legend',{autoAlpha:0},{autoAlpha:1,duration:0.4},33.92);
+tl.fromTo('#f2 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},69.0);
+tl.to('#f2 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},78.72);
+tl.fromTo('#f2-p0',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},69.2);
+tl.fromTo('#f2-p0 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},69.52);
+tl.fromTo('#f2-p0 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},70.4);
+tl.to('#f2-p0',{autoAlpha:0,y:-16,duration:0.3,ease:'power2.in'},73.2);
+tl.fromTo('#f2-p1',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},73.52);
+tl.fromTo('#f2-p1 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},73.8);
+tl.fromTo('#f2-p1 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},74.72);
+tl.fromTo('#c0 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},0.4);
+tl.to('#c0 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},13.4);
+tl.fromTo('#c0-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},0.64);
+tl.fromTo('#c0-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},0.84);
+tl.fromTo('#c0-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},1.04);
+tl.fromTo('#c1 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},24.08);
+tl.to('#c1 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},31.0);
+tl.fromTo('#c1-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},24.36);
+tl.fromTo('#c1-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},24.56);
+tl.fromTo('#c1-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},24.76);
+tl.fromTo('#c1b .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},46.8);
+tl.to('#c1b .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},52.32);
+tl.fromTo('#c1b-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},47.04);
+tl.fromTo('#c1b-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},47.24);
+tl.fromTo('#c1b-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},47.44);
+tl.fromTo('#c2 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},61.12);
+tl.to('#c2 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},68.4);
+tl.fromTo('#c2-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},61.36);
+tl.fromTo('#c2-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},61.56);
+tl.fromTo('#c2-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},61.76);
+tl.fromTo('#c2b .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},80.32);
+tl.to('#c2b .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},86.8);
+tl.fromTo('#c2b-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},80.56);
+tl.fromTo('#c2b-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},80.76);
+tl.fromTo('#c2b-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},80.96);
+tl.fromTo('#c3 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},93.68);
+tl.to('#c3 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},116.72);
+tl.fromTo('#c3-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},93.96);
+tl.to('#c3-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},99.68);
+tl.fromTo('#c3-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},94.16);
+tl.fromTo('#c3-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},94.36);
+tl.fromTo('#c3-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},100.0);
+tl.to('#c3-p1',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},107.68);
+tl.fromTo('#c3-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},100.2);
+tl.fromTo('#c3-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},100.4);
+tl.fromTo('#c3-p2',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},108.0);
+tl.fromTo('#c3-p2 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},108.2);
+tl.fromTo('#c3-p2 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},108.4);
+tl.fromTo('#c4 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},122.6);
+tl.to('#c4 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},142.0);
+tl.fromTo('#c4-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},122.84);
+tl.to('#c4-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},130.68);
+tl.fromTo('#c4-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},123.04);
+tl.fromTo('#c4-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},123.24);
+tl.fromTo('#c4-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},131.0);
+tl.fromTo('#c4-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},131.2);
+tl.fromTo('#c4-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},131.4);
+tl.fromTo('#c5 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},142.8);
+tl.to('#c5 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},150.08);
+tl.fromTo('#c5-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},143.04);
+tl.fromTo('#c5-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},143.24);
+tl.fromTo('#c5-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},143.44);
+window.__timelines = window.__timelines || {};
+window.__timelines["ai-hirado-1029"] = tl;
+tl.seek(0);
+})();
+</script>
+</body>
+</html>
