@@ -70,3 +70,69 @@ html, body { width:1920px; height:1080px; overflow:hidden; background:#000; }
 .lock .body { position:absolute; left:0; bottom:0; width:76px; height:52px; border-radius:10px; background:linear-gradient(135deg,var(--violet),var(--magenta)); }
 .lock .kh { position:absolute; left:33px; top:16px; width:10px; height:18px; border-radius:5px; background:#fff; }
 .src { margin-top:12px; font-size:13.5px; line-height:1.35; color:#a99bd9; border-top:1px solid rgba(149,112,255,.3); padding-top:10px; }
+
+/* ── shared with híradó 10.29: bug, intro, full-screen scenes ── */
+.subw { z-index:12; }
+/* show bug */
+#bug { position:absolute; left:56px; top:46px; z-index:7; display:flex; align-items:center; gap:12px; }
+#bug .b1 { font-family:"Archivo"; font-stretch:125%; font-weight:800; font-size:30px; color:#fff; letter-spacing:.02em; text-shadow:0 0 16px rgba(149,112,255,.7); }
+#bug .b1 b { color:#dfff84; font-weight:800; }
+#bug .b2 { font-family:"Archivo"; font-stretch:115%; font-weight:600; font-size:12px; letter-spacing:.42em; color:#fff; background:var(--lilac); padding:6px 8px 6px 14px; border-radius:3px; }
+/* presenter footage + intro */
+.pres { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+#intro { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; z-index:20; }
+#flash { position:absolute; inset:0; z-index:21; opacity:0; pointer-events:none;
+  background:radial-gradient(60% 60% at 50% 50%, #ffffff, rgba(149,112,255,.9) 60%, rgba(13,11,30,.9)); }
+/* numbered list in the teaser card */
+.li.num { align-items:center; font-size:22px; margin:16px 0; }
+.nmark { flex:none; width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta));
+  display:flex; align-items:center; justify-content:center; font-family:"Archivo"; font-weight:800; font-size:19px; }
+.quote { font-family:"Archivo"; font-stretch:105%; font-weight:800; font-size:44px; line-height:1.12; color:#fff; margin:6px 0 14px;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+/* full-screen scenes */
+.fsw { position:absolute; inset:0; z-index:8; pointer-events:none; }
+.fs { position:absolute; inset:0; overflow:hidden; color:#fff; opacity:0; visibility:hidden;
+  background:radial-gradient(90% 80% at 75% 20%, #2a1a7a 0%, #160f45 45%, #0d0b1e 100%); }
+.fs-grid { position:absolute; inset:0; opacity:.35;
+  background-image:linear-gradient(rgba(149,112,255,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(149,112,255,.18) 1px, transparent 1px);
+  background-size:64px 64px; }
+.fs-glow { position:absolute; width:900px; height:900px; right:-200px; top:-300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(223,14,196,.28), rgba(223,14,196,0) 65%); }
+.fs-logo { position:absolute; right:64px; top:52px; width:210px; opacity:.9; }
+.bump { position:absolute; left:140px; right:140px; top:330px; }
+.bump-num { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:30px; letter-spacing:.2em;
+  background:var(--violet); padding:10px 20px 9px; border-radius:5px; }
+.bump-title { margin-top:34px; font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:96px; line-height:1.04;
+  text-shadow:0 0 40px rgba(149,112,255,.55); max-width:1500px; }
+.bump-line { margin-top:38px; width:620px; height:8px; border-radius:4px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--lilac),var(--magenta)); box-shadow:0 0 24px rgba(223,14,196,.6); }
+.fs-kick { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:20px; letter-spacing:.2em;
+  text-transform:uppercase; background:var(--violet); padding:8px 14px 7px; border-radius:4px; }
+.fs-title { margin-top:22px; font-family:"Archivo"; font-stretch:110%; font-weight:850; font-size:58px; line-height:1.06; }
+.fs-col { position:absolute; left:120px; top:150px; width:560px; }
+.stat { margin-top:30px; padding-left:22px; border-left:6px solid var(--lilac); }
+.stat b { display:block; font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:84px; line-height:1; }
+.stat span { display:block; margin-top:6px; font-size:24px; line-height:1.3; color:var(--soft); }
+.stat.hl { border-left-color:var(--magenta); }
+.stat.hl b { color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+.waffle { position:absolute; left:770px; top:190px; width:1036px; display:grid; grid-template-columns:repeat(38, 20px); gap:7px; }
+.waffle .d { position:relative; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.32); }
+.waffle .d b { position:absolute; inset:0; border-radius:50%; background:var(--magenta); box-shadow:0 0 10px rgba(223,14,196,.8); }
+.waffle .d:not(.h) b { display:none; }
+.fs-legend { position:absolute; left:770px; top:740px; display:flex; gap:40px; font-size:24px; color:var(--soft); }
+.fs-legend span { display:flex; align-items:center; gap:12px; }
+.lg { display:inline-block; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.45); }
+.lg.h { background:var(--magenta); }
+.fs-src { position:absolute; left:120px; bottom:200px; font-size:18px; color:#a99bd9; }
+.fphases { position:absolute; left:140px; right:140px; top:150px; height:640px; }
+.fphase { position:absolute; inset:0; }
+.fbars { margin-top:56px; width:1500px; }
+.fbars .row { margin:26px 0; gap:24px; }
+.fbars .rl { width:260px; font-size:30px; }
+.fbars .track { height:56px; border-radius:10px; }
+.fbars .fill { border-radius:10px; }
+.fbars .rv { width:220px; font-size:38px; }
+.fbig { position:absolute; left:0; top:400px; display:flex; align-items:baseline; gap:30px; }
+.fbig b { display:block; font-family:"Archivo"; font-stretch:120%; font-weight:850; font-size:200px; line-height:1; color:#fff;
+  text-shadow:0 0 50px rgba(223,14,196,.7); }
+.fbig span { display:block; font-size:40px; color:var(--soft); }

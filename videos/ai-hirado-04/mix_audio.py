@@ -20,8 +20,8 @@ parts = [
     f"anullsrc=r=48000:cl=mono,atrim=0:{INTRO_DUR}[v1]",
     f"[vb]atrim={CUT},asetpts=PTS-STARTPTS,afade=t=in:d=0.03[v2]",
     "[v0][v1][v2]concat=n=3:v=0:a=1,aformat=channel_layouts=stereo[voice]",
-    "[1:a]aresample=48000,asplit=3[m0][m1][m2]",
-    "[m0][m1]acrossfade=d=2:c1=tri:c2=tri[x1];[x1][m2]acrossfade=d=2:c1=tri:c2=tri[mus]",
+    "[1:a]aresample=48000,asplit=4[m0][m1][m2][m3]",
+    "[m0][m1]acrossfade=d=2:c1=tri:c2=tri[x1];[x1][m2]acrossfade=d=2:c1=tri:c2=tri[x2];[x2][m3]acrossfade=d=2:c1=tri:c2=tri[mus]",
     f"[mus]atrim=0:{T},asetpts=PTS-STARTPTS,volume='({vol})*({fade})':eval=frame[bed]",
     "[voice][bed]amix=inputs=2:duration=longest:normalize=0,volume=1.42,alimiter=limit=0.89:level=false,apad,"
     f"atrim=0:{T}[out]",

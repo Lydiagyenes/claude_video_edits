@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2190-22FF,U+FEFF,U+FFFD; }
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-ext-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0100-02AF,U+1E00-1E9F; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0000-00FF,U+2000-206F,U+2190-22FF; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-ext-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0100-02AF; }
+:root { --ink:#0d0b1e; --violet:#5e44e4; --lilac:#9570ff; --magenta:#df0ec4; --white:#ffffff; --soft:#e4dcff; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1920px; height:1080px; overflow:hidden; background:#000; }
+#root { position:relative; width:1920px; height:1080px; overflow:hidden; font-family:"Inter","Archivo",sans-serif; }
+#main { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+
+/* subtitles */
+.subw { position:absolute; inset:0; z-index:6; pointer-events:none; }
+.sub { position:absolute; left:50%; bottom:44px; transform:translateX(-50%); max-width:1240px; width:max-content;
+  text-align:center; font-family:"Inter",sans-serif; font-weight:600; font-size:40px; line-height:1.3; color:#fff;
+  background:rgba(13,11,30,.72); padding:10px 26px 12px; border-radius:12px; border-bottom:3px solid var(--lilac);
+  text-shadow:0 2px 8px rgba(0,0,0,.6); }
+
+/* graphic card */
+.gw { position:absolute; inset:0; z-index:4; pointer-events:none; }
+.gcard { position:absolute; right:44px; top:70px; width:480px; min-height:660px; padding:26px 28px 22px;
+  background:linear-gradient(160deg, rgba(30,20,78,.92), rgba(13,11,30,.94)); border:2px solid rgba(149,112,255,.65);
+  border-radius:20px; box-shadow:0 18px 60px rgba(0,0,0,.5), 0 0 40px rgba(149,112,255,.35); color:#fff;
+  display:flex; flex-direction:column; }
+.kick { font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase;
+  color:#fff; background:var(--violet); align-self:flex-start; padding:7px 12px 6px; border-radius:4px; }
+.phases { position:relative; flex:1; margin-top:16px; }
+.phase { position:absolute; inset:0; }
+.ptitle { font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:30px; line-height:1.1; color:var(--soft); margin-bottom:18px; }
+.big { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:58px; line-height:1; color:#fff; margin-top:8px; white-space:nowrap;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+.note { font-size:20px; line-height:1.35; color:#cfc4ff; margin-top:8px; }
+.sub2 { font-family:"Archivo"; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase; color:var(--lilac); margin:18px 0 8px; }
+.row { display:flex; align-items:center; gap:12px; margin:12px 0; }
+.rl { width:96px; font-size:19px; color:#d9d0ff; }
+.track { flex:1; height:30px; background:rgba(149,112,255,.14); border-radius:6px; overflow:hidden; }
+.fill { height:100%; border-radius:6px; transform-origin:left center; }
+.rv { width:136px; text-align:right; white-space:nowrap; font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:22px; }
+.lil { background:var(--lilac); } .mag { background:linear-gradient(90deg,var(--violet),var(--magenta)); } .vio { background:var(--violet); }
+.stack { display:flex; height:34px; border-radius:6px; overflow:hidden; margin:18px 0 12px; gap:3px; }
+.seg { height:100%; transform-origin:left center; }
+.legend { display:flex; align-items:center; font-size:20px; color:#e4dcff; margin:8px 0; }
+.dot { width:16px; height:16px; border-radius:4px; margin-right:10px; flex:none; }
+.duo { display:flex; gap:12px; }
+.pill { font-family:"Archivo"; font-weight:800; font-size:22px; padding:8px 16px; border-radius:999px; border:2px solid var(--lilac); }
+.list { list-style:none; margin-top:8px; }
+.li { display:flex; align-items:flex-start; gap:12px; font-size:20px; line-height:1.28; margin:8px 0; color:#f1edff; }
+.mark { flex:none; width:24px; height:24px; border-radius:50%; margin-top:2px; position:relative; }
+.ok .mark { background:var(--lilac); }
+.ok .mark::after { content:""; position:absolute; left:8px; top:4px; width:6px; height:11px; border:solid #fff; border-width:0 3px 3px 0; transform:rotate(45deg); }
+.no .mark { background:var(--magenta); }
+.no .mark::before, .no .mark::after { content:""; position:absolute; left:11px; top:5px; width:3px; height:14px; background:#fff; border-radius:2px; }
+.no .mark::before { transform:rotate(45deg); } .no .mark::after { transform:rotate(-45deg); }
+.warn .mark { background:transparent; border:2px solid var(--magenta); }
+.warn .mark::after { content:""; position:absolute; left:9px; top:3px; width:3px; height:10px; background:var(--magenta); box-shadow:0 13px 0 -0.5px var(--magenta); border-radius:2px; }
+.donut-wrap { position:relative; width:230px; height:230px; margin:0 auto 6px; }
+.donut { width:230px; height:230px; }
+.ring { fill:none; stroke:rgba(149,112,255,.15); stroke-width:30; }
+.arc { fill:none; stroke-width:30; }
+.arc.mag { stroke:var(--magenta); background:none; } .arc.lil { stroke:var(--lilac); background:none; } .arc.vio { stroke:var(--violet); background:none; }
+.donut-c { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.donut-c b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:60px; line-height:1; }
+.donut-c span { font-size:18px; color:#cfc4ff; }
+.range { position:relative; height:70px; margin-top:26px; }
+.rtrack { position:absolute; left:0; right:0; top:10px; height:14px; border-radius:7px; background:rgba(149,112,255,.18); }
+.rband { position:absolute; left:50%; width:33.3%; top:6px; height:22px; border-radius:6px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--violet),var(--magenta)); box-shadow:0 0 18px rgba(223,14,196,.5); }
+.rtick { position:absolute; top:38px; transform:translateX(-50%); font-size:16px; color:#cfc4ff; }
+.lock { position:relative; width:76px; height:86px; margin:0 0 6px 4px; }
+.lock .shackle { position:absolute; left:14px; top:0; width:48px; height:48px; border:9px solid var(--lilac); border-bottom:none; border-radius:26px 26px 0 0; }
+.lock .body { position:absolute; left:0; bottom:0; width:76px; height:52px; border-radius:10px; background:linear-gradient(135deg,var(--violet),var(--magenta)); }
+.lock .kh { position:absolute; left:33px; top:16px; width:10px; height:18px; border-radius:5px; background:#fff; }
+.src { margin-top:12px; font-size:13.5px; line-height:1.35; color:#a99bd9; border-top:1px solid rgba(149,112,255,.3); padding-top:10px; }
+
+/* ── shared with híradó 10.29: bug, intro, full-screen scenes ── */
+.subw { z-index:12; }
+/* show bug */
+#bug { position:absolute; left:56px; top:46px; z-index:7; display:flex; align-items:center; gap:12px; }
+#bug .b1 { font-family:"Archivo"; font-stretch:125%; font-weight:800; font-size:30px; color:#fff; letter-spacing:.02em; text-shadow:0 0 16px rgba(149,112,255,.7); }
+#bug .b1 b { color:#dfff84; font-weight:800; }
+#bug .b2 { font-family:"Archivo"; font-stretch:115%; font-weight:600; font-size:12px; letter-spacing:.42em; color:#fff; background:var(--lilac); padding:6px 8px 6px 14px; border-radius:3px; }
+/* presenter footage + intro */
+.pres { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+#intro { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; z-index:20; }
+#flash { position:absolute; inset:0; z-index:21; opacity:0; pointer-events:none;
+  background:radial-gradient(60% 60% at 50% 50%, #ffffff, rgba(149,112,255,.9) 60%, rgba(13,11,30,.9)); }
+/* numbered list in the teaser card */
+.li.num { align-items:center; font-size:22px; margin:16px 0; }
+.nmark { flex:none; width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta));
+  display:flex; align-items:center; justify-content:center; font-family:"Archivo"; font-weight:800; font-size:19px; }
+.quote { font-family:"Archivo"; font-stretch:105%; font-weight:800; font-size:44px; line-height:1.12; color:#fff; margin:6px 0 14px;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+/* full-screen scenes */
+.fsw { position:absolute; inset:0; z-index:8; pointer-events:none; }
+.fs { position:absolute; inset:0; overflow:hidden; color:#fff; opacity:0; visibility:hidden;
+  background:radial-gradient(90% 80% at 75% 20%, #2a1a7a 0%, #160f45 45%, #0d0b1e 100%); }
+.fs-grid { position:absolute; inset:0; opacity:.35;
+  background-image:linear-gradient(rgba(149,112,255,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(149,112,255,.18) 1px, transparent 1px);
+  background-size:64px 64px; }
+.fs-glow { position:absolute; width:900px; height:900px; right:-200px; top:-300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(223,14,196,.28), rgba(223,14,196,0) 65%); }
+.fs-logo { position:absolute; right:64px; top:52px; width:210px; opacity:.9; }
+.bump { position:absolute; left:140px; right:140px; top:330px; }
+.bump-num { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:30px; letter-spacing:.2em;
+  background:var(--violet); padding:10px 20px 9px; border-radius:5px; }
+.bump-title { margin-top:34px; font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:96px; line-height:1.04;
+  text-shadow:0 0 40px rgba(149,112,255,.55); max-width:1500px; }
+.bump-line { margin-top:38px; width:620px; height:8px; border-radius:4px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--lilac),var(--magenta)); box-shadow:0 0 24px rgba(223,14,196,.6); }
+.fs-kick { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:20px; letter-spacing:.2em;
+  text-transform:uppercase; background:var(--violet); padding:8px 14px 7px; border-radius:4px; }
+.fs-title { margin-top:22px; font-family:"Archivo"; font-stretch:110%; font-weight:850; font-size:58px; line-height:1.06; }
+.fs-col { position:absolute; left:120px; top:150px; width:560px; }
+.stat { margin-top:30px; padding-left:22px; border-left:6px solid var(--lilac); }
+.stat b { display:block; font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:84px; line-height:1; }
+.stat span { display:block; margin-top:6px; font-size:24px; line-height:1.3; color:var(--soft); }
+.stat.hl { border-left-color:var(--magenta); }
+.stat.hl b { color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+.waffle { position:absolute; left:770px; top:190px; width:1036px; display:grid; grid-template-columns:repeat(38, 20px); gap:7px; }
+.waffle .d { position:relative; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.32); }
+.waffle .d b { position:absolute; inset:0; border-radius:50%; background:var(--magenta); box-shadow:0 0 10px rgba(223,14,196,.8); }
+.waffle .d:not(.h) b { display:none; }
+.fs-legend { position:absolute; left:770px; top:740px; display:flex; gap:40px; font-size:24px; color:var(--soft); }
+.fs-legend span { display:flex; align-items:center; gap:12px; }
+.lg { display:inline-block; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.45); }
+.lg.h { background:var(--magenta); }
+.fs-src { position:absolute; left:120px; bottom:200px; font-size:18px; color:#a99bd9; }
+.fphases { position:absolute; left:140px; right:140px; top:150px; height:640px; }
+.fphase { position:absolute; inset:0; }
+.fbars { margin-top:56px; width:1500px; }
+.fbars .row { margin:26px 0; gap:24px; }
+.fbars .rl { width:260px; font-size:30px; }
+.fbars .track { height:56px; border-radius:10px; }
+.fbars .fill { border-radius:10px; }
+.fbars .rv { width:220px; font-size:38px; }
+.fbig { position:absolute; left:0; top:400px; display:flex; align-items:baseline; gap:30px; }
+.fbig b { display:block; font-family:"Archivo"; font-stretch:120%; font-weight:850; font-size:200px; line-height:1; color:#fff;
+  text-shadow:0 0 50px rgba(223,14,196,.7); }
+.fbig span { display:block; font-size:40px; color:var(--soft); }
+
+
+.fs-col.wide { width:1500px; }
+.meter { position:absolute; left:120px; top:470px; width:1500px; height:110px; display:flex; gap:10px; }
+.mfree { flex:62; border-radius:14px; background:linear-gradient(90deg,var(--violet),var(--lilac)); transform-origin:left center;
+  display:flex; align-items:center; padding-left:32px; box-shadow:0 0 30px rgba(149,112,255,.5); }
+.mpaid { flex:38; border-radius:14px; border:3px dashed var(--magenta); display:flex; align-items:center; padding-left:28px;
+  background:repeating-linear-gradient(135deg, rgba(223,14,196,.22) 0 14px, rgba(223,14,196,.08) 14px 28px); }
+.mfree span, .mpaid span { font-family:"Archivo"; font-stretch:112%; font-weight:800; font-size:38px; }
+.mnote { position:absolute; left:120px; top:620px; width:1500px; font-size:30px; line-height:1.35; color:var(--soft); }
+.fstat { position:absolute; left:120px; top:730px; display:flex; align-items:baseline; gap:24px; }
+.fstat b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:72px; color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+.fstat span { font-size:28px; color:var(--soft); }
+.toggles { position:absolute; left:120px; top:420px; }
+.tg { display:flex; align-items:center; gap:30px; margin:0 0 34px; }
+.tg .sw { position:relative; width:120px; height:62px; border-radius:31px; background:rgba(149,112,255,.22); border:3px solid rgba(149,112,255,.6); flex:none; }
+.tg .sw i { position:absolute; left:6px; top:6px; width:44px; height:44px; border-radius:50%; background:#cfc4ff; }
+.tg b { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:52px; min-width:560px; }
+.tg em { font-style:normal; font-size:28px; color:var(--magenta); font-weight:600; letter-spacing:.04em; }
+.split { position:absolute; left:120px; top:420px; width:1680px; height:240px; display:flex; gap:12px; }
+.sp { border-radius:16px; transform-origin:left center; padding:34px 36px; display:flex; flex-direction:column; justify-content:center; }
+.sp.cn { background:linear-gradient(135deg,var(--violet),var(--magenta)); box-shadow:0 0 40px rgba(223,14,196,.45); }
+.sp.ot { background:rgba(149,112,255,.28); border:3px solid var(--lilac); transform-origin:right center; }
+.sp b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:96px; line-height:1; }
+.sp span { font-size:32px; margin-top:10px; color:#fff; }
+.hero { position:absolute; left:120px; top:400px; }
+.hero b { display:block; font-family:"Archivo"; font-stretch:120%; font-weight:850; font-size:230px; line-height:1; transform-origin:left center;
+  text-shadow:0 0 60px rgba(223,14,196,.7); }
+.hero span { display:block; margin-top:26px; font-size:40px; color:var(--soft); }
+.hub { position:absolute; left:80px; top:20px; width:1040px; height:1040px; }
+.hub-svg { position:absolute; left:0; top:0; }
+.hub-svg .ln { stroke:rgba(149,112,255,.65); stroke-width:3; stroke-dasharray:8 8; }
+.lab { position:absolute; width:92px; height:92px; border-radius:50%; background:rgba(13,11,30,.9); border:3px solid var(--lilac);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 0 18px rgba(149,112,255,.5); }
+.lab b { font-family:"Archivo"; font-weight:850; font-size:32px; line-height:1; }
+.lab span { font-size:14px; color:var(--soft); }
+.core { position:absolute; left:400px; top:380px; width:240px; height:240px; border-radius:50%;
+  background:linear-gradient(135deg,var(--violet),var(--magenta)); display:flex; flex-direction:column; align-items:center; justify-content:center;
+  box-shadow:0 0 60px rgba(223,14,196,.6); }
+.core b { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:40px; }
+.core span { font-size:30px; margin-top:6px; }
+.mcol { position:absolute; left:1180px; top:200px; width:640px; }
+.fstat2 { margin-top:40px; padding-left:22px; border-left:6px solid var(--lilac); }
+.fstat2 b { display:block; font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:72px; line-height:1; }
+.fstat2 span { display:block; margin-top:8px; font-size:26px; line-height:1.3; color:var(--soft); }
+.fstat2.hl { border-left-color:var(--magenta); }
+.fstat2.hl b { color:#ff7ff0; }
+.endc { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.end-logo { width:300px; margin-bottom:40px; }
+.end-t { font-family:"Archivo"; font-stretch:125%; font-weight:800; font-size:110px; letter-spacing:.02em; text-shadow:0 0 30px rgba(149,112,255,.7); }
+.end-t b { color:#dfff84; font-weight:800; }
+.end-t span { display:block; text-align:center; font-size:30px; letter-spacing:.5em; font-weight:600; color:#fff; margin-top:10px; }
+.end-btn { margin-top:60px; font-family:"Archivo"; font-stretch:115%; font-weight:850; font-size:54px; padding:22px 60px; border-radius:999px;
+  background:linear-gradient(90deg,var(--violet),var(--magenta)); box-shadow:0 0 50px rgba(223,14,196,.6); }
+.end-n { margin-top:34px; font-size:32px; color:var(--soft); }
+.fs-logo { display:block; }
+#f7 .fs-logo { display:none; }
+.fbig b, .fbig span { white-space:nowrap; }
+#f3 .fbig b { font-size:170px; }
+#f6 .fs-src { left:1180px; }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="ai-hirado-1105" data-start="0" data-duration="220.542" data-fps="25" data-width="1920" data-height="1080">
+<video id="pres-a" class="clip pres" src="source.mp4" muted playsinline data-start="0" data-duration="12.16" data-media-start="0" data-track-index="1"></video>
+<video id="pres-b" class="clip pres" src="source.mp4" muted playsinline data-start="17.64" data-duration="202.892" data-media-start="12.15" data-track-index="1"></video>
+<div id="b1" class="clip fsw" data-start="17.64" data-duration="2.84" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">1 / 6</div><div class="bump-title">Siri AI: több tudás, de korlátokkal</div><div class="bump-line"></div></div></div></div>
+<div id="b2" class="clip fsw" data-start="50.88" data-duration="3.6" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">2 / 6</div><div class="bump-title">Google: kereső csak AI‑jal az iskoláknak</div><div class="bump-line"></div></div></div></div>
+<div id="b3" class="clip fsw" data-start="83.68" data-duration="3.84" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">3 / 6</div><div class="bump-title">Anthropic: gigabevétel és egy nyugtalanító mondat</div><div class="bump-line"></div></div></div></div>
+<div id="b4" class="clip fsw" data-start="120.48" data-duration="3.04" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">4 / 6</div><div class="bump-title">NVIDIA: plafon a kínai ügyfeleknek</div><div class="bump-line"></div></div></div></div>
+<div id="b5" class="clip fsw" data-start="146.68" data-duration="3.8" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">5 / 6</div><div class="bump-title">Brazília: a Meta AI‑ja nem tanulhat a hírekből</div><div class="bump-line"></div></div></div></div>
+<div id="b6" class="clip fsw" data-start="177.52" data-duration="2.92" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">6 / 6</div><div class="bump-title">Egyszemélyes biotechcéget vett az Anthropic</div><div class="bump-line"></div></div></div></div>
+<div id="f1" class="clip fsw" data-start="38.48" data-duration="8.24" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">Apple · negyedéves beszámoló, 2026.11.02.</div><div class="fs-title">Siri AI: ingyen, de nem korlátlanul</div></div><div class="meter"><div class="mfree"><span>Ingyenes keret</span></div><div class="mpaid"><span>+ fizetős bővítés</span></div></div><div class="mnote">A felhőben (Private Cloud Compute) futó funkciókra jön használati korlát; az árat és a keret méretét az Apple még nem közölte.</div><div class="fstat"><b>2,5 Mrd+</b><span>Siri‑kérés naponta (John Ternus, Apple‑vezérigazgató)</span></div><div class="fs-src">Forrás: Apple Q4 2026 negyedéves beszámoló (Yahoo Tech, Benzinga), 2026.11.02</div></div></div>
+<div id="f2" class="clip fsw" data-start="65.52" data-duration="8.0" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">Google · K‑12 diákfiókok</div><div class="fs-title">Alapból minden ki van kapcsolva – az iskola dönt</div></div><div class="toggles"><div class="tg"><span class="sw"><i></i></span><b>Gemini</b><em>alapból kikapcsolva</em></div><div class="tg"><span class="sw"><i></i></span><b>Gemini Notebook</b><em>alapból kikapcsolva</em></div><div class="tg"><span class="sw"><i></i></span><b>Google‑kereső</b><em>alapból kikapcsolva</em></div></div><div class="mnote" style="top:760px">A kritikusok szerint a kereső nem kapcsolható be AI‑összefoglalók nélkül.</div><div class="fs-src">Forrás: CBS News, TechCrunch, NBC News, Google blog, 2026.11.03–04</div></div></div>
+<div id="f3" class="clip fsw" data-start="91.6" data-duration="14.88" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fphases"><div class="fphase" id="f3-p0"><div class="fs-kick">Anthropic · S‑1/A, 2026.11.02.</div><div class="fs-title">Bevétel 2026‑ban</div><div class="fbars"><div class="row"><div class="rl">2. negyedév</div><div class="track"><div class="fill lil" data-w="68.2"></div></div><div class="rv">11,6 Mrd $</div></div><div class="row"><div class="rl">3. negyedév</div><div class="track"><div class="fill mag" data-w="100"></div></div><div class="rv">17,0 Mrd $</div></div></div><div class="fbig"><b>33,2 Mrd $</b><span>január–szeptember</span></div></div><div class="fphase" id="f3-p1"><div class="fs-kick">Anthropic · S‑1/A, 2026.11.02.</div><div class="fs-title">Kötelezettségvállalás a bevételhez képest</div><div class="fbars"><div class="row"><div class="rl">Bevétel (9 hó)</div><div class="track"><div class="fill lil" data-w="3.7"></div></div><div class="rv">33,2 Mrd $</div></div><div class="row"><div class="rl">Kötelezettség</div><div class="track"><div class="fill mag" data-w="100"></div></div><div class="rv">895,4 Mrd $</div></div></div><div class="fbig"><b>~27×</b><span>főleg számítási kapacitásra</span></div></div></div><div class="fs-src">Forrás: Anthropic S‑1/A (2026.11.02), CNBC, TechCrunch</div></div></div>
+<div id="f4" class="clip fsw" data-start="123.52" data-duration="11.16" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">NVIDIA · Financial Times értesülése</div><div class="fs-title">Kinek mehet a felhőkapacitás?</div></div><div class="split"><div class="sp cn" style="flex:49"><b>max. 49%</b><span>kínai ügyfelek</span></div><div class="sp ot" style="flex:51"><b>min. 51%</b><span>nem kínai ügyfelek</span></div></div><div class="mnote" style="top:720px">Az NVIDIA kérése a felhő‑ és adatközpont‑partnereinek, a jelentés szerint szóban közölve.</div><div class="fs-src">Forrás: Financial Times (TNW, Yahoo Finance), The Information, 2026.11.03–04</div></div></div>
+<div id="f5" class="clip fsw" data-start="168.48" data-duration="5.04" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">São Paulo · 44. polgári bíróság</div><div class="fs-title">Ha a Meta nem tartja be:</div></div><div class="hero"><b>R$ 1 millió</b><span>bírság naponta · ≈ 180 000 USD · ≈ 59 millió Ft</span></div><div class="fs-src">Forrás: AFP (The Star, Malay Mail), 2026.11.04</div></div></div>
+<div id="f6" class="clip fsw" data-start="190.6" data-duration="9.88" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="hub"><svg class="hub-svg" viewBox="0 0 1040 1040" width="1040" height="1040"><line class="ln" x1="520" y1="500" x2="520.0" y2="210.0"/><line class="ln" x1="520" y1="500" x2="676.8" y2="256.0"/><line class="ln" x1="520" y1="500" x2="783.8" y2="379.5"/><line class="ln" x1="520" y1="500" x2="807.0" y2="541.3"/><line class="ln" x1="520" y1="500" x2="739.2" y2="689.9"/><line class="ln" x1="520" y1="500" x2="601.7" y2="778.3"/><line class="ln" x1="520" y1="500" x2="438.3" y2="778.3"/><line class="ln" x1="520" y1="500" x2="300.8" y2="689.9"/><line class="ln" x1="520" y1="500" x2="233.0" y2="541.3"/><line class="ln" x1="520" y1="500" x2="256.2" y2="379.5"/><line class="ln" x1="520" y1="500" x2="363.2" y2="256.0"/></svg><div class="lab" style="left:474px;top:164px"><b>1</b><span>labor</span></div><div class="lab" style="left:631px;top:210px"><b>2</b><span>labor</span></div><div class="lab" style="left:738px;top:334px"><b>3</b><span>labor</span></div><div class="lab" style="left:761px;top:495px"><b>4</b><span>labor</span></div><div class="lab" style="left:693px;top:644px"><b>5</b><span>labor</span></div><div class="lab" style="left:556px;top:732px"><b>6</b><span>labor</span></div><div class="lab" style="left:392px;top:732px"><b>7</b><span>labor</span></div><div class="lab" style="left:255px;top:644px"><b>8</b><span>labor</span></div><div class="lab" style="left:187px;top:495px"><b>9</b><span>labor</span></div><div class="lab" style="left:210px;top:334px"><b>10</b><span>labor</span></div><div class="lab" style="left:317px;top:210px"><b>11</b><span>labor</span></div><div class="core"><b>1 alapító</b><span>+ Claude</span></div></div><div class="mcol"><div class="fs-kick">Mithril Medicine</div><div class="fstat2"><b>11</b><span>külső labor koordinálása a Claude segítségével</span></div><div class="fstat2"><b>&lt; 18 hónap</b><span>az ötlettől az ígéretes egérkísérletekig</span></div><div class="fstat2 hl"><b>6 hiba</b><span>a Claude‑nak – a folyamat során dokumentálva</span></div></div><div class="fs-src">Forrás: Anthropic (2026.10.27), R&D World, Becker’s Hospital Review</div></div></div>
+<div id="f7" class="clip fsw" data-start="216.48" data-duration="4.062" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="endc"><img class="end-logo" src="img/amazing_logo.svg" alt="" /><div class="end-t"><b>AI</b> HÍREK <span>A NAGYVILÁGBÓL</span></div><div class="end-btn">Iratkozz fel!</div><div class="end-n">Jövő héten jövünk a folytatással.</div></div></div></div>
+<div id="c0" class="clip gw" data-start="0.4" data-duration="11.52" data-track-index="3"><div class="gcard"><div class="kick">Az adásban</div><div class="phases"><div class="phase" id="c0-p0"><div class="ptitle">A hét AI‑hírei</div><ul class="list"><li class="li num"><span class="nmark">1</span><span>Siri AI: több tudás, korlátokkal</span></li><li class="li num"><span class="nmark">2</span><span>Google: kereső csak AI‑jal?</span></li><li class="li num"><span class="nmark">3</span><span>Anthropic: gigabevétel</span></li><li class="li num"><span class="nmark">4</span><span>NVIDIA: plafon Kínának</span></li><li class="li num"><span class="nmark">5</span><span>Brazília: a Meta nem taníthat hírekből</span></li><li class="li num"><span class="nmark">6</span><span>Egyszemélyes biotech az Anthropicnál</span></li></ul></div></div></div></div>
+<div id="c1" class="clip gw" data-start="20.6" data-duration="17.8" data-track-index="3"><div class="gcard"><div class="kick">Apple · Siri AI</div><div class="phases"><div class="phase" id="c1-p0"><div class="ptitle">iOS 27.3 fejlesztői béta · nov. 3.</div><div class="big">15 app</div><div class="note">Apple‑alkalmazás, amelyben a Siri AI összetettebb feladatokat old meg, pl.:</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Naptár, Zene, Üzenetek</span></li><li class="li ok"><span class="mark"></span><span>Emlékeztetők, Időjárás</span></li></ul></div><div class="phase" id="c1-p1"><div class="ptitle">Külső fejlesztők</div><div class="big">jövő tavasz</div><div class="note">ekkortól fogad az App Store Siri AI‑t használó appokat; a fejlesztői előzetest már bárki kipróbálhatja</div></div></div><div class="src">Forrás: Apple Developer News, Cult of Mac, 2026.11.03</div></div></div>
+<div id="c1b" class="clip gw" data-start="46.8" data-duration="4.04" data-track-index="3"><div class="gcard"><div class="kick">Siri AI · EU</div><div class="phases"><div class="phase" id="c1b-p0"><div class="ptitle">Elérhetőség</div><div class="big">EU: nincs</div><div class="note">a Siri AI az Európai Unióban egyelőre nem érhető el</div></div></div><div class="src">Forrás: Apple Developer News, 2026.11.03</div></div></div>
+<div id="c2" class="clip gw" data-start="54.6" data-duration="10.84" data-track-index="3"><div class="gcard"><div class="kick">Google · iskolák (K‑12)</div><div class="phases"><div class="phase" id="c2-p0"><div class="ptitle">A feltétel</div><ul class="list"><li class="li no"><span class="mark"></span><span>AI‑eszközök kikapcsolva</span></li><li class="li no"><span class="mark"></span><span>= nincs Google‑kereső a diákfiókokban</span></li></ul><div class="note">Chris Phillips, a Google oktatási alelnöke szerint</div></div><div class="phase" id="c2-p1"><div class="ptitle">A kritika</div><div class="quote">„Zsarolás.”</div><div class="note">Bernie Sanders szenátor az X‑en</div><div class="sub2">Bírálta még</div><ul class="list"><li class="li warn"><span class="mark"></span><span>Richard Blumenthal szenátor</span></li><li class="li warn"><span class="mark"></span><span>Lina Khan, volt FTC‑elnök</span></li></ul></div></div><div class="src">Forrás: CBS News, TechCrunch, NBC News, Google blog, 2026.11.03–04</div></div></div>
+<div id="c2b" class="clip gw" data-start="73.52" data-duration="9.88" data-track-index="3"><div class="gcard"><div class="kick">DuckDuckGo</div><div class="phases"><div class="phase" id="c2b-p0"><div class="ptitle">Az alternatíva</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Útmutatót adott ki: hogyan legyen alapértelmezett kereső az iskolákban</span></li><li class="li ok"><span class="mark"></span><span>Az AI‑funkciói teljesen kikapcsolhatók</span></li></ul></div></div><div class="src">Forrás: The AI Insider, 2026.11.05</div></div></div>
+<div id="c3" class="clip gw" data-start="106.48" data-duration="13.96" data-track-index="3"><div class="gcard"><div class="kick">Anthropic · kockázati tényezők</div><div class="phases"><div class="phase" id="c3-p0"><div class="ptitle">A nyugtalanító mondat</div><div class="quote" style="font-size:36px">Közel lehet az AI által drámaian felgyorsított fejlődés küszöbe</div><div class="note">a cég saját felelős skálázási irányelve (RSP) szerinti küszöb</div></div><div class="phase" id="c3-p1"><div class="ptitle">Az Anthropic szerint</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Egyik mostani modellje sem lépte át a küszöböt</span></li><li class="li ok"><span class="mark"></span><span>Emberi felügyelet nélkül nem engedné a Claude‑ot új csúcsmodelleket tervezni és építeni</span></li></ul></div></div><div class="src">Forrás: Anthropic S‑1/A (2026.11.02), CNBC, TechCrunch</div></div></div>
+<div id="c4" class="clip gw" data-start="134.8" data-duration="11.64" data-track-index="3"><div class="gcard"><div class="kick">NVIDIA · 49%</div><div class="phases"><div class="phase" id="c4-p0"><div class="ptitle">Mennyire szigorú?</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Csak az új szerződésekre vonatkozik</span></li><li class="li warn"><span class="mark"></span><span>The Information: egyelőre nem kötelező</span></li><li class="li warn"><span class="mark"></span><span>Az NVIDIA nem erősítette meg a 49%‑ot</span></li></ul></div></div><div class="src">Forrás: Financial Times (TNW, Yahoo Finance), The Information, 2026.11.03–04</div></div></div>
+<div id="c5" class="clip gw" data-start="150.48" data-duration="17.96" data-track-index="3"><div class="gcard"><div class="kick">Brazília · Meta</div><div class="phases"><div class="phase" id="c5-p0"><div class="ptitle">São Paulo, 2026. november 3.</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Ideiglenes intézkedés (44. polgári bíróság)</span></li><li class="li no"><span class="mark"></span><span>Tilos a brazil sajtó tartalmain tanítani a Meta AI‑ját</span></li></ul></div><div class="phase" id="c5-p1"><div class="ptitle">A felperesek</div><div class="duo"><div class="pill">ANJ</div><div class="pill">Abert</div><div class="pill">Aner</div></div><div class="note" style="margin-top:18px">három országos médiaszövetség; a Meta november 20‑tól érvényes új üzleti feltételei miatt pereltek</div></div></div><div class="src">Forrás: AFP (The Star, Malay Mail), 2026.11.04</div></div></div>
+<div id="c6" class="clip gw" data-start="180.48" data-duration="10.0" data-track-index="3"><div class="gcard"><div class="kick">Anthropic · Mithril Medicine</div><div class="phases"><div class="phase" id="c6-p0"><div class="ptitle">Bejelentve: 2026. október 27.</div><div class="big">1 fő</div><div class="note">az alapító, Cody Tranbarger volt az egyetlen teljes munkaidős alkalmazott</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Célpont: LAMA2‑hoz kötött veleszületett izomdisztrófia</span></li></ul></div></div><div class="src">Forrás: Anthropic (2026.10.27), R&D World, Becker’s Hospital Review</div></div></div>
+<div id="c7" class="clip gw" data-start="205.68" data-duration="10.76" data-track-index="3"><div class="gcard"><div class="kick">A hét röviden</div><div class="phases"><div class="phase" id="c7-p0"><div class="ptitle">Hat hír, egy irány</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Siri AI: keret + fizetős bővítés</span></li><li class="li warn"><span class="mark"></span><span>Google: kereső csak AI‑jal?</span></li><li class="li ok"><span class="mark"></span><span>Anthropic: 17 Mrd $ a 3. negyedévben</span></li><li class="li ok"><span class="mark"></span><span>NVIDIA: max. 49% kínai ügyfél</span></li><li class="li ok"><span class="mark"></span><span>Brazília: tilalom a Metának</span></li><li class="li ok"><span class="mark"></span><span>Mithril: 1 ember, 11 labor</span></li></ul></div></div></div></div>
+<div id="bug" class="clip" data-start="0" data-duration="220.542" data-track-index="6"><div class="b1"><b>AI</b> HÍREK</div><div class="b2">A NAGYVILÁGBÓL</div></div>
+<video id="intro" class="clip" src="intro.mp4" muted playsinline data-start="12.16" data-duration="5.48" data-track-index="7"></video>
+<div id="flash"></div>
+<div id="sub-0" class="clip subw" data-start="0.08" data-duration="3.88" data-track-index="9"><div class="sub">A Siri végre tényleg okosabb lesz, de lehet, hogy fizetni kell érte.</div></div>
+<div id="sub-1" class="clip subw" data-start="3.96" data-duration="4.2" data-track-index="9"><div class="sub">Az Apple a héten minden fejlesztő előtt megnyitotta a Siri AI‑t, és közben kimondta:</div></div>
+<div id="sub-2" class="clip subw" data-start="8.16" data-duration="1.88" data-track-index="9"><div class="sub">a nehezebb feladatokra korlát jöhet.</div></div>
+<div id="sub-3" class="clip subw" data-start="10.04" data-duration="1.96" data-track-index="9"><div class="sub">Nézzük, mi történt még!</div></div>
+<div id="sub-4" class="clip subw" data-start="20.48" data-duration="5.32" data-track-index="9"><div class="sub">Az iOS 27.3 fejlesztői bétájában a Siri AI már 15 Apple‑alkalmazásban old meg</div></div>
+<div id="sub-5" class="clip subw" data-start="25.8" data-duration="1.8" data-track-index="9"><div class="sub">bonyolultabb feladatokat.</div></div>
+<div id="sub-6" class="clip subw" data-start="27.6" data-duration="2.76" data-track-index="9"><div class="sub">Leiratkozik helyetted hírlevelekről a Mailben, vagy</div></div>
+<div id="sub-7" class="clip subw" data-start="30.36" data-duration="2.12" data-track-index="9"><div class="sub">bezárja a duplikált lapokat a Safariban.</div></div>
+<div id="sub-8" class="clip subw" data-start="32.48" data-duration="4.24" data-track-index="9"><div class="sub">Bármelyik fejlesztő rákötheti a saját alkalmazását a Sirire, de ilyen appokat csak</div></div>
+<div id="sub-9" class="clip subw" data-start="36.72" data-duration="1.76" data-track-index="9"><div class="sub">jövő tavasztól fogad az App Store.</div></div>
+<div id="sub-10" class="clip subw" data-start="38.48" data-duration="4.52" data-track-index="9"><div class="sub">Az Apple pénzügyi igazgatója a negyedéves beszámolón megerősítette: a felhőben futó</div></div>
+<div id="sub-11" class="clip subw" data-start="43.0" data-duration="3.8" data-track-index="9"><div class="sub">nehezebb feladatokra használati korlát jöhet, fizetős bővítéssel.</div></div>
+<div id="sub-12" class="clip subw" data-start="46.8" data-duration="3.64" data-track-index="9"><div class="sub">Fontos: az EU‑ban a Siri AI iPhone‑on egyelőre nem érhető el.</div></div>
+<div id="sub-13" class="clip subw" data-start="54.48" data-duration="4.72" data-track-index="9"><div class="sub">A Google bejelentette: a diákoknak szánt szoftverét használó amerikai iskolák csak</div></div>
+<div id="sub-14" class="clip subw" data-start="59.2" data-duration="3.64" data-track-index="9"><div class="sub">akkor kapnak keresőt, ha az AI‑eszközeit is bekapcsolják.</div></div>
+<div id="sub-15" class="clip subw" data-start="62.84" data-duration="2.68" data-track-index="9"><div class="sub">Bernie Sanders szenátor zsarolásnak nevezte a tervet.</div></div>
+<div id="sub-16" class="clip subw" data-start="65.52" data-duration="4.68" data-track-index="9"><div class="sub">A Google erre azt mondta: a Gemini, a Gemini Notebook és a kereső alapból ki van</div></div>
+<div id="sub-17" class="clip subw" data-start="70.2" data-duration="3.32" data-track-index="9"><div class="sub">kapcsolva, és az iskolák egyenként engedélyezhetik őket.</div></div>
+<div id="sub-18" class="clip subw" data-start="73.52" data-duration="5.12" data-track-index="9"><div class="sub">A DuckDuckGo rögtön lecsapott, és alternatívaként ajánlja magát az iskoláknak.</div></div>
+<div id="sub-19" class="clip subw" data-start="78.64" data-duration="4.88" data-track-index="9"><div class="sub">Itt dől el, mennyire kényszeríthető rá a mesterséges intelligencia a gyermekeinkre.</div></div>
+<div id="sub-20" class="clip subw" data-start="87.52" data-duration="4.16" data-track-index="9"><div class="sub">A Claude fejlesztője frissítette a tőzsdei bevezetéshez szükséges dokumentumát.</div></div>
+<div id="sub-21" class="clip subw" data-start="91.68" data-duration="5.8" data-track-index="9"><div class="sub">Idén szeptember végéig 33,2 milliárd dollár bevételt ért el, ebből 17 milliárdot</div></div>
+<div id="sub-22" class="clip subw" data-start="97.48" data-duration="2.08" data-track-index="9"><div class="sub">csak a harmadik negyedévben.</div></div>
+<div id="sub-23" class="clip subw" data-start="99.56" data-duration="2.92" data-track-index="9"><div class="sub">Közben 895,4 milliárd dollárnyi, főleg</div></div>
+<div id="sub-24" class="clip subw" data-start="102.48" data-duration="4.0" data-track-index="9"><div class="sub">számítási kapacitásra szóló kötelezettséget vállalt.</div></div>
+<div id="sub-25" class="clip subw" data-start="106.48" data-duration="2.96" data-track-index="9"><div class="sub">A papírban az is szerepel: a cég közel lehet</div></div>
+<div id="sub-26" class="clip subw" data-start="109.44" data-duration="4.08" data-track-index="9"><div class="sub">ahhoz, hogy az AI drámaian felgyorsítsa a saját fejlesztését.</div></div>
+<div id="sub-27" class="clip subw" data-start="113.52" data-duration="4.76" data-track-index="9"><div class="sub">Az Anthropic szerint egyik mostani modellje sem lépte át ezt a küszöböt, és továbbra</div></div>
+<div id="sub-28" class="clip subw" data-start="118.28" data-duration="2.2" data-track-index="9"><div class="sub">is embert akar tartani a folyamatokban.</div></div>
+<div id="sub-29" class="clip subw" data-start="123.52" data-duration="4.96" data-track-index="9"><div class="sub">A Financial Times szerint az NVIDIA arra kérte a felhőszolgáltató partnereit, hogy</div></div>
+<div id="sub-30" class="clip subw" data-start="128.48" data-duration="4.0" data-track-index="9"><div class="sub">AI‑szolgáltatásaiknak legfeljebb 49%‑a mehessen kínai ügyfeleknek.</div></div>
+<div id="sub-31" class="clip subw" data-start="132.48" data-duration="2.32" data-track-index="9"><div class="sub">Ez csak az új szerződésekre vonatkozik.</div></div>
+<div id="sub-32" class="clip subw" data-start="134.8" data-duration="3.68" data-track-index="9"><div class="sub">A The Information szerint az iránymutatás most nem kötelező.</div></div>
+<div id="sub-33" class="clip subw" data-start="138.48" data-duration="4.0" data-track-index="9"><div class="sub">Az NVIDIA nem erősítette meg, de nem is cáfolta a kijelentést.</div></div>
+<div id="sub-34" class="clip subw" data-start="142.48" data-duration="3.96" data-track-index="9"><div class="sub">A chipháború már a felhőben is zajlik, nem csak a hardverexportban.</div></div>
+<div id="sub-35" class="clip subw" data-start="150.48" data-duration="4.6" data-track-index="9"><div class="sub">Egy São Pauló‑i bíróság november 3‑án ideiglenesen megtiltotta a Metának, hogy</div></div>
+<div id="sub-36" class="clip subw" data-start="155.08" data-duration="2.44" data-track-index="9"><div class="sub">brazil lapok tartalmán tanítsa az AI‑ját.</div></div>
+<div id="sub-37" class="clip subw" data-start="157.52" data-duration="1.68" data-track-index="9"><div class="sub">Három médiaszövetség perelt.</div></div>
+<div id="sub-38" class="clip subw" data-start="159.2" data-duration="4.52" data-track-index="9"><div class="sub">Szerintük a Meta új feltételei ingyenes hozzáférést követeltek a tartalmukhoz a</div></div>
+<div id="sub-39" class="clip subw" data-start="163.72" data-duration="1.8" data-track-index="9"><div class="sub">platform használatáért cserébe.</div></div>
+<div id="sub-40" class="clip subw" data-start="165.52" data-duration="3.04" data-track-index="9"><div class="sub">A bíró ezt a részt felfüggesztette.</div></div>
+<div id="sub-41" class="clip subw" data-start="168.56" data-duration="4.96" data-track-index="9"><div class="sub">Ha a Meta nem tartja be, naponta 59 millió forintnak megfelelő összegű bírság jár.</div></div>
+<div id="sub-42" class="clip subw" data-start="173.52" data-duration="3.92" data-track-index="9"><div class="sub">A kiadók és az AI‑cégek harcában ez fontos precedens lehet.</div></div>
+<div id="sub-43" class="clip subw" data-start="186.48" data-duration="4.08" data-track-index="9"><div class="sub">A cégnek egyetlen teljes munkaidős alkalmazottja volt: az alapító.</div></div>
+<div id="sub-44" class="clip subw" data-start="190.56" data-duration="5.6" data-track-index="9"><div class="sub">Ő a Claude segítségével koordinált 11 külső labort, így kevesebb mint 18 hónap alatt</div></div>
+<div id="sub-45" class="clip subw" data-start="196.16" data-duration="2.32" data-track-index="9"><div class="sub">jutottak ígéretes egérkísérletekig.</div></div>
+<div id="sub-46" class="clip subw" data-start="198.48" data-duration="2.0" data-track-index="9"><div class="sub">A Claude közben 6 hibát is vétett.</div></div>
+<div id="sub-47" class="clip subw" data-start="200.48" data-duration="1.8" data-track-index="9"><div class="sub">Az eset jól mutatja, mire képes</div></div>
+<div id="sub-48" class="clip subw" data-start="202.28" data-duration="3.32" data-track-index="9"><div class="sub">egyetlen ember a megfelelő AI‑asszisztens használatával.</div></div>
+<div id="sub-49" class="clip subw" data-start="205.6" data-duration="0.88" data-track-index="9"><div class="sub">Ennyi volt a hét.</div></div>
+<div id="sub-50" class="clip subw" data-start="206.48" data-duration="4.08" data-track-index="9"><div class="sub">Az AI egyre több helyen ott van, és egyre költségesebb számunkra.</div></div>
+<div id="sub-51" class="clip subw" data-start="210.56" data-duration="3.04" data-track-index="9"><div class="sub">Egyre többször kerül bíróság elé vagy törvénybe.</div></div>
+<div id="sub-52" class="clip subw" data-start="213.6" data-duration="2.96" data-track-index="9"><div class="sub">Jövő héten jövünk a folytatással.</div></div>
+<div id="sub-53" class="clip subw" data-start="216.56" data-duration="3.92" data-track-index="9"><div class="sub">Ha érdekel, iratkozz fel a csatornánkra, és ne maradj le az izgalmas hírekről!</div></div>
+<audio id="mix" src="mix.wav" data-start="0" data-duration="220.43" data-track-index="10"></audio>
+</div>
+<script>
+(function () {
+document.querySelectorAll('.fill[data-w]').forEach(function (el) { el.style.width = el.dataset.w + '%'; });
+const tl = gsap.timeline({ paused: true });
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.16, ease: 'power2.out' }, 12.0);
+tl.to('#flash', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 12.2);
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.16, ease: 'power2.out' }, 17.48);
+tl.to('#flash', { opacity: 0, duration: 0.36, ease: 'power2.in' }, 17.68);
+tl.fromTo('#b1 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},17.64);
+tl.to('#b1 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},20.12);
+tl.fromTo('#b1 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},17.76);
+tl.fromTo('#b1 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},17.84);
+tl.fromTo('#b1 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},18.0);
+tl.fromTo('#b2 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},50.88);
+tl.to('#b2 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},54.12);
+tl.fromTo('#b2 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},50.96);
+tl.fromTo('#b2 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},51.08);
+tl.fromTo('#b2 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},51.24);
+tl.fromTo('#b3 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},83.68);
+tl.to('#b3 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},87.16);
+tl.fromTo('#b3 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},83.76);
+tl.fromTo('#b3 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},83.88);
+tl.fromTo('#b3 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},84.04);
+tl.fromTo('#b4 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},120.48);
+tl.to('#b4 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},123.16);
+tl.fromTo('#b4 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},120.56);
+tl.fromTo('#b4 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},120.68);
+tl.fromTo('#b4 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},120.84);
+tl.fromTo('#b5 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},146.68);
+tl.to('#b5 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},150.12);
+tl.fromTo('#b5 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},146.8);
+tl.fromTo('#b5 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},146.88);
+tl.fromTo('#b5 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},147.04);
+tl.fromTo('#b6 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},177.52);
+tl.to('#b6 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},180.08);
+tl.fromTo('#b6 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},177.6);
+tl.fromTo('#b6 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},177.72);
+tl.fromTo('#b6 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},177.88);
+tl.fromTo('#f1 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},38.48);
+tl.to('#f1 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},46.36);
+tl.fromTo('#f1 .mfree',{scaleX:0},{scaleX:1,duration:1.1,ease:'power3.out'},39.08);
+tl.fromTo('#f1 .mpaid',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.6,ease:'power3.out'},40.48);
+tl.fromTo('#f1 .mnote',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.5,ease:'power2.out'},41.08);
+tl.fromTo('#f1 .fstat',{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:0.5,ease:'power2.out'},42.08);
+tl.fromTo('#f2 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},65.52);
+tl.to('#f2 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},73.16);
+tl.fromTo('#f2 .tg',{autoAlpha:0,x:-50},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out',stagger:0.6},66.0);
+tl.fromTo('#f2 .mnote',{autoAlpha:0},{autoAlpha:1,duration:0.5},68.92);
+tl.fromTo('#f3 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},91.6);
+tl.to('#f3 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},106.12);
+tl.fromTo('#f3-p0',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},91.8);
+tl.fromTo('#f3-p0 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},92.08);
+tl.fromTo('#f3-p0 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},93.0);
+tl.to('#f3-p0',{autoAlpha:0,y:-16,duration:0.3,ease:'power2.in'},99.28);
+tl.fromTo('#f3-p1',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},99.56);
+tl.fromTo('#f3-p1 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},99.84);
+tl.fromTo('#f3-p1 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},100.76);
+tl.fromTo('#f4 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},123.52);
+tl.to('#f4 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},134.32);
+tl.fromTo('#f4 .sp.cn',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out'},124.12);
+tl.fromTo('#f4 .sp.ot',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out'},124.8);
+tl.fromTo('#f4 .sp b, #f4 .sp span',{autoAlpha:0,y:14},{autoAlpha:1,y:0,duration:0.45,stagger:0.15},125.52);
+tl.fromTo('#f4 .mnote',{autoAlpha:0},{autoAlpha:1,duration:0.5},126.72);
+tl.fromTo('#f5 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},168.48);
+tl.to('#f5 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},173.16);
+tl.fromTo('#f5 .hero b',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.6,ease:'back.out(1.6)'},168.88);
+tl.fromTo('#f5 .hero span',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.5},169.48);
+tl.fromTo('#f6 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},190.6);
+tl.to('#f6 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},200.12);
+tl.fromTo('#f6 .core',{autoAlpha:0,scale:0.5},{autoAlpha:1,scale:1,duration:0.6,ease:'back.out(1.8)'},190.88);
+tl.fromTo('#f6 .ln',{autoAlpha:0},{autoAlpha:1,duration:0.3,stagger:0.08},191.4);
+tl.fromTo('#f6 .lab',{autoAlpha:0,scale:0.4},{autoAlpha:1,scale:1,duration:0.4,ease:'back.out(2)',stagger:0.08},191.52);
+tl.fromTo('#f6 .fstat2',{autoAlpha:0,x:30},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out',stagger:1.6},191.8);
+tl.fromTo('#f7 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},216.48);
+tl.fromTo('#f7 .end-t',{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},216.8);
+tl.fromTo('#f7 .end-btn',{autoAlpha:0,scale:0.6},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(2)'},217.28);
+tl.to('#f7 .end-btn',{scale:1.06,duration:0.45,ease:'sine.inOut',yoyo:true,repeat:3},217.88);
+tl.fromTo('#f7 .end-n',{autoAlpha:0},{autoAlpha:1,duration:0.5},217.68);
+tl.fromTo('#c0 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},0.4);
+tl.to('#c0 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},11.52);
+tl.fromTo('#c0-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},0.64);
+tl.fromTo('#c0-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},0.84);
+tl.fromTo('#c0-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},1.04);
+tl.fromTo('#c1 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},20.6);
+tl.to('#c1 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},38.0);
+tl.fromTo('#c1-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},20.84);
+tl.to('#c1-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},32.2);
+tl.fromTo('#c1-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},21.04);
+tl.fromTo('#c1-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},21.24);
+tl.fromTo('#c1-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},32.48);
+tl.fromTo('#c1-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},32.68);
+tl.fromTo('#c1-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},32.88);
+tl.fromTo('#c1b .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},46.8);
+tl.to('#c1b .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},50.44);
+tl.fromTo('#c1b-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},47.04);
+tl.fromTo('#c1b-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},47.24);
+tl.fromTo('#c1b-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},47.44);
+tl.fromTo('#c2 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},54.6);
+tl.to('#c2 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},65.04);
+tl.fromTo('#c2-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},54.84);
+tl.to('#c2-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},62.48);
+tl.fromTo('#c2-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},55.04);
+tl.fromTo('#c2-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},55.24);
+tl.fromTo('#c2-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},62.8);
+tl.fromTo('#c2-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},63.0);
+tl.fromTo('#c2-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},63.2);
+tl.fromTo('#c2b .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},73.52);
+tl.to('#c2b .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},83.0);
+tl.fromTo('#c2b-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},73.76);
+tl.fromTo('#c2b-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},73.96);
+tl.fromTo('#c2b-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},74.16);
+tl.fromTo('#c3 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},106.48);
+tl.to('#c3 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},120.04);
+tl.fromTo('#c3-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},106.76);
+tl.to('#c3-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},113.2);
+tl.fromTo('#c3-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},106.96);
+tl.fromTo('#c3-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},107.16);
+tl.fromTo('#c3-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},113.52);
+tl.fromTo('#c3-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},113.72);
+tl.fromTo('#c3-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},113.92);
+tl.fromTo('#c4 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},134.8);
+tl.to('#c4 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},146.04);
+tl.fromTo('#c4-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},135.04);
+tl.fromTo('#c4-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},135.24);
+tl.fromTo('#c4-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},135.44);
+tl.fromTo('#c5 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},150.48);
+tl.to('#c5 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},168.04);
+tl.fromTo('#c5-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},150.76);
+tl.to('#c5-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},157.2);
+tl.fromTo('#c5-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},150.96);
+tl.fromTo('#c5-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},151.16);
+tl.fromTo('#c5-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},157.52);
+tl.fromTo('#c5-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},157.72);
+tl.fromTo('#c5-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},157.92);
+tl.fromTo('#c6 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},180.48);
+tl.to('#c6 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},190.08);
+tl.fromTo('#c6-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},180.76);
+tl.fromTo('#c6-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},180.96);
+tl.fromTo('#c6-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},181.16);
+tl.fromTo('#c7 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},205.68);
+tl.to('#c7 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},216.04);
+tl.fromTo('#c7-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},205.96);
+tl.fromTo('#c7-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},206.16);
+tl.fromTo('#c7-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},206.36);
+window.__timelines = window.__timelines || {};
+window.__timelines["ai-hirado-1105"] = tl;
+tl.seek(0);
+})();
+</script>
+</body>
+</html>
