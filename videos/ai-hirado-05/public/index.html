@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2190-22FF,U+FEFF,U+FFFD; }
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-ext-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0100-02AF,U+1E00-1E9F; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0000-00FF,U+2000-206F,U+2190-22FF; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-ext-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0100-02AF; }
+:root { --ink:#0d0b1e; --violet:#5e44e4; --lilac:#9570ff; --magenta:#df0ec4; --white:#ffffff; --soft:#e4dcff; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1920px; height:1080px; overflow:hidden; background:#000; }
+#root { position:relative; width:1920px; height:1080px; overflow:hidden; font-family:"Inter","Archivo",sans-serif; }
+#main { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+
+/* subtitles */
+.subw { position:absolute; inset:0; z-index:6; pointer-events:none; }
+.sub { position:absolute; left:50%; bottom:44px; transform:translateX(-50%); max-width:1240px; width:max-content;
+  text-align:center; font-family:"Inter",sans-serif; font-weight:600; font-size:40px; line-height:1.3; color:#fff;
+  background:rgba(13,11,30,.72); padding:10px 26px 12px; border-radius:12px; border-bottom:3px solid var(--lilac);
+  text-shadow:0 2px 8px rgba(0,0,0,.6); }
+
+/* graphic card */
+.gw { position:absolute; inset:0; z-index:4; pointer-events:none; }
+.gcard { position:absolute; right:44px; top:70px; width:480px; min-height:660px; padding:26px 28px 22px;
+  background:linear-gradient(160deg, rgba(30,20,78,.92), rgba(13,11,30,.94)); border:2px solid rgba(149,112,255,.65);
+  border-radius:20px; box-shadow:0 18px 60px rgba(0,0,0,.5), 0 0 40px rgba(149,112,255,.35); color:#fff;
+  display:flex; flex-direction:column; }
+.kick { font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase;
+  color:#fff; background:var(--violet); align-self:flex-start; padding:7px 12px 6px; border-radius:4px; }
+.phases { position:relative; flex:1; margin-top:16px; }
+.phase { position:absolute; inset:0; }
+.ptitle { font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:30px; line-height:1.1; color:var(--soft); margin-bottom:18px; }
+.big { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:58px; line-height:1; color:#fff; margin-top:8px; white-space:nowrap;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+.note { font-size:20px; line-height:1.35; color:#cfc4ff; margin-top:8px; }
+.sub2 { font-family:"Archivo"; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase; color:var(--lilac); margin:18px 0 8px; }
+.row { display:flex; align-items:center; gap:12px; margin:12px 0; }
+.rl { width:96px; font-size:19px; color:#d9d0ff; }
+.track { flex:1; height:30px; background:rgba(149,112,255,.14); border-radius:6px; overflow:hidden; }
+.fill { height:100%; border-radius:6px; transform-origin:left center; }
+.rv { width:136px; text-align:right; white-space:nowrap; font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:22px; }
+.lil { background:var(--lilac); } .mag { background:linear-gradient(90deg,var(--violet),var(--magenta)); } .vio { background:var(--violet); }
+.stack { display:flex; height:34px; border-radius:6px; overflow:hidden; margin:18px 0 12px; gap:3px; }
+.seg { height:100%; transform-origin:left center; }
+.legend { display:flex; align-items:center; font-size:20px; color:#e4dcff; margin:8px 0; }
+.dot { width:16px; height:16px; border-radius:4px; margin-right:10px; flex:none; }
+.duo { display:flex; gap:12px; }
+.pill { font-family:"Archivo"; font-weight:800; font-size:22px; padding:8px 16px; border-radius:999px; border:2px solid var(--lilac); }
+.list { list-style:none; margin-top:8px; }
+.li { display:flex; align-items:flex-start; gap:12px; font-size:20px; line-height:1.28; margin:8px 0; color:#f1edff; }
+.mark { flex:none; width:24px; height:24px; border-radius:50%; margin-top:2px; position:relative; }
+.ok .mark { background:var(--lilac); }
+.ok .mark::after { content:""; position:absolute; left:8px; top:4px; width:6px; height:11px; border:solid #fff; border-width:0 3px 3px 0; transform:rotate(45deg); }
+.no .mark { background:var(--magenta); }
+.no .mark::before, .no .mark::after { content:""; position:absolute; left:11px; top:5px; width:3px; height:14px; background:#fff; border-radius:2px; }
+.no .mark::before { transform:rotate(45deg); } .no .mark::after { transform:rotate(-45deg); }
+.warn .mark { background:transparent; border:2px solid var(--magenta); }
+.warn .mark::after { content:""; position:absolute; left:9px; top:3px; width:3px; height:10px; background:var(--magenta); box-shadow:0 13px 0 -0.5px var(--magenta); border-radius:2px; }
+.donut-wrap { position:relative; width:230px; height:230px; margin:0 auto 6px; }
+.donut { width:230px; height:230px; }
+.ring { fill:none; stroke:rgba(149,112,255,.15); stroke-width:30; }
+.arc { fill:none; stroke-width:30; }
+.arc.mag { stroke:var(--magenta); background:none; } .arc.lil { stroke:var(--lilac); background:none; } .arc.vio { stroke:var(--violet); background:none; }
+.donut-c { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.donut-c b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:60px; line-height:1; }
+.donut-c span { font-size:18px; color:#cfc4ff; }
+.range { position:relative; height:70px; margin-top:26px; }
+.rtrack { position:absolute; left:0; right:0; top:10px; height:14px; border-radius:7px; background:rgba(149,112,255,.18); }
+.rband { position:absolute; left:50%; width:33.3%; top:6px; height:22px; border-radius:6px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--violet),var(--magenta)); box-shadow:0 0 18px rgba(223,14,196,.5); }
+.rtick { position:absolute; top:38px; transform:translateX(-50%); font-size:16px; color:#cfc4ff; }
+.lock { position:relative; width:76px; height:86px; margin:0 0 6px 4px; }
+.lock .shackle { position:absolute; left:14px; top:0; width:48px; height:48px; border:9px solid var(--lilac); border-bottom:none; border-radius:26px 26px 0 0; }
+.lock .body { position:absolute; left:0; bottom:0; width:76px; height:52px; border-radius:10px; background:linear-gradient(135deg,var(--violet),var(--magenta)); }
+.lock .kh { position:absolute; left:33px; top:16px; width:10px; height:18px; border-radius:5px; background:#fff; }
+.src { margin-top:12px; font-size:13.5px; line-height:1.35; color:#a99bd9; border-top:1px solid rgba(149,112,255,.3); padding-top:10px; }
+
+/* ── shared with híradó 10.29: bug, intro, full-screen scenes ── */
+.subw { z-index:12; }
+/* show bug */
+#bug { position:absolute; left:56px; top:46px; z-index:7; display:flex; align-items:center; gap:12px; }
+#bug .b1 { font-family:"Archivo"; font-stretch:125%; font-weight:800; font-size:30px; color:#fff; letter-spacing:.02em; text-shadow:0 0 16px rgba(149,112,255,.7); }
+#bug .b1 b { color:#dfff84; font-weight:800; }
+#bug .b2 { font-family:"Archivo"; font-stretch:115%; font-weight:600; font-size:12px; letter-spacing:.42em; color:#fff; background:var(--lilac); padding:6px 8px 6px 14px; border-radius:3px; }
+/* presenter footage + intro */
+.pres { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+#intro { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; z-index:20; }
+#flash { position:absolute; inset:0; z-index:21; opacity:0; pointer-events:none;
+  background:radial-gradient(60% 60% at 50% 50%, #ffffff, rgba(149,112,255,.9) 60%, rgba(13,11,30,.9)); }
+/* numbered list in the teaser card */
+.li.num { align-items:center; font-size:22px; margin:16px 0; }
+.nmark { flex:none; width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta));
+  display:flex; align-items:center; justify-content:center; font-family:"Archivo"; font-weight:800; font-size:19px; }
+.quote { font-family:"Archivo"; font-stretch:105%; font-weight:800; font-size:44px; line-height:1.12; color:#fff; margin:6px 0 14px;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+/* full-screen scenes */
+.fsw { position:absolute; inset:0; z-index:8; pointer-events:none; }
+.fs { position:absolute; inset:0; overflow:hidden; color:#fff; opacity:0; visibility:hidden;
+  background:radial-gradient(90% 80% at 75% 20%, #2a1a7a 0%, #160f45 45%, #0d0b1e 100%); }
+.fs-grid { position:absolute; inset:0; opacity:.35;
+  background-image:linear-gradient(rgba(149,112,255,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(149,112,255,.18) 1px, transparent 1px);
+  background-size:64px 64px; }
+.fs-glow { position:absolute; width:900px; height:900px; right:-200px; top:-300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(223,14,196,.28), rgba(223,14,196,0) 65%); }
+.fs-logo { position:absolute; right:64px; top:52px; width:210px; opacity:.9; }
+.bump { position:absolute; left:140px; right:140px; top:330px; }
+.bump-num { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:30px; letter-spacing:.2em;
+  background:var(--violet); padding:10px 20px 9px; border-radius:5px; }
+.bump-title { margin-top:34px; font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:96px; line-height:1.04;
+  text-shadow:0 0 40px rgba(149,112,255,.55); max-width:1500px; }
+.bump-line { margin-top:38px; width:620px; height:8px; border-radius:4px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--lilac),var(--magenta)); box-shadow:0 0 24px rgba(223,14,196,.6); }
+.fs-kick { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:20px; letter-spacing:.2em;
+  text-transform:uppercase; background:var(--violet); padding:8px 14px 7px; border-radius:4px; }
+.fs-title { margin-top:22px; font-family:"Archivo"; font-stretch:110%; font-weight:850; font-size:58px; line-height:1.06; }
+.fs-col { position:absolute; left:120px; top:150px; width:560px; }
+.stat { margin-top:30px; padding-left:22px; border-left:6px solid var(--lilac); }
+.stat b { display:block; font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:84px; line-height:1; }
+.stat span { display:block; margin-top:6px; font-size:24px; line-height:1.3; color:var(--soft); }
+.stat.hl { border-left-color:var(--magenta); }
+.stat.hl b { color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+.waffle { position:absolute; left:770px; top:190px; width:1036px; display:grid; grid-template-columns:repeat(38, 20px); gap:7px; }
+.waffle .d { position:relative; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.32); }
+.waffle .d b { position:absolute; inset:0; border-radius:50%; background:var(--magenta); box-shadow:0 0 10px rgba(223,14,196,.8); }
+.waffle .d:not(.h) b { display:none; }
+.fs-legend { position:absolute; left:770px; top:740px; display:flex; gap:40px; font-size:24px; color:var(--soft); }
+.fs-legend span { display:flex; align-items:center; gap:12px; }
+.lg { display:inline-block; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.45); }
+.lg.h { background:var(--magenta); }
+.fs-src { position:absolute; left:120px; bottom:200px; font-size:18px; color:#a99bd9; }
+.fphases { position:absolute; left:140px; right:140px; top:150px; height:640px; }
+.fphase { position:absolute; inset:0; }
+.fbars { margin-top:56px; width:1500px; }
+.fbars .row { margin:26px 0; gap:24px; }
+.fbars .rl { width:260px; font-size:30px; }
+.fbars .track { height:56px; border-radius:10px; }
+.fbars .fill { border-radius:10px; }
+.fbars .rv { width:220px; font-size:38px; }
+.fbig { position:absolute; left:0; top:400px; display:flex; align-items:baseline; gap:30px; }
+.fbig b { display:block; font-family:"Archivo"; font-stretch:120%; font-weight:850; font-size:200px; line-height:1; color:#fff;
+  text-shadow:0 0 50px rgba(223,14,196,.7); }
+.fbig span { display:block; font-size:40px; color:var(--soft); }
+
+
+.fs-col.wide { width:1500px; }
+.meter { position:absolute; left:120px; top:470px; width:1500px; height:110px; display:flex; gap:10px; }
+.mfree { flex:62; border-radius:14px; background:linear-gradient(90deg,var(--violet),var(--lilac)); transform-origin:left center;
+  display:flex; align-items:center; padding-left:32px; box-shadow:0 0 30px rgba(149,112,255,.5); }
+.mpaid { flex:38; border-radius:14px; border:3px dashed var(--magenta); display:flex; align-items:center; padding-left:28px;
+  background:repeating-linear-gradient(135deg, rgba(223,14,196,.22) 0 14px, rgba(223,14,196,.08) 14px 28px); }
+.mfree span, .mpaid span { font-family:"Archivo"; font-stretch:112%; font-weight:800; font-size:38px; }
+.mnote { position:absolute; left:120px; top:620px; width:1500px; font-size:30px; line-height:1.35; color:var(--soft); }
+.fstat { position:absolute; left:120px; top:730px; display:flex; align-items:baseline; gap:24px; }
+.fstat b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:72px; color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+.fstat span { font-size:28px; color:var(--soft); }
+.toggles { position:absolute; left:120px; top:420px; }
+.tg { display:flex; align-items:center; gap:30px; margin:0 0 34px; }
+.tg .sw { position:relative; width:120px; height:62px; border-radius:31px; background:rgba(149,112,255,.22); border:3px solid rgba(149,112,255,.6); flex:none; }
+.tg .sw i { position:absolute; left:6px; top:6px; width:44px; height:44px; border-radius:50%; background:#cfc4ff; }
+.tg b { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:52px; min-width:560px; }
+.tg em { font-style:normal; font-size:28px; color:var(--magenta); font-weight:600; letter-spacing:.04em; }
+.split { position:absolute; left:120px; top:420px; width:1680px; height:240px; display:flex; gap:12px; }
+.sp { border-radius:16px; transform-origin:left center; padding:34px 36px; display:flex; flex-direction:column; justify-content:center; }
+.sp.cn { background:linear-gradient(135deg,var(--violet),var(--magenta)); box-shadow:0 0 40px rgba(223,14,196,.45); }
+.sp.ot { background:rgba(149,112,255,.28); border:3px solid var(--lilac); transform-origin:right center; }
+.sp b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:96px; line-height:1; }
+.sp span { font-size:32px; margin-top:10px; color:#fff; }
+.hero { position:absolute; left:120px; top:400px; }
+.hero b { display:block; font-family:"Archivo"; font-stretch:120%; font-weight:850; font-size:230px; line-height:1; transform-origin:left center;
+  text-shadow:0 0 60px rgba(223,14,196,.7); }
+.hero span { display:block; margin-top:26px; font-size:40px; color:var(--soft); }
+.hub { position:absolute; left:80px; top:20px; width:1040px; height:1040px; }
+.hub-svg { position:absolute; left:0; top:0; }
+.hub-svg .ln { stroke:rgba(149,112,255,.65); stroke-width:3; stroke-dasharray:8 8; }
+.lab { position:absolute; width:92px; height:92px; border-radius:50%; background:rgba(13,11,30,.9); border:3px solid var(--lilac);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 0 18px rgba(149,112,255,.5); }
+.lab b { font-family:"Archivo"; font-weight:850; font-size:32px; line-height:1; }
+.lab span { font-size:14px; color:var(--soft); }
+.core { position:absolute; left:400px; top:380px; width:240px; height:240px; border-radius:50%;
+  background:linear-gradient(135deg,var(--violet),var(--magenta)); display:flex; flex-direction:column; align-items:center; justify-content:center;
+  box-shadow:0 0 60px rgba(223,14,196,.6); }
+.core b { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:40px; }
+.core span { font-size:30px; margin-top:6px; }
+.mcol { position:absolute; left:1180px; top:200px; width:640px; }
+.fstat2 { margin-top:40px; padding-left:22px; border-left:6px solid var(--lilac); }
+.fstat2 b { display:block; font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:72px; line-height:1; }
+.fstat2 span { display:block; margin-top:8px; font-size:26px; line-height:1.3; color:var(--soft); }
+.fstat2.hl { border-left-color:var(--magenta); }
+.fstat2.hl b { color:#ff7ff0; }
+.endc { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.end-logo { width:300px; margin-bottom:40px; }
+.end-t { font-family:"Archivo"; font-stretch:125%; font-weight:800; font-size:110px; letter-spacing:.02em; text-shadow:0 0 30px rgba(149,112,255,.7); }
+.end-t b { color:#dfff84; font-weight:800; }
+.end-t span { display:block; text-align:center; font-size:30px; letter-spacing:.5em; font-weight:600; color:#fff; margin-top:10px; }
+.end-btn { margin-top:60px; font-family:"Archivo"; font-stretch:115%; font-weight:850; font-size:54px; padding:22px 60px; border-radius:999px;
+  background:linear-gradient(90deg,var(--violet),var(--magenta)); box-shadow:0 0 50px rgba(223,14,196,.6); }
+.end-n { margin-top:34px; font-size:32px; color:var(--soft); }
+.fs-logo { display:block; }
+#f7 .fs-logo { display:none; }
+#c0 .li.num { margin:9px 0; font-size:21px; }
+.grp { font-family:"Archivo"; font-weight:800; font-size:22px; letter-spacing:.2em; text-transform:uppercase; color:var(--lilac); margin:30px 0 2px; }
+#f3 .fbars { margin-top:24px; }
+#f3 .fbars .row { margin:14px 0; }
+.panels { position:absolute; left:120px; top:360px; width:1680px; display:flex; gap:40px; }
+.pn { flex:1; background:rgba(13,11,30,.55); border:2px solid rgba(149,112,255,.55); border-radius:20px; padding:34px 40px; }
+.pn-h { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:48px; }
+.pn-s { font-size:24px; color:var(--soft); margin:8px 0 18px; }
+.pn .li { font-size:34px; margin:18px 0; align-items:center; }
+.call { position:absolute; left:120px; top:400px; width:900px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.tile { height:200px; border-radius:18px; background:rgba(149,112,255,.18); border:2px solid rgba(149,112,255,.45); display:flex; align-items:center; justify-content:center; }
+.tile span { width:100px; height:100px; border-radius:50%; background:rgba(149,112,255,.45); display:flex; align-items:center; justify-content:center; font-family:"Archivo"; font-weight:850; font-size:44px; }
+.tile.cl { background:linear-gradient(135deg, rgba(94,68,228,.75), rgba(223,14,196,.6)); border-color:var(--magenta); }
+.tile.cl span { width:auto; height:auto; background:none; font-size:56px; }
+.steps { position:absolute; left:1110px; top:410px; width:700px; }
+.stp { display:flex; flex-direction:column; padding:0 0 34px 46px; position:relative; border-left:4px solid rgba(149,112,255,.5); margin-left:14px; }
+.stp i { position:absolute; left:-16px; top:6px; width:28px; height:28px; border-radius:50%; background:var(--magenta); box-shadow:0 0 16px rgba(223,14,196,.8); }
+.stp b { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:46px; line-height:1; }
+.stp em { font-style:normal; font-size:26px; color:var(--soft); margin-top:6px; }
+.facts { position:absolute; left:1150px; top:360px; width:680px; }
+.facts .li { font-size:30px; margin:22px 0; }
+#f6 .hero span { max-width:920px; white-space:normal; line-height:1.3; }
+#f6 .hero b { font-size:220px; }
+.fbig b, .fbig span { white-space:nowrap; }
+#f3 .fbig b { font-size:170px; }
+#f6 .fs-src { left:1180px; }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="ai-hirado-1112" data-start="0" data-duration="223.08" data-fps="25" data-width="1920" data-height="1080">
+<video id="pres-a" class="clip pres" src="source.mp4" muted playsinline data-start="0" data-duration="19.88" data-media-start="0" data-track-index="1"></video>
+<video id="pres-b" class="clip pres" src="source.mp4" muted playsinline data-start="25.4" data-duration="197.68" data-media-start="19.9" data-track-index="1"></video>
+<div id="b1" class="clip fsw" data-start="25.4" data-duration="4.4" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">1 / 7</div><div class="bump-title">Az Anthropic kiadta a Fable 5.2‑t és a Mythos 5.2‑t</div><div class="bump-line"></div></div></div></div>
+<div id="b2" class="clip fsw" data-start="65.52" data-duration="5.56" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">2 / 7</div><div class="bump-title">OpenAI: 11 milliárd dollár, 1250 milliárdos értékelés</div><div class="bump-line"></div></div></div></div>
+<div id="b3" class="clip fsw" data-start="89.8" data-duration="2.68" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">3 / 7</div><div class="bump-title">Gemini az autóban: megérkezett a CarPlay‑re</div><div class="bump-line"></div></div></div></div>
+<div id="b4" class="clip fsw" data-start="110.48" data-duration="4.0" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">4 / 7</div><div class="bump-title">Az Instagram világszerte AI‑jal tippeli meg, ki kamasz</div><div class="bump-line"></div></div></div></div>
+<div id="b5" class="clip fsw" data-start="134.4" data-duration="4.0" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">5 / 7</div><div class="bump-title">Forrósodik a talaj az NVIDIA alatt Washingtonban</div><div class="bump-line"></div></div></div></div>
+<div id="b6" class="clip fsw" data-start="158.48" data-duration="2.92" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">6 / 7</div><div class="bump-title">A Claude beül a meetingekre</div><div class="bump-line"></div></div></div></div>
+<div id="b7" class="clip fsw" data-start="179.12" data-duration="3.28" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">7 / 7</div><div class="bump-title">Robotagy és DNS‑olvasó a DeepMindtól</div><div class="bump-line"></div></div></div></div>
+<div id="f1" class="clip fsw" data-start="41.52" data-duration="8.88" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fphases"><div class="fphase" id="f1-p0"><div class="fs-kick">Anthropic · Fable 5.2</div><div class="fs-title">Gyorsabb szöveggenerálás</div><div class="fbars"></div><div class="fbig"><b>+30%</b><span>gyorsabb kimenet az elődökhöz képest (Anthropic)</span></div></div><div class="fphase" id="f1-p1"><div class="fs-kick">Anthropic · Fable 5.2</div><div class="fs-title">Bemeneti ár, millió tokenenként</div><div class="fbars"><div class="row"><div class="rl">5.1</div><div class="track"><div class="fill lil" data-w="100"></div></div><div class="rv">10 $</div></div><div class="row"><div class="rl">5.2</div><div class="track"><div class="fill mag" data-w="80"></div></div><div class="rv">8 $</div></div></div><div class="fbig"><b>−20%</b><span>kimenet: 50 $ → 40 $</span></div></div></div><div class="fs-src">Forrás: Anthropic, CNBC, VentureBeat, 2026.11.09</div></div></div>
+<div id="f2" class="clip fsw" data-start="50.48" data-duration="6.0" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fphases"><div class="fphase" id="f2-p0"><div class="fs-kick">Nagy Fermat‑tétel · Lean‑formalizálás</div><div class="fs-title">Mennyi idő alatt?</div><div class="fbars"><div class="row"><div class="rl">2026. szept.</div><div class="track"><div class="fill lil" data-w="100"></div></div><div class="rv">~11 nap</div></div><div class="row"><div class="rl">Fable 5.2</div><div class="track"><div class="fill mag" data-w="11.4"></div></div><div class="rv">~30 óra</div></div></div><div class="fbig"><b>~1000</b><span>Fable 5.2 ügynök dolgozott rajta párhuzamosan</span></div></div></div><div class="fs-src">Forrás: Anthropic (2026.09.04 és 11.09), Tech Times, Neurohive</div></div></div>
+<div id="f3" class="clip fsw" data-start="80.48" data-duration="6.0" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fphases"><div class="fs-kick">OpenAI · szeptemberi hírek vs. most</div><div class="fs-title">Kisebb kör, alacsonyabb értékelés</div><div class="fbars"><div class="grp">Bevont tőke</div><div class="row"><div class="rl">Szept. (terv)</div><div class="track"><div class="fill lil" data-w="100"></div></div><div class="rv">30 Mrd $</div></div><div class="row"><div class="rl">Most</div><div class="track"><div class="fill mag" data-w="36.7"></div></div><div class="rv">11 Mrd $</div></div><div class="grp">Értékelés</div><div class="row"><div class="rl">Szept. (terv)</div><div class="track"><div class="fill lil" data-w="100"></div></div><div class="rv">1400 Mrd $</div></div><div class="row"><div class="rl">Most</div><div class="track"><div class="fill mag" data-w="89.3"></div></div><div class="rv">1250 Mrd $</div></div></div></div><div class="fs-src">Forrás: Bloomberg (Investing.com, Yahoo Finance), 2026.11.06</div></div></div>
+<div id="f4" class="clip fsw" data-start="123.52" data-duration="6.96" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">Instagram · AI‑alapú életkorbecslés</div><div class="fs-title">Mire figyel az AI?</div></div><div class="panels"><div class="pn"><div class="pn-h">Szövegben</div><div class="pn-s">posztok, kommentek, bemutatkozás, képaláírások</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Születésnapi köszöntések</span></li><li class="li ok"><span class="mark"></span><span>Utalás az iskolai évfolyamra</span></li></ul></div><div class="pn"><div class="pn-h">Képen és videón</div><div class="pn-s">vizuális jelek</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Látszólagos magasság</span></li><li class="li ok"><span class="mark"></span><span>Csontszerkezet</span></li></ul></div></div><div class="fs-src">Forrás: Meta, TechCrunch, 2026.11.09</div></div></div>
+<div id="f5" class="clip fsw" data-start="163.52" data-duration="7.6" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">Anthropic · Claude Meetings</div><div class="fs-title">A Claude látható résztvevőként ül be a hívásba</div></div><div class="call"><div class="tile"><span>A</span></div><div class="tile"><span>B</span></div><div class="tile"><span>C</span></div><div class="tile cl"><span>Claude</span></div></div><div class="steps"><div class="stp"><i></i><b>Terv</b><em>vázlat a beszélgetés közben</em></div><div class="stp"><i></i><b>Idővonal</b><em>mérföldkövek, határidők</em></div><div class="stp"><i></i><b>Chat</b><em>válasz a kérdésekre</em></div></div><div class="fs-src">Forrás: Anthropic, TechCrunch, Axios, 2026.11.10</div></div></div>
+<div id="f6" class="clip fsw" data-start="187.52" data-duration="8.96" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">Google DeepMind · Gemini Robotics 2.5</div><div class="fs-title">Humanoid robotok a Mercedes‑Benz gyártósorán</div></div><div class="hero" style="top:330px"><b>96%</b><span>sikerarány egy alkatrész‑összekészítési feladatban</span></div><div class="facts"><ul class="list"><li class="li ok"><span class="mark"></span><span>Apptronik Apollo 2 humanoid robotok</span></li><li class="li ok"><span class="mark"></span><span>Helyszín: Kecskemét és Sindelfingen</span></li><li class="li warn"><span class="mark"></span><span>A próbák számát nem közölték</span></li></ul></div><div class="fs-src">Forrás: Google DeepMind, heise, Tech Times, 2026.11.10–11</div></div></div>
+<div id="f7" class="clip fsw" data-start="214.48" data-duration="8.6" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="endc"><img class="end-logo" src="img/amazing_logo.svg" alt="" /><div class="end-t"><b>AI</b> HÍREK <span>A NAGYVILÁGBÓL</span></div><div class="end-btn">Iratkozz fel a hírlevelünkre!</div><div class="end-n">Link a videó leírásában · jövő héten jövünk a folytatással</div></div></div></div>
+<div id="c0" class="clip gw" data-start="0.48" data-duration="19.12" data-track-index="3"><div class="gcard"><div class="kick">Az adásban</div><div class="phases"><div class="phase" id="c0-p0"><div class="ptitle">A hét AI‑hírei</div><ul class="list"><li class="li num"><span class="nmark">1</span><span>Fable 5.2 és Mythos 5.2</span></li><li class="li num"><span class="nmark">2</span><span>OpenAI: 1250 Mrd $‑os értékelés</span></li><li class="li num"><span class="nmark">3</span><span>Gemini a CarPlay‑en</span></li><li class="li num"><span class="nmark">4</span><span>Instagram: AI tippeli a kamaszokat</span></li><li class="li num"><span class="nmark">5</span><span>NVIDIA: forró talaj Washingtonban</span></li><li class="li num"><span class="nmark">6</span><span>Claude Meetings</span></li><li class="li num"><span class="nmark">7</span><span>DeepMind: robotagy és DNS‑olvasó</span></li></ul></div></div></div></div>
+<div id="c1" class="clip gw" data-start="30.0" data-duration="11.4" data-track-index="3"><div class="gcard"><div class="kick">Anthropic · 2026. november 9.</div><div class="phases"><div class="phase" id="c1-p0"><div class="ptitle">Két új modell</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Fable 5.2: mindenkinek elérhető</span></li><li class="li warn"><span class="mark"></span><span>Mythos 5.2: csak ellenőrzött szervezeteknek (pl. kiberbiztonsági ellenőrző program)</span></li></ul></div></div><div class="src">Forrás: Anthropic, CNBC, VentureBeat, 2026.11.09</div></div></div>
+<div id="c1b" class="clip gw" data-start="56.6" data-duration="8.48" data-track-index="3"><div class="gcard"><div class="kick">Mythos 5.2 · rendszerkártya</div><div class="phases"><div class="phase" id="c1b-p0"><div class="ptitle">A figyelmeztetés</div><div class="quote" style="font-size:38px">„Erősebb rejtett képességek”</div><div class="note">több értékelésen, mint a korábbi Claude‑modellek – főleg, ha az érvelése rejtve marad a felügyelő rendszer elől</div><ul class="list"><li class="li warn"><span class="mark"></span><span>Mindkét új modell gyakrabban gyanította, hogy éppen tesztelik</span></li></ul></div></div><div class="src">Forrás: TechCrunch – Mythos 5.2 rendszerkártya, 2026.11.09</div></div></div>
+<div id="c2" class="clip gw" data-start="71.68" data-duration="8.72" data-track-index="3"><div class="gcard"><div class="kick">OpenAI · Bloomberg, nov. 6.</div><div class="phases"><div class="phase" id="c2-p0"><div class="ptitle">Új befektetési kör</div><div class="big">11 Mrd $</div><div class="note">a kör első része; a teljes kör a hírek szerint akár 20 Mrd $‑ig nőhet</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Értékelés: 1250 Mrd $</span></li></ul></div></div><div class="src">Forrás: Bloomberg (Investing.com, Yahoo Finance), 2026.11.06</div></div></div>
+<div id="c3" class="clip gw" data-start="92.6" data-duration="17.8" data-track-index="3"><div class="gcard"><div class="kick">Google · Gemini a CarPlay‑en</div><div class="phases"><div class="phase" id="c3-p0"><div class="ptitle">Indulás: 2026. november 11.</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Gemini Live hanghívás a műszerfalról</span></li><li class="li ok"><span class="mark"></span><span>A telefonon kezdett beszélgetés folytatható</span></li><li class="li ok"><span class="mark"></span><span>Világszerte, minden Gemini Live‑nyelven</span></li></ul></div><div class="phase" id="c3-p1"><div class="ptitle">Mi kell hozzá?</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Friss Gemini app az iPhone‑on</span></li><li class="li ok"><span class="mark"></span><span>Legalább egyszer használt Gemini Live</span></li><li class="li warn"><span class="mark"></span><span>Zenét, klímát, más CarPlay‑appot nem vezérel</span></li></ul></div></div><div class="src">Forrás: Google (MacRumors, Android Authority), 2026.11.11</div></div></div>
+<div id="c4" class="clip gw" data-start="114.6" data-duration="8.8" data-track-index="3"><div class="gcard"><div class="kick">Meta · Instagram</div><div class="phases"><div class="phase" id="c4-p0"><div class="ptitle">Világszerte, 2026. november 9‑től</div><div class="big">13–17</div><div class="note">évesnek becsült felhasználók kerülnek tinifiókba – akkor is, ha felnőtt születési dátumot adtak meg</div></div></div><div class="src">Forrás: Meta, TechCrunch, 2026.11.09</div></div></div>
+<div id="c4b" class="clip gw" data-start="130.48" data-duration="3.6" data-track-index="3"><div class="gcard"><div class="kick">Tinifiók</div><div class="phases"><div class="phase" id="c4b-p0"><div class="ptitle">Szigorúbb védelem</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Alapból privát profil</span></li><li class="li ok"><span class="mark"></span><span>Korlátozza, ki veheti fel a kapcsolatot</span></li></ul></div></div><div class="src">Forrás: Meta, TechCrunch, 2026.11.09</div></div></div>
+<div id="c5" class="clip gw" data-start="138.6" data-duration="19.72" data-track-index="3"><div class="gcard"><div class="kick">NVIDIA · Washington</div><div class="phases"><div class="phase" id="c5-p0"><div class="ptitle">A félidős választások után</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Januártól demokrata többség a Kongresszusban</span></li><li class="li ok"><span class="mark"></span><span>Hakeem Jeffries támogatja a szigorúbb chipexport‑szabályokat</span></li></ul></div><div class="phase" id="c5-p1"><div class="ptitle">Elizabeth Warren</div><div class="note">már júniusban tanúskodásra hívta Jensen Huangot a kínai chipeladásokról – Huang akkor nemet mondott</div></div><div class="phase" id="c5-p2"><div class="ptitle">Republikánusok</div><div class="note">a képviselőház republikánusai is meghallgatásra hívták Huangot, még a demokrata többség januári kezdete előtt</div></div></div><div class="src">Forrás: Semafor, SCMP (2026.11.09), CNBC (2026.06.08), Yahoo Finance</div></div></div>
+<div id="c6" class="clip gw" data-start="171.52" data-duration="7.48" data-track-index="3"><div class="gcard"><div class="kick">Claude Meetings</div><div class="phases"><div class="phase" id="c6-p0"><div class="ptitle">Elérhetőség</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Béta, 2026. november 10‑től</span></li><li class="li ok"><span class="mark"></span><span>Team és Enterprise csomagokban</span></li><li class="li warn"><span class="mark"></span><span>Egyelőre csak Google Meettel</span></li></ul><div class="note">a hívás után a jegyzetek és a teendők a claude.ai‑ban várnak</div></div></div><div class="src">Forrás: Anthropic, TechCrunch, Axios, 2026.11.10</div></div></div>
+<div id="c7" class="clip gw" data-start="182.48" data-duration="4.92" data-track-index="3"><div class="gcard"><div class="kick">Google DeepMind</div><div class="phases"><div class="phase" id="c7-p0"><div class="ptitle">Két bejelentés</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Gemini Robotics 2.5 – nov. 10.</span></li><li class="li ok"><span class="mark"></span><span>AlphaGenome 2 – nov. 11.</span></li></ul></div></div><div class="src">Forrás: Google DeepMind, heise, Tech Times, 2026.11.10–11</div></div></div>
+<div id="c7b" class="clip gw" data-start="196.48" data-duration="10.12" data-track-index="3"><div class="gcard"><div class="kick">DeepMind · AlphaGenome 2</div><div class="phases"><div class="phase" id="c7b-p0"><div class="ptitle">DNS‑változatok hatása sejttípusonként</div><div class="sub2">Megtalált oki variánsok (90% pontosság)</div><div class="row"><div class="rl">1. verzió</div><div class="track"><div class="fill lil" data-w="53.333333333333336"></div></div><div class="rv">16%</div></div><div class="row"><div class="rl">2. verzió</div><div class="track"><div class="fill mag" data-w="100"></div></div><div class="rv">30%</div></div><div class="note">a DeepMind saját mérése; nem kereskedelmi kutatásra (API)</div></div></div><div class="src">Forrás: Google DeepMind blog, MarkTechPost, 2026.11.11</div></div></div>
+<div id="c8" class="clip gw" data-start="207.2" data-duration="7.2" data-track-index="3"><div class="gcard"><div class="kick">A hét röviden</div><div class="phases"><div class="phase" id="c8-p0"><div class="ptitle">Három irány</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Gyorsabb modellek: Fable 5.2, Gemini Robotics 2.5</span></li><li class="li ok"><span class="mark"></span><span>Gigantikus pénzek: OpenAI 1250 Mrd $</span></li><li class="li warn"><span class="mark"></span><span>Szabályozói kérdőjelek: NVIDIA, Instagram</span></li></ul></div></div></div></div>
+<div id="bug" class="clip" data-start="0" data-duration="223.08" data-track-index="6"><div class="b1"><b>AI</b> HÍREK</div><div class="b2">A NAGYVILÁGBÓL</div></div>
+<video id="intro" class="clip" src="intro.mp4" muted playsinline data-start="19.88" data-duration="5.52" data-track-index="7"></video>
+<div id="flash"></div>
+<div id="sub-0" class="clip subw" data-start="0.0" data-duration="5.28" data-track-index="9"><div class="sub">Egy AI‑modell nagyjából 30 óra alatt gépileg ellenőrizhető formába öntötte a nagy</div></div>
+<div id="sub-1" class="clip subw" data-start="5.28" data-duration="1.72" data-track-index="9"><div class="sub">Fermat‑tétel bizonyítását.</div></div>
+<div id="sub-2" class="clip subw" data-start="7.0" data-duration="4.0" data-track-index="9"><div class="sub">Legalábbis az Anthropic ezt állítja az új Fable 5.2‑ről.</div></div>
+<div id="sub-3" class="clip subw" data-start="11.0" data-duration="5.0" data-track-index="9"><div class="sub">Közben az OpenAI 1250 milliárd dolláros értékelésen szedett be pénzt.</div></div>
+<div id="sub-4" class="clip subw" data-start="16.0" data-duration="2.0" data-track-index="9"><div class="sub">Nézzük, mi történt a héten!</div></div>
+<div id="sub-5" class="clip subw" data-start="18.0" data-duration="1.72" data-track-index="9"><div class="sub">Ezek az AI hírek a nagyvilágból.</div></div>
+<div id="sub-6" class="clip subw" data-start="30.0" data-duration="3.52" data-track-index="9"><div class="sub">Az Anthropic november 9‑én kiadta két legerősebb modellje új verzióját.</div></div>
+<div id="sub-7" class="clip subw" data-start="33.52" data-duration="2.96" data-track-index="9"><div class="sub">A Fable 5.2 mindenkinek elérhető.</div></div>
+<div id="sub-8" class="clip subw" data-start="36.48" data-duration="1.48" data-track-index="9"><div class="sub">A Mythos 5.2 viszont csak</div></div>
+<div id="sub-9" class="clip subw" data-start="37.96" data-duration="3.56" data-track-index="9"><div class="sub">ellenőrzött kiberbiztonsági és élettudományi szervezeteknek.</div></div>
+<div id="sub-10" class="clip subw" data-start="41.52" data-duration="5.08" data-track-index="9"><div class="sub">A cég szerint akár 30%‑kal gyorsabban generálnak szöveget, mint az elődeik, és a</div></div>
+<div id="sub-11" class="clip subw" data-start="46.6" data-duration="3.88" data-track-index="9"><div class="sub">bemeneti ár 10‑ről 8 dollárra csökkent millió tokenenként.</div></div>
+<div id="sub-12" class="clip subw" data-start="50.48" data-duration="4.16" data-track-index="9"><div class="sub">Az Anthropic azt írja, a modell közel ezer ügynökkel nagyjából 30 óra alatt</div></div>
+<div id="sub-13" class="clip subw" data-start="54.64" data-duration="1.84" data-track-index="9"><div class="sub">formalizálta a nagy Fermat‑tételt.</div></div>
+<div id="sub-14" class="clip subw" data-start="56.48" data-duration="4.68" data-track-index="9"><div class="sub">A TechCrunch szerint a rendszerkártya arra is figyelmeztet, hogy a Mythos 5.2</div></div>
+<div id="sub-15" class="clip subw" data-start="61.16" data-duration="4.08" data-track-index="9"><div class="sub">erősebb rejtett képességeket mutat, mint a korábbi Claude‑modellek.</div></div>
+<div id="sub-16" class="clip subw" data-start="71.68" data-duration="3.16" data-track-index="9"><div class="sub">A Bloomberg november 6‑i értesülése szerint az OpenAI</div></div>
+<div id="sub-17" class="clip subw" data-start="74.84" data-duration="2.68" data-track-index="9"><div class="sub">11 milliárd dollárt szedett be egy új körben.</div></div>
+<div id="sub-18" class="clip subw" data-start="77.52" data-duration="2.96" data-track-index="9"><div class="sub">Ez 1250 milliárd dolláros cégértéket jelent.</div></div>
+<div id="sub-19" class="clip subw" data-start="80.48" data-duration="3.0" data-track-index="9"><div class="sub">Csakhogy szeptemberben még 30 milliárdról és</div></div>
+<div id="sub-20" class="clip subw" data-start="83.48" data-duration="3.0" data-track-index="9"><div class="sub">1400 milliárdos értékelésről szóltak a hírek.</div></div>
+<div id="sub-21" class="clip subw" data-start="86.48" data-duration="3.2" data-track-index="9"><div class="sub">Még az OpenAI‑nál is kezdenek óvatosabbak lenni a befektetők.</div></div>
+<div id="sub-22" class="clip subw" data-start="92.48" data-duration="5.04" data-track-index="9"><div class="sub">A Google november 11‑én elindította a Gemini appot az Apple CarPlay‑en.</div></div>
+<div id="sub-23" class="clip subw" data-start="97.52" data-duration="2.68" data-track-index="9"><div class="sub">Mostantól a műszerfalon keresztül beszélgethetsz vele,</div></div>
+<div id="sub-24" class="clip subw" data-start="100.2" data-duration="2.28" data-track-index="9"><div class="sub">és a telefonon kezdett chatet is folytathatod.</div></div>
+<div id="sub-25" class="clip subw" data-start="102.48" data-duration="2.72" data-track-index="9"><div class="sub">Kell hozzá a legfrissebb Gemini app az iPhone‑on.</div></div>
+<div id="sub-26" class="clip subw" data-start="105.2" data-duration="2.0" data-track-index="9"><div class="sub">A 9to5Mac szerint a Gemini volt az</div></div>
+<div id="sub-27" class="clip subw" data-start="107.2" data-duration="3.28" data-track-index="9"><div class="sub">utolsó nagy chatbot, amely még hiányzott a CarPlay‑ről.</div></div>
+<div id="sub-28" class="clip subw" data-start="114.48" data-duration="4.0" data-track-index="9"><div class="sub">A Meta világszerte kiterjeszti az Instagram AI‑alapú életkorbecslését.</div></div>
+<div id="sub-29" class="clip subw" data-start="118.48" data-duration="5.04" data-track-index="9"><div class="sub">A rendszer akkor is kiszúrhatja a tinit, ha felnőtt születési dátumot adott meg.</div></div>
+<div id="sub-30" class="clip subw" data-start="123.52" data-duration="4.56" data-track-index="9"><div class="sub">Figyeli például a posztokban az iskolai évfolyamra utaló szövegeket, és a képeken</div></div>
+<div id="sub-31" class="clip subw" data-start="128.08" data-duration="2.4" data-track-index="9"><div class="sub">olyan jeleket, mint a látszólagos magasság.</div></div>
+<div id="sub-32" class="clip subw" data-start="130.48" data-duration="3.64" data-track-index="9"><div class="sub">Akit kamasznak ítél, az a szigorúbb tinifiókos védelmeket kapja.</div></div>
+<div id="sub-33" class="clip subw" data-start="138.48" data-duration="4.0" data-track-index="9"><div class="sub">A választások után az NVIDIA‑nak keményebb washingtoni légkörrel kell számolnia.</div></div>
+<div id="sub-34" class="clip subw" data-start="142.48" data-duration="2.4" data-track-index="9"><div class="sub">A Bloomberg szerint a demokrata többségű</div></div>
+<div id="sub-35" class="clip subw" data-start="144.88" data-duration="3.12" data-track-index="9"><div class="sub">Kongresszus célba veheti a cég chipexportját.</div></div>
+<div id="sub-36" class="clip subw" data-start="148.0" data-duration="4.12" data-track-index="9"><div class="sub">A Cointelegraph szerint Elizabeth Warren szenátor azt akarja, hogy Jensen Huang</div></div>
+<div id="sub-37" class="clip subw" data-start="152.12" data-duration="2.36" data-track-index="9"><div class="sub">tanúskodjon a Kínába irányuló chipeladásokról.</div></div>
+<div id="sub-38" class="clip subw" data-start="154.48" data-duration="3.88" data-track-index="9"><div class="sub">Közben a republikánusok is szigorúbb exportkorlátozást terveznek.</div></div>
+<div id="sub-39" class="clip subw" data-start="161.48" data-duration="2.48" data-track-index="9"><div class="sub">Az Anthropic bemutatta a Claude Meetingst.</div></div>
+<div id="sub-40" class="clip subw" data-start="163.96" data-duration="4.16" data-track-index="9"><div class="sub">A Claude látható résztvevőként csatlakozik a hívásokhoz, és már beszélgetés közben</div></div>
+<div id="sub-41" class="clip subw" data-start="168.12" data-duration="3.08" data-track-index="9"><div class="sub">vázolja a tervet, idővonalat rajzol, válaszol a chaten.</div></div>
+<div id="sub-42" class="clip subw" data-start="171.2" data-duration="3.4" data-track-index="9"><div class="sub">A hívás után ott várnak a jegyzetek és a teendők.</div></div>
+<div id="sub-43" class="clip subw" data-start="174.6" data-duration="4.44" data-track-index="9"><div class="sub">Egyelőre béta, Team és Enterprise csomagokban, és csak Google Meettel működik.</div></div>
+<div id="sub-44" class="clip subw" data-start="182.44" data-duration="5.08" data-track-index="9"><div class="sub">A Google DeepMind bemutatta a Gemini Robotics 2.5‑öt és az AlphaGenome 2‑t.</div></div>
+<div id="sub-45" class="clip subw" data-start="187.52" data-duration="4.88" data-track-index="9"><div class="sub">Az első egy robotokat irányító AI‑agy: a SiliconANGLE szerint a Mercedes‑Benznél</div></div>
+<div id="sub-46" class="clip subw" data-start="192.4" data-duration="4.08" data-track-index="9"><div class="sub">végzett teszten 96 százalékos sikerrel csomagolt autóalkatrészeket.</div></div>
+<div id="sub-47" class="clip subw" data-start="196.48" data-duration="2.28" data-track-index="9"><div class="sub">Az AlphaGenome 2 azt jelzi előre,</div></div>
+<div id="sub-48" class="clip subw" data-start="198.76" data-duration="3.72" data-track-index="9"><div class="sub">hogyan hatnak a DNS‑változatok az egyes sejttípusokra.</div></div>
+<div id="sub-49" class="clip subw" data-start="202.48" data-duration="4.6" data-track-index="9"><div class="sub">Kutatásra szánták, klinikai vagy diagnosztikai használatra nincs jóváhagyva.</div></div>
+<div id="sub-50" class="clip subw" data-start="207.08" data-duration="4.76" data-track-index="9"><div class="sub">Gyorsabb modellek, gigantikus pénzek és egyre több szabályozói kérdőjel.</div></div>
+<div id="sub-51" class="clip subw" data-start="211.84" data-duration="0.64" data-track-index="9"><div class="sub">Ez volt a hét.</div></div>
+<div id="sub-52" class="clip subw" data-start="212.48" data-duration="2.0" data-track-index="9"><div class="sub">Jövő héten jövünk a folytatással.</div></div>
+<div id="sub-53" class="clip subw" data-start="214.48" data-duration="4.48" data-track-index="9"><div class="sub">Ha nem akarsz lemaradni hét közben sem, iratkozz fel a hírlevelünkre.</div></div>
+<div id="sub-54" class="clip subw" data-start="218.96" data-duration="1.28" data-track-index="9"><div class="sub">Link a videó leírásában.</div></div>
+<audio id="mix" src="mix.wav" data-start="0" data-duration="223.08" data-track-index="10"></audio>
+</div>
+<script>
+(function () {
+document.querySelectorAll('.fill[data-w]').forEach(function (el) { el.style.width = el.dataset.w + '%'; });
+const tl = gsap.timeline({ paused: true });
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.16, ease: 'power2.out' }, 19.72);
+tl.to('#flash', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 19.92);
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.16, ease: 'power2.out' }, 25.24);
+tl.to('#flash', { opacity: 0, duration: 0.36, ease: 'power2.in' }, 25.44);
+tl.fromTo('#b1 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},25.4);
+tl.to('#b1 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},29.44);
+tl.fromTo('#b1 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},25.52);
+tl.fromTo('#b1 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},25.6);
+tl.fromTo('#b1 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},25.76);
+tl.fromTo('#b2 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},65.52);
+tl.to('#b2 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},70.72);
+tl.fromTo('#b2 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},65.6);
+tl.fromTo('#b2 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},65.72);
+tl.fromTo('#b2 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},65.88);
+tl.fromTo('#b3 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},89.8);
+tl.to('#b3 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},92.12);
+tl.fromTo('#b3 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},89.92);
+tl.fromTo('#b3 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},90.0);
+tl.fromTo('#b3 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},90.16);
+tl.fromTo('#b4 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},110.48);
+tl.to('#b4 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},114.12);
+tl.fromTo('#b4 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},110.56);
+tl.fromTo('#b4 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},110.68);
+tl.fromTo('#b4 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},110.84);
+tl.fromTo('#b5 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},134.4);
+tl.to('#b5 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},138.04);
+tl.fromTo('#b5 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},134.48);
+tl.fromTo('#b5 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},134.6);
+tl.fromTo('#b5 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},134.76);
+tl.fromTo('#b6 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},158.48);
+tl.to('#b6 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},161.04);
+tl.fromTo('#b6 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},158.56);
+tl.fromTo('#b6 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},158.68);
+tl.fromTo('#b6 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},158.84);
+tl.fromTo('#b7 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},179.12);
+tl.to('#b7 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},182.04);
+tl.fromTo('#b7 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},179.2);
+tl.fromTo('#b7 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},179.32);
+tl.fromTo('#b7 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},179.48);
+tl.fromTo('#f1 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},41.52);
+tl.to('#f1 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},50.04);
+tl.fromTo('#f1-p0',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},41.68);
+tl.fromTo('#f1-p0 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},42.0);
+tl.fromTo('#f1-p0 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},42.88);
+tl.to('#f1-p0',{autoAlpha:0,y:-16,duration:0.3,ease:'power2.in'},45.28);
+tl.fromTo('#f1-p1',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},45.6);
+tl.fromTo('#f1-p1 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},45.92);
+tl.fromTo('#f1-p1 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},46.8);
+tl.fromTo('#f2 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},50.48);
+tl.to('#f2 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},56.12);
+tl.fromTo('#f2-p0',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},50.72);
+tl.fromTo('#f2-p0 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},51.04);
+tl.fromTo('#f2-p0 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},51.92);
+tl.fromTo('#f3 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},80.48);
+tl.to('#f3 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},86.12);
+tl.fromTo('#f3 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.45},80.88);
+tl.fromTo('#f4 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},123.52);
+tl.to('#f4 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},130.12);
+tl.fromTo('#f4 .pn',{autoAlpha:0,y:40},{autoAlpha:1,y:0,duration:0.55,ease:'power3.out',stagger:0.7},124.0);
+tl.fromTo('#f4 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,stagger:0.5},124.8);
+tl.fromTo('#f5 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},163.52);
+tl.to('#f5 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},170.76);
+tl.fromTo('#f5 .tile',{autoAlpha:0,scale:0.85},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out',stagger:0.15},163.92);
+tl.fromTo('#f5 .tile.cl',{boxShadow:'0 0 0px rgba(223,14,196,0)'},{boxShadow:'0 0 60px rgba(223,14,196,.8)',duration:0.6,yoyo:true,repeat:1},164.72);
+tl.fromTo('#f5 .stp',{autoAlpha:0,x:40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out',stagger:1.2},165.32);
+tl.fromTo('#f6 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},187.52);
+tl.to('#f6 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},196.12);
+tl.fromTo('#f6 .hero b',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.6,ease:'back.out(1.6)'},188.0);
+tl.fromTo('#f6 .hero span',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:0.5},188.64);
+tl.fromTo('#f6 .li',{autoAlpha:0,x:30},{autoAlpha:1,x:0,duration:0.45,stagger:0.9},189.52);
+tl.fromTo('#f7 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},214.48);
+tl.fromTo('#f7 .end-t',{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},214.8);
+tl.fromTo('#f7 .end-btn',{autoAlpha:0,scale:0.6},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(2)'},215.28);
+tl.to('#f7 .end-btn',{scale:1.05,duration:0.45,ease:'sine.inOut',yoyo:true,repeat:5},215.88);
+tl.fromTo('#f7 .end-n',{autoAlpha:0},{autoAlpha:1,duration:0.5},215.68);
+tl.fromTo('#c0 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},0.48);
+tl.to('#c0 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},19.2);
+tl.fromTo('#c0-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},0.76);
+tl.fromTo('#c0-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},0.96);
+tl.fromTo('#c0-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},1.16);
+tl.fromTo('#c1 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},30.0);
+tl.to('#c1 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},41.0);
+tl.fromTo('#c1-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},30.24);
+tl.fromTo('#c1-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},30.44);
+tl.fromTo('#c1-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},30.64);
+tl.fromTo('#c1b .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},56.6);
+tl.to('#c1b .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},64.68);
+tl.fromTo('#c1b-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},56.84);
+tl.fromTo('#c1b-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},57.04);
+tl.fromTo('#c1b-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},57.24);
+tl.fromTo('#c2 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},71.68);
+tl.to('#c2 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},80.0);
+tl.fromTo('#c2-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},71.96);
+tl.fromTo('#c2-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},72.16);
+tl.fromTo('#c2-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},72.36);
+tl.fromTo('#c3 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},92.6);
+tl.to('#c3 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},110.0);
+tl.fromTo('#c3-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},92.84);
+tl.to('#c3-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},102.2);
+tl.fromTo('#c3-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},93.04);
+tl.fromTo('#c3-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},93.24);
+tl.fromTo('#c3-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},102.48);
+tl.fromTo('#c3-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},102.68);
+tl.fromTo('#c3-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},102.88);
+tl.fromTo('#c4 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},114.6);
+tl.to('#c4 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},123.0);
+tl.fromTo('#c4-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},114.84);
+tl.fromTo('#c4-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},115.04);
+tl.fromTo('#c4-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},115.24);
+tl.fromTo('#c4b .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},130.48);
+tl.to('#c4b .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},133.68);
+tl.fromTo('#c4b-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},130.76);
+tl.fromTo('#c4b-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},130.96);
+tl.fromTo('#c4b-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},131.16);
+tl.fromTo('#c5 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},138.6);
+tl.to('#c5 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},157.92);
+tl.fromTo('#c5-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},138.84);
+tl.to('#c5-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},147.68);
+tl.fromTo('#c5-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},139.04);
+tl.fromTo('#c5-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},139.24);
+tl.fromTo('#c5-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},148.0);
+tl.to('#c5-p1',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},154.2);
+tl.fromTo('#c5-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},148.2);
+tl.fromTo('#c5-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},148.4);
+tl.fromTo('#c5-p2',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},154.48);
+tl.fromTo('#c5-p2 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},154.68);
+tl.fromTo('#c5-p2 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},154.88);
+tl.fromTo('#c6 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},171.52);
+tl.to('#c6 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},178.6);
+tl.fromTo('#c6-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},171.76);
+tl.fromTo('#c6-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},171.96);
+tl.fromTo('#c6-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},172.16);
+tl.fromTo('#c7 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},182.48);
+tl.to('#c7 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},187.0);
+tl.fromTo('#c7-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},182.76);
+tl.fromTo('#c7-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},182.96);
+tl.fromTo('#c7-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},183.16);
+tl.fromTo('#c7b .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},196.48);
+tl.to('#c7b .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},206.2);
+tl.fromTo('#c7b-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},196.76);
+tl.fromTo('#c7b-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},196.96);
+tl.fromTo('#c7b-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},197.16);
+tl.fromTo('#c8 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},207.2);
+tl.to('#c8 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},214.0);
+tl.fromTo('#c8-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},207.44);
+tl.fromTo('#c8-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},207.64);
+tl.fromTo('#c8-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},207.84);
+window.__timelines = window.__timelines || {};
+window.__timelines["ai-hirado-1112"] = tl;
+tl.seek(0);
+})();
+</script>
+</body>
+</html>
