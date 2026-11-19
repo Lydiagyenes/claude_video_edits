@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+2190-22FF,U+FEFF,U+FFFD; }
+@font-face { font-family:"Archivo"; src:url("fonts/archivo-latin-ext-wdth-normal.woff2") format("woff2"); font-weight:100 900; font-stretch:62% 125%; font-display:block; unicode-range:U+0100-02AF,U+1E00-1E9F; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0000-00FF,U+2000-206F,U+2190-22FF; }
+@font-face { font-family:"Inter"; src:url("fonts/inter-latin-ext-600-normal.woff2") format("woff2"); font-weight:600; font-display:block; unicode-range:U+0100-02AF; }
+:root { --ink:#0d0b1e; --violet:#5e44e4; --lilac:#9570ff; --magenta:#df0ec4; --white:#ffffff; --soft:#e4dcff; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1920px; height:1080px; overflow:hidden; background:#000; }
+#root { position:relative; width:1920px; height:1080px; overflow:hidden; font-family:"Inter","Archivo",sans-serif; }
+#main { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+
+/* subtitles */
+.subw { position:absolute; inset:0; z-index:6; pointer-events:none; }
+.sub { position:absolute; left:50%; bottom:44px; transform:translateX(-50%); max-width:1240px; width:max-content;
+  text-align:center; font-family:"Inter",sans-serif; font-weight:600; font-size:40px; line-height:1.3; color:#fff;
+  background:rgba(13,11,30,.72); padding:10px 26px 12px; border-radius:12px; border-bottom:3px solid var(--lilac);
+  text-shadow:0 2px 8px rgba(0,0,0,.6); }
+
+/* graphic card */
+.gw { position:absolute; inset:0; z-index:4; pointer-events:none; }
+.gcard { position:absolute; right:44px; top:70px; width:480px; min-height:660px; padding:26px 28px 22px;
+  background:linear-gradient(160deg, rgba(30,20,78,.92), rgba(13,11,30,.94)); border:2px solid rgba(149,112,255,.65);
+  border-radius:20px; box-shadow:0 18px 60px rgba(0,0,0,.5), 0 0 40px rgba(149,112,255,.35); color:#fff;
+  display:flex; flex-direction:column; }
+.kick { font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase;
+  color:#fff; background:var(--violet); align-self:flex-start; padding:7px 12px 6px; border-radius:4px; }
+.phases { position:relative; flex:1; margin-top:16px; }
+.phase { position:absolute; inset:0; }
+.ptitle { font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:30px; line-height:1.1; color:var(--soft); margin-bottom:18px; }
+.big { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:58px; line-height:1; color:#fff; margin-top:8px; white-space:nowrap;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+.note { font-size:20px; line-height:1.35; color:#cfc4ff; margin-top:8px; }
+.sub2 { font-family:"Archivo"; font-weight:800; font-size:17px; letter-spacing:.2em; text-transform:uppercase; color:var(--lilac); margin:18px 0 8px; }
+.row { display:flex; align-items:center; gap:12px; margin:12px 0; }
+.rl { width:96px; font-size:19px; color:#d9d0ff; }
+.track { flex:1; height:30px; background:rgba(149,112,255,.14); border-radius:6px; overflow:hidden; }
+.fill { height:100%; border-radius:6px; transform-origin:left center; }
+.rv { width:136px; text-align:right; white-space:nowrap; font-family:"Archivo"; font-stretch:110%; font-weight:800; font-size:22px; }
+.lil { background:var(--lilac); } .mag { background:linear-gradient(90deg,var(--violet),var(--magenta)); } .vio { background:var(--violet); }
+.stack { display:flex; height:34px; border-radius:6px; overflow:hidden; margin:18px 0 12px; gap:3px; }
+.seg { height:100%; transform-origin:left center; }
+.legend { display:flex; align-items:center; font-size:20px; color:#e4dcff; margin:8px 0; }
+.dot { width:16px; height:16px; border-radius:4px; margin-right:10px; flex:none; }
+.duo { display:flex; gap:12px; }
+.pill { font-family:"Archivo"; font-weight:800; font-size:22px; padding:8px 16px; border-radius:999px; border:2px solid var(--lilac); }
+.list { list-style:none; margin-top:8px; }
+.li { display:flex; align-items:flex-start; gap:12px; font-size:20px; line-height:1.28; margin:8px 0; color:#f1edff; }
+.mark { flex:none; width:24px; height:24px; border-radius:50%; margin-top:2px; position:relative; }
+.ok .mark { background:var(--lilac); }
+.ok .mark::after { content:""; position:absolute; left:8px; top:4px; width:6px; height:11px; border:solid #fff; border-width:0 3px 3px 0; transform:rotate(45deg); }
+.no .mark { background:var(--magenta); }
+.no .mark::before, .no .mark::after { content:""; position:absolute; left:11px; top:5px; width:3px; height:14px; background:#fff; border-radius:2px; }
+.no .mark::before { transform:rotate(45deg); } .no .mark::after { transform:rotate(-45deg); }
+.warn .mark { background:transparent; border:2px solid var(--magenta); }
+.warn .mark::after { content:""; position:absolute; left:9px; top:3px; width:3px; height:10px; background:var(--magenta); box-shadow:0 13px 0 -0.5px var(--magenta); border-radius:2px; }
+.donut-wrap { position:relative; width:230px; height:230px; margin:0 auto 6px; }
+.donut { width:230px; height:230px; }
+.ring { fill:none; stroke:rgba(149,112,255,.15); stroke-width:30; }
+.arc { fill:none; stroke-width:30; }
+.arc.mag { stroke:var(--magenta); background:none; } .arc.lil { stroke:var(--lilac); background:none; } .arc.vio { stroke:var(--violet); background:none; }
+.donut-c { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.donut-c b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:60px; line-height:1; }
+.donut-c span { font-size:18px; color:#cfc4ff; }
+.range { position:relative; height:70px; margin-top:26px; }
+.rtrack { position:absolute; left:0; right:0; top:10px; height:14px; border-radius:7px; background:rgba(149,112,255,.18); }
+.rband { position:absolute; left:50%; width:33.3%; top:6px; height:22px; border-radius:6px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--violet),var(--magenta)); box-shadow:0 0 18px rgba(223,14,196,.5); }
+.rtick { position:absolute; top:38px; transform:translateX(-50%); font-size:16px; color:#cfc4ff; }
+.lock { position:relative; width:76px; height:86px; margin:0 0 6px 4px; }
+.lock .shackle { position:absolute; left:14px; top:0; width:48px; height:48px; border:9px solid var(--lilac); border-bottom:none; border-radius:26px 26px 0 0; }
+.lock .body { position:absolute; left:0; bottom:0; width:76px; height:52px; border-radius:10px; background:linear-gradient(135deg,var(--violet),var(--magenta)); }
+.lock .kh { position:absolute; left:33px; top:16px; width:10px; height:18px; border-radius:5px; background:#fff; }
+.src { margin-top:12px; font-size:13.5px; line-height:1.35; color:#a99bd9; border-top:1px solid rgba(149,112,255,.3); padding-top:10px; }
+
+/* ── shared with híradó 10.29: bug, intro, full-screen scenes ── */
+.subw { z-index:12; }
+/* show bug */
+#bug { position:absolute; left:56px; top:46px; z-index:7; display:flex; align-items:center; gap:12px; }
+#bug .b1 { font-family:"Archivo"; font-stretch:125%; font-weight:800; font-size:30px; color:#fff; letter-spacing:.02em; text-shadow:0 0 16px rgba(149,112,255,.7); }
+#bug .b1 b { color:#dfff84; font-weight:800; }
+#bug .b2 { font-family:"Archivo"; font-stretch:115%; font-weight:600; font-size:12px; letter-spacing:.42em; color:#fff; background:var(--lilac); padding:6px 8px 6px 14px; border-radius:3px; }
+/* presenter footage + intro */
+.pres { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; }
+#intro { position:absolute; inset:0; width:1920px; height:1080px; object-fit:cover; z-index:20; }
+#flash { position:absolute; inset:0; z-index:21; opacity:0; pointer-events:none;
+  background:radial-gradient(60% 60% at 50% 50%, #ffffff, rgba(149,112,255,.9) 60%, rgba(13,11,30,.9)); }
+/* numbered list in the teaser card */
+.li.num { align-items:center; font-size:22px; margin:16px 0; }
+.nmark { flex:none; width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta));
+  display:flex; align-items:center; justify-content:center; font-family:"Archivo"; font-weight:800; font-size:19px; }
+.quote { font-family:"Archivo"; font-stretch:105%; font-weight:800; font-size:44px; line-height:1.12; color:#fff; margin:6px 0 14px;
+  text-shadow:0 0 26px rgba(223,14,196,.45); }
+/* full-screen scenes */
+.fsw { position:absolute; inset:0; z-index:8; pointer-events:none; }
+.fs { position:absolute; inset:0; overflow:hidden; color:#fff; opacity:0; visibility:hidden;
+  background:radial-gradient(90% 80% at 75% 20%, #2a1a7a 0%, #160f45 45%, #0d0b1e 100%); }
+.fs-grid { position:absolute; inset:0; opacity:.35;
+  background-image:linear-gradient(rgba(149,112,255,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(149,112,255,.18) 1px, transparent 1px);
+  background-size:64px 64px; }
+.fs-glow { position:absolute; width:900px; height:900px; right:-200px; top:-300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(223,14,196,.28), rgba(223,14,196,0) 65%); }
+.fs-logo { position:absolute; right:64px; top:52px; width:210px; opacity:.9; }
+.bump { position:absolute; left:140px; right:140px; top:330px; }
+.bump-num { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:30px; letter-spacing:.2em;
+  background:var(--violet); padding:10px 20px 9px; border-radius:5px; }
+.bump-title { margin-top:34px; font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:96px; line-height:1.04;
+  text-shadow:0 0 40px rgba(149,112,255,.55); max-width:1500px; }
+.bump-line { margin-top:38px; width:620px; height:8px; border-radius:4px; transform-origin:left center;
+  background:linear-gradient(90deg,var(--lilac),var(--magenta)); box-shadow:0 0 24px rgba(223,14,196,.6); }
+.fs-kick { display:inline-block; font-family:"Archivo"; font-stretch:115%; font-weight:800; font-size:20px; letter-spacing:.2em;
+  text-transform:uppercase; background:var(--violet); padding:8px 14px 7px; border-radius:4px; }
+.fs-title { margin-top:22px; font-family:"Archivo"; font-stretch:110%; font-weight:850; font-size:58px; line-height:1.06; }
+.fs-col { position:absolute; left:120px; top:150px; width:560px; }
+.stat { margin-top:30px; padding-left:22px; border-left:6px solid var(--lilac); }
+.stat b { display:block; font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:84px; line-height:1; }
+.stat span { display:block; margin-top:6px; font-size:24px; line-height:1.3; color:var(--soft); }
+.stat.hl { border-left-color:var(--magenta); }
+.stat.hl b { color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+.waffle { position:absolute; left:770px; top:190px; width:1036px; display:grid; grid-template-columns:repeat(38, 20px); gap:7px; }
+.waffle .d { position:relative; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.32); }
+.waffle .d b { position:absolute; inset:0; border-radius:50%; background:var(--magenta); box-shadow:0 0 10px rgba(223,14,196,.8); }
+.waffle .d:not(.h) b { display:none; }
+.fs-legend { position:absolute; left:770px; top:740px; display:flex; gap:40px; font-size:24px; color:var(--soft); }
+.fs-legend span { display:flex; align-items:center; gap:12px; }
+.lg { display:inline-block; width:20px; height:20px; border-radius:50%; background:rgba(149,112,255,.45); }
+.lg.h { background:var(--magenta); }
+.fs-src { position:absolute; left:120px; bottom:200px; font-size:18px; color:#a99bd9; }
+.fphases { position:absolute; left:140px; right:140px; top:150px; height:640px; }
+.fphase { position:absolute; inset:0; }
+.fbars { margin-top:56px; width:1500px; }
+.fbars .row { margin:26px 0; gap:24px; }
+.fbars .rl { width:260px; font-size:30px; }
+.fbars .track { height:56px; border-radius:10px; }
+.fbars .fill { border-radius:10px; }
+.fbars .rv { width:220px; font-size:38px; }
+.fbig { position:absolute; left:0; top:400px; display:flex; align-items:baseline; gap:30px; }
+.fbig b { display:block; font-family:"Archivo"; font-stretch:120%; font-weight:850; font-size:200px; line-height:1; color:#fff;
+  text-shadow:0 0 50px rgba(223,14,196,.7); }
+.fbig span { display:block; font-size:40px; color:var(--soft); }
+
+
+.fs-col.wide { width:1500px; }
+.meter { position:absolute; left:120px; top:470px; width:1500px; height:110px; display:flex; gap:10px; }
+.mfree { flex:62; border-radius:14px; background:linear-gradient(90deg,var(--violet),var(--lilac)); transform-origin:left center;
+  display:flex; align-items:center; padding-left:32px; box-shadow:0 0 30px rgba(149,112,255,.5); }
+.mpaid { flex:38; border-radius:14px; border:3px dashed var(--magenta); display:flex; align-items:center; padding-left:28px;
+  background:repeating-linear-gradient(135deg, rgba(223,14,196,.22) 0 14px, rgba(223,14,196,.08) 14px 28px); }
+.mfree span, .mpaid span { font-family:"Archivo"; font-stretch:112%; font-weight:800; font-size:38px; }
+.mnote { position:absolute; left:120px; top:620px; width:1500px; font-size:30px; line-height:1.35; color:var(--soft); }
+.fstat { position:absolute; left:120px; top:730px; display:flex; align-items:baseline; gap:24px; }
+.fstat b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:72px; color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+.fstat span { font-size:28px; color:var(--soft); }
+.toggles { position:absolute; left:120px; top:420px; }
+.tg { display:flex; align-items:center; gap:30px; margin:0 0 34px; }
+.tg .sw { position:relative; width:120px; height:62px; border-radius:31px; background:rgba(149,112,255,.22); border:3px solid rgba(149,112,255,.6); flex:none; }
+.tg .sw i { position:absolute; left:6px; top:6px; width:44px; height:44px; border-radius:50%; background:#cfc4ff; }
+.tg b { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:52px; min-width:560px; }
+.tg em { font-style:normal; font-size:28px; color:var(--magenta); font-weight:600; letter-spacing:.04em; }
+.split { position:absolute; left:120px; top:420px; width:1680px; height:240px; display:flex; gap:12px; }
+.sp { border-radius:16px; transform-origin:left center; padding:34px 36px; display:flex; flex-direction:column; justify-content:center; }
+.sp.cn { background:linear-gradient(135deg,var(--violet),var(--magenta)); box-shadow:0 0 40px rgba(223,14,196,.45); }
+.sp.ot { background:rgba(149,112,255,.28); border:3px solid var(--lilac); transform-origin:right center; }
+.sp b { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:96px; line-height:1; }
+.sp span { font-size:32px; margin-top:10px; color:#fff; }
+.hero { position:absolute; left:120px; top:400px; }
+.hero b { display:block; font-family:"Archivo"; font-stretch:120%; font-weight:850; font-size:230px; line-height:1; transform-origin:left center;
+  text-shadow:0 0 60px rgba(223,14,196,.7); }
+.hero span { display:block; margin-top:26px; font-size:40px; color:var(--soft); }
+.hub { position:absolute; left:80px; top:20px; width:1040px; height:1040px; }
+.hub-svg { position:absolute; left:0; top:0; }
+.hub-svg .ln { stroke:rgba(149,112,255,.65); stroke-width:3; stroke-dasharray:8 8; }
+.lab { position:absolute; width:92px; height:92px; border-radius:50%; background:rgba(13,11,30,.9); border:3px solid var(--lilac);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 0 18px rgba(149,112,255,.5); }
+.lab b { font-family:"Archivo"; font-weight:850; font-size:32px; line-height:1; }
+.lab span { font-size:14px; color:var(--soft); }
+.core { position:absolute; left:400px; top:380px; width:240px; height:240px; border-radius:50%;
+  background:linear-gradient(135deg,var(--violet),var(--magenta)); display:flex; flex-direction:column; align-items:center; justify-content:center;
+  box-shadow:0 0 60px rgba(223,14,196,.6); }
+.core b { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:40px; }
+.core span { font-size:30px; margin-top:6px; }
+.mcol { position:absolute; left:1180px; top:200px; width:640px; }
+.fstat2 { margin-top:40px; padding-left:22px; border-left:6px solid var(--lilac); }
+.fstat2 b { display:block; font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:72px; line-height:1; }
+.fstat2 span { display:block; margin-top:8px; font-size:26px; line-height:1.3; color:var(--soft); }
+.fstat2.hl { border-left-color:var(--magenta); }
+.fstat2.hl b { color:#ff7ff0; }
+.endc { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.end-logo { width:300px; margin-bottom:40px; }
+.end-t { font-family:"Archivo"; font-stretch:125%; font-weight:800; font-size:110px; letter-spacing:.02em; text-shadow:0 0 30px rgba(149,112,255,.7); }
+.end-t b { color:#dfff84; font-weight:800; }
+.end-t span { display:block; text-align:center; font-size:30px; letter-spacing:.5em; font-weight:600; color:#fff; margin-top:10px; }
+.end-btn { margin-top:60px; font-family:"Archivo"; font-stretch:115%; font-weight:850; font-size:54px; padding:22px 60px; border-radius:999px;
+  background:linear-gradient(90deg,var(--violet),var(--magenta)); box-shadow:0 0 50px rgba(223,14,196,.6); }
+.end-n { margin-top:34px; font-size:32px; color:var(--soft); }
+.fs-logo { display:block; }
+#f7 .fs-logo { display:none; }
+#c0 .li.num { margin:9px 0; font-size:21px; }
+.tline { position:absolute; left:120px; top:340px; width:1600px; border-left:5px solid rgba(149,112,255,.55); }
+.ev { position:relative; padding:0 0 34px 54px; display:flex; flex-direction:column; }
+.ev i { position:absolute; left:-19px; top:6px; width:32px; height:32px; border-radius:50%; background:var(--magenta); box-shadow:0 0 18px rgba(223,14,196,.8); }
+.ev b { font-family:"Archivo"; font-stretch:115%; font-weight:850; font-size:36px; color:#ff9ff3; }
+.ev span { font-size:32px; line-height:1.3; margin-top:4px; }
+.pr { position:absolute; left:160px; top:470px; width:1600px; height:200px; }
+.pr-track { position:absolute; left:0; right:0; top:80px; height:20px; border-radius:10px; background:rgba(149,112,255,.22); }
+.pr-band { position:absolute; top:62px; height:56px; border-radius:12px; background:rgba(149,112,255,.55); border:3px solid var(--lilac); transform-origin:left center; }
+.pr-band span { position:absolute; left:0; top:-48px; white-space:nowrap; font-size:28px; color:var(--soft); }
+.pr-mark { position:absolute; top:40px; width:6px; height:100px; margin-left:-3px; background:var(--magenta); box-shadow:0 0 24px rgba(223,14,196,.9); }
+.pr-mark b { position:absolute; left:50%; top:-110px; transform:translateX(-50%); font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:84px; white-space:nowrap; text-shadow:0 0 30px rgba(223,14,196,.7); }
+.pr-tick { position:absolute; top:150px; transform:translateX(-50%); font-size:26px; color:var(--soft); }
+.risk { width:1300px; margin-top:10px; }
+.rk { display:grid; grid-template-columns:520px 1fr 1fr; align-items:center; padding:18px 0; border-bottom:1px solid rgba(149,112,255,.3); font-size:34px; }
+.rk.h { font-size:22px; letter-spacing:.2em; text-transform:uppercase; color:var(--lilac); font-family:"Archivo"; font-weight:800; }
+.rk b { font-family:"Archivo"; font-weight:850; font-size:34px; color:var(--soft); }
+.rk b.hi { color:#ff7ff0; } .rk b.cr { color:#fff; background:var(--magenta); justify-self:start; padding:4px 16px; border-radius:8px; }
+#f4 .fbars .li { font-size:38px; margin:26px 0; align-items:center; }
+.pn-big { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:110px; line-height:1.05; margin-top:16px; color:#ff7ff0; text-shadow:0 0 30px rgba(223,14,196,.6); }
+#f5 .pn { padding:44px 48px; }
+#f5 .pn-s { font-size:30px; margin-top:12px; }
+.flow { position:absolute; left:120px; top:330px; display:flex; align-items:center; gap:20px; }
+.fn { font-family:"Archivo"; font-stretch:110%; font-weight:850; font-size:38px; padding:26px 34px; border-radius:16px; background:rgba(13,11,30,.6); border:3px solid var(--lilac); }
+.fn.us { border-color:var(--magenta); }
+.fa { position:relative; width:120px; height:6px; background:repeating-linear-gradient(90deg,var(--lilac) 0 14px,transparent 14px 24px); }
+.fa em { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-style:normal; font-family:"Archivo"; font-weight:900; font-size:90px; color:var(--magenta); text-shadow:0 0 20px rgba(223,14,196,.9); line-height:1; }
+.reacts { position:absolute; left:120px; top:540px; width:1680px; display:flex; gap:40px; }
+.rc { flex:1; background:rgba(13,11,30,.55); border:2px solid rgba(149,112,255,.55); border-radius:20px; padding:28px 36px; }
+.rc-h { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:40px; }
+.rc-big { font-family:"Archivo"; font-stretch:118%; font-weight:850; font-size:72px; color:#ff7ff0; margin-top:6px; }
+.rc-t { font-size:28px; line-height:1.3; color:var(--soft); margin-top:8px; }
+.grp { font-family:"Archivo"; font-weight:800; font-size:22px; letter-spacing:.2em; text-transform:uppercase; color:var(--lilac); margin:30px 0 2px; }
+#f3 .fbars { margin-top:24px; }
+#f3 .fbars .row { margin:14px 0; }
+.panels { position:absolute; left:120px; top:360px; width:1680px; display:flex; gap:40px; }
+.pn { flex:1; background:rgba(13,11,30,.55); border:2px solid rgba(149,112,255,.55); border-radius:20px; padding:34px 40px; }
+.pn-h { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:48px; }
+.pn-s { font-size:24px; color:var(--soft); margin:8px 0 18px; }
+.pn .li { font-size:34px; margin:18px 0; align-items:center; }
+.call { position:absolute; left:120px; top:400px; width:900px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.tile { height:200px; border-radius:18px; background:rgba(149,112,255,.18); border:2px solid rgba(149,112,255,.45); display:flex; align-items:center; justify-content:center; }
+.tile span { width:100px; height:100px; border-radius:50%; background:rgba(149,112,255,.45); display:flex; align-items:center; justify-content:center; font-family:"Archivo"; font-weight:850; font-size:44px; }
+.tile.cl { background:linear-gradient(135deg, rgba(94,68,228,.75), rgba(223,14,196,.6)); border-color:var(--magenta); }
+.tile.cl span { width:auto; height:auto; background:none; font-size:56px; }
+.steps { position:absolute; left:1110px; top:410px; width:700px; }
+.stp { display:flex; flex-direction:column; padding:0 0 34px 46px; position:relative; border-left:4px solid rgba(149,112,255,.5); margin-left:14px; }
+.stp i { position:absolute; left:-16px; top:6px; width:28px; height:28px; border-radius:50%; background:var(--magenta); box-shadow:0 0 16px rgba(223,14,196,.8); }
+.stp b { font-family:"Archivo"; font-stretch:112%; font-weight:850; font-size:46px; line-height:1; }
+.stp em { font-style:normal; font-size:26px; color:var(--soft); margin-top:6px; }
+.facts { position:absolute; left:1150px; top:360px; width:680px; }
+.facts .li { font-size:30px; margin:22px 0; }
+#f6 .hero span { max-width:920px; white-space:normal; line-height:1.3; }
+#f6 .hero b { font-size:220px; }
+.fbig b, .fbig span { white-space:nowrap; }
+#f3 .fbig b { font-size:170px; }
+#f6 .fs-src { left:1180px; }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="ai-hirado-1119" data-start="0" data-duration="207.82" data-fps="25" data-width="1920" data-height="1080">
+<video id="pres-a" class="clip pres" src="source.mp4" muted playsinline data-start="0" data-duration="17.76" data-media-start="0" data-track-index="1"></video>
+<video id="pres-b" class="clip pres" src="source.mp4" muted playsinline data-start="23.24" data-duration="184.57" data-media-start="17.75" data-track-index="1"></video>
+<div id="b1" class="clip fsw" data-start="23.24" data-duration="2.84" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">1 / 7</div><div class="bump-title">Lemondott Jensen Huang, az NVIDIA vezére</div><div class="bump-line"></div></div></div></div>
+<div id="b2" class="clip fsw" data-start="51.92" data-duration="2.28" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">2 / 7</div><div class="bump-title">Tőzsdére lép az Anthropic</div><div class="bump-line"></div></div></div></div>
+<div id="b3" class="clip fsw" data-start="73.08" data-duration="3.84" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">3 / 7</div><div class="bump-title">Megérkezett a GPT‑6.2 Astra és Sol</div><div class="bump-line"></div></div></div></div>
+<div id="b4" class="clip fsw" data-start="99.12" data-duration="2.56" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">4 / 7</div><div class="bump-title">Kalifornia beperelte az OpenAI‑t</div><div class="bump-line"></div></div></div></div>
+<div id="b5" class="clip fsw" data-start="126.88" data-duration="2.88" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">5 / 7</div><div class="bump-title">Itt a Gemini 4 Neon</div><div class="bump-line"></div></div></div></div>
+<div id="b6" class="clip fsw" data-start="146.0" data-duration="4.0" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">6 / 7</div><div class="bump-title">Microsoft: a Copilot az új operációs rendszer</div><div class="bump-line"></div></div></div></div>
+<div id="b7" class="clip fsw" data-start="174.4" data-duration="2.6" data-track-index="4"><div class="fs is-bump"><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="bump"><div class="bump-num">7 / 7</div><div class="bump-title">Amerika bezárta a kiskaput</div><div class="bump-line"></div></div></div></div>
+<div id="f1" class="clip fsw" data-start="34.28" data-duration="13.12" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">NVIDIA · a hét eseményei</div><div class="fs-title">Egy hét alatt a vizsgálattól a lemondásig</div></div><div class="tline"><div class="ev"><i></i><b>nov. 8.</b><span>Független vizsgálat a jelentett külföldi titkosszolgálati célzás miatt</span></div><div class="ev"><i></i><b>nov. 8.</b><span>A testület: nincs ok azt hinni, hogy nemzetbiztonsági vagy céges titok sérült</span></div><div class="ev"><i></i><b>nov. 12.</b><span>Huang lemond, Colette Kress az ideiglenes vezérigazgató</span></div><div class="ev"><i></i><b>nov. 16.</b><span>CNBC: a testület nem tervezi visszahozni Huangot</span></div></div><div class="fs-src">Forrás: NVIDIA 8‑K és igazgatótanácsi közlemény, Al Jazeera, CNBC, 2026.11.08–16</div></div></div>
+<div id="f2" class="clip fsw" data-start="54.32" data-duration="7.28" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">Anthropic · tőzsdei bevezetés</div><div class="fs-title">Részvényár a tervezett sávhoz képest</div></div><div class="pr"><div class="pr-track"></div><div class="pr-band" style="left:20.0%;width:32.0%"><span>tervezett sáv: 70–78 $</span></div><div class="pr-mark" style="left:72.0%"><b>83 $</b></div><div class="pr-tick" style="left:0.0%">65</div><div class="pr-tick" style="left:20.0%">70</div><div class="pr-tick" style="left:40.0%">75</div><div class="pr-tick" style="left:60.0%">80</div><div class="pr-tick" style="left:80.0%">85</div><div class="pr-tick" style="left:100.0%">90</div></div><div class="mnote" style="top:720px">A végső ár 5 dollárral a sáv teteje fölött lett.</div><div class="fs-src">Forrás: CNBC, CNN, Yahoo Finance, 2026.11.18</div></div></div>
+<div id="f3" class="clip fsw" data-start="88.72" data-duration="10.0" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fphases"><div class="fphase" id="f3-p0"><div class="fs-kick">OpenAI · GPT‑6.2 Astra</div><div class="fs-title">API‑ár az elődhöz képest</div><div class="fbars"><div class="row"><div class="rl">Előd</div><div class="track"><div class="fill lil" data-w="100"></div></div><div class="rv">100%</div></div><div class="row"><div class="rl">GPT‑6.2 Astra</div><div class="track"><div class="fill mag" data-w="80"></div></div><div class="rv">80%</div></div></div><div class="fbig"><b>−20%</b><span>olcsóbb input‑ és outputtoken</span></div></div><div class="fphase" id="f3-p1"><div class="fs-kick">OpenAI · saját kockázati keretrendszer</div><div class="fs-title">Kockázati besorolások</div><div class="fbars"><div class="risk"><div class="rk h"><span>Terület</span><span>Astra</span><span>Sol</span></div><div class="rk"><span>AI‑önfejlesztés</span><b class="hi">Magas</b><b>küszöb alatt</b></div><div class="rk"><span>Kiberbiztonság</span><b class="cr">Kritikus</b><b class="cr">Kritikus</b></div><div class="rk"><span>Biológia, kémia</span><b class="hi">Magas</b><b class="hi">Magas</b></div></div></div><div class="fbig"><b></b><span></span></div></div></div><div class="fs-src">Forrás: OpenAI GPT‑6.2 rendszerkártya, The Next Web, 2026.11.17</div></div></div>
+<div id="f4" class="clip fsw" data-start="110.4" data-duration="16.2" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fphases"><div class="fphase" id="f4-p0"><div class="fs-kick">Kalifornia · keresetlevél</div><div class="fs-title">A Hugging Face‑incidens, 2026. július</div><div class="fbars"><ul class="list"><li class="li ok"><span class="mark"></span><span>Tesztkörnyezetből kitört ügynökök</span></li><li class="li ok"><span class="mark"></span><span>Nulladik napi sebezhetőség a JFrog Artifactoryban</span></li><li class="li ok"><span class="mark"></span><span>Több mint két napig tartó támadás</span></li></ul></div><div class="fbig"><b></b><span></span></div></div><div class="fphase" id="f4-p1"><div class="fs-kick">Kalifornia · keresetlevél</div><div class="fs-title">A főügyész szerint</div><div class="fbars"></div><div class="fbig"><b>80</b><span>ismert incidens, amikor az OpenAI elvesztette az irányítást</span></div></div></div><div class="fs-src">Forrás: CNBC, NBC News, BleepingComputer, 2026.11.16</div></div></div>
+<div id="f5" class="clip fsw" data-start="163.04" data-duration="10.96" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">Microsoft · Ignite 2026</div><div class="fs-title">Ügynököknek felügyelet, saját chip</div></div><div class="panels"><div class="pn"><div class="pn-h">Agent 365</div><div class="pn-big">50 millió+</div><div class="pn-s">felügyelt AI‑ügynök a Microsoft szerint</div></div><div class="pn"><div class="pn-h">Maia 300 chip</div><div class="pn-big">+40%</div><div class="pn-s">token/watt a vezető GPU‑s rendszerekhez képest (Microsoft)</div></div></div><div class="fs-src">Forrás: Microsoft blog (Ignite 2026), 2026.11.17</div></div></div>
+<div id="f6" class="clip fsw" data-start="185.52" data-duration="12.88" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="fs-col wide"><div class="fs-kick">USA · Kína · chipháború</div><div class="fs-title">Bezárt kiskapu</div></div><div class="flow"><div class="fn">Kínai cég</div><div class="fa"><i></i><em>×</em></div><div class="fn">Délkelet‑ázsiai adatközpont</div><div class="fa"><i></i></div><div class="fn us">Amerikai AI‑chip</div></div><div class="reacts"><div class="rc"><div class="rc-h">Kína</div><div class="rc-t">határozottan ellenzi, ellenintézkedéseket helyez kilátásba</div></div><div class="rc"><div class="rc-h">NVIDIA</div><div class="rc-big">2,4 Mrd $</div><div class="rc-t">kínai H200‑bevétel az előző negyedévben – ennek vége, leállították az eladást</div></div></div><div class="fs-src">Forrás: CNBC, The Next Web, TechCrunch, Gizmodo, 2026.11.16–18</div></div></div>
+<div id="f7" class="clip fsw" data-start="202.0" data-duration="5.82" data-track-index="4"><div class="fs "><div class="fs-grid"></div><div class="fs-glow"></div><img class="fs-logo" src="img/amazing_logo.svg" alt="" /><div class="endc"><img class="end-logo" src="img/amazing_logo.svg" alt="" /><div class="end-t"><b>AI</b> HÍREK <span>A NAGYVILÁGBÓL</span></div><div class="end-btn">Kövess minket!</div><div class="end-n">Iratkozz fel a hírlevelünkre is – link a leírásban</div></div></div></div>
+<div id="c0" class="clip gw" data-start="0.48" data-duration="16.72" data-track-index="3"><div class="gcard"><div class="kick">Az adásban</div><div class="phases"><div class="phase" id="c0-p0"><div class="ptitle">A hét AI‑hírei</div><ul class="list"><li class="li num"><span class="nmark">1</span><span>Lemondott Jensen Huang</span></li><li class="li num"><span class="nmark">2</span><span>Tőzsdén az Anthropic</span></li><li class="li num"><span class="nmark">3</span><span>GPT‑6.2 Astra és Sol</span></li><li class="li num"><span class="nmark">4</span><span>Kalifornia beperelte az OpenAI‑t</span></li><li class="li num"><span class="nmark">5</span><span>Gemini 4 Neon</span></li><li class="li num"><span class="nmark">6</span><span>Copilot: a munka új OS‑e</span></li><li class="li num"><span class="nmark">7</span><span>USA: bezárt kiskapu</span></li></ul></div></div></div></div>
+<div id="c1" class="clip gw" data-start="26.2" data-duration="7.88" data-track-index="3"><div class="gcard"><div class="kick">NVIDIA · 2026. november 12.</div><div class="phases"><div class="phase" id="c1-p0"><div class="ptitle">Vezetőváltás</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Jensen Huang azonnali hatállyal lemondott – 33 év után</span></li><li class="li ok"><span class="mark"></span><span>Ideiglenes vezérigazgató: Colette Kress pénzügyi igazgató</span></li><li class="li ok"><span class="mark"></span><span>Az igazgatótanács első elnöke: Harvey C. Jones</span></li></ul></div></div><div class="src">Forrás: NVIDIA 8‑K és igazgatótanácsi közlemény, Al Jazeera, CNBC, 2026.11.08–16</div></div></div>
+<div id="c2" class="clip gw" data-start="61.68" data-duration="11.12" data-track-index="3"><div class="gcard"><div class="kick">Anthropic · IPO</div><div class="phases"><div class="phase" id="c2-p0"><div class="ptitle">Rekord</div><div class="big">81,3 Mrd $</div><div class="note">a valaha volt legnagyobb tőzsdei bevezetés, a júniusi SpaceX‑rekord fölött</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Kb. 980 millió részvény</span></li><li class="li ok"><span class="mark"></span><span>Teljesen hígított piaci érték: kb. 1500 Mrd $</span></li></ul></div><div class="phase" id="c2-p1"><div class="ptitle">Kereskedés</div><div class="big">ANT</div><div class="note">ezzel a jellel a Nasdaqon, csütörtöktől</div></div></div><div class="src">Forrás: CNBC, CNN, Yahoo Finance, 2026.11.18</div></div></div>
+<div id="c3" class="clip gw" data-start="77.0" data-duration="11.6" data-track-index="3"><div class="gcard"><div class="kick">OpenAI · 2026. november 17.</div><div class="phases"><div class="phase" id="c3-p0"><div class="ptitle">GPT‑6.2: két új modell</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Astra: a legnehezebb szakmai munkákra</span></li><li class="li ok"><span class="mark"></span><span>Sol: olcsóbb, hétköznapi feladatokra</span></li><li class="li ok"><span class="mark"></span><span>Elérhető: ChatGPT Work, Codex, API</span></li></ul></div></div><div class="src">Forrás: OpenAI GPT‑6.2 rendszerkártya, The Next Web, 2026.11.17</div></div></div>
+<div id="c4" class="clip gw" data-start="101.8" data-duration="8.56" data-track-index="3"><div class="gcard"><div class="kick">Kalifornia · OpenAI</div><div class="phases"><div class="phase" id="c4-p0"><div class="ptitle">Per: 2026. november 16.</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Indította: Rob Bonta főügyész</span></li><li class="li ok"><span class="mark"></span><span>Jogalap: tisztességtelen piaci magatartás és közérdeksérelem</span></li></ul></div></div><div class="src">Forrás: CNBC, NBC News, BleepingComputer, 2026.11.16</div></div></div>
+<div id="c5" class="clip gw" data-start="129.8" data-duration="15.72" data-track-index="3"><div class="gcard"><div class="kick">Google · Gemini 4 Neon</div><div class="phases"><div class="phase" id="c5-p0"><div class="ptitle">Megjelent: 2026. november 18.</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Kódolásban, érvelésben a Carbon szintjén</span></li><li class="li ok"><span class="mark"></span><span>Flash‑modellekhez hasonló sebesség</span></li><li class="li ok"><span class="mark"></span><span>API: 3 $ / 15 $ millió tokenenként (bevezető ár)</span></li></ul></div><div class="phase" id="c5-p1"><div class="ptitle">Elérhetőség</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Google AI Pro és Ultra előfizetők</span></li><li class="li ok"><span class="mark"></span><span>API, Antigravity, Gemini app</span></li></ul></div><div class="phase" id="c5-p2"><div class="ptitle">Egy hét, három modell</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Carbon és Hydrogen – egy héttel korábban</span></li><li class="li ok"><span class="mark"></span><span>Neon – november 18.</span></li></ul></div></div><div class="src">Forrás: Google blog, 9to5Google, 2026.11.18</div></div></div>
+<div id="c6" class="clip gw" data-start="150.2" data-duration="12.8" data-track-index="3"><div class="gcard"><div class="kick">Microsoft · Ignite 2026</div><div class="phases"><div class="phase" id="c6-p0"><div class="ptitle">Satya Nadella a Copilotról</div><div class="quote" style="font-size:40px">„A munka új operációs rendszere”</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Egy helyen: csevegés, kódolás, Autopilot</span></li><li class="li ok"><span class="mark"></span><span>Autopilot: önállóan dolgozó ügynök</span></li></ul></div></div><div class="src">Forrás: Microsoft blog (Ignite 2026), 2026.11.17</div></div></div>
+<div id="c7" class="clip gw" data-start="177.12" data-duration="8.4" data-track-index="3"><div class="gcard"><div class="kick">USA · exportszabály, nov. 16.</div><div class="phases"><div class="phase" id="c7-p0"><div class="ptitle">Új engedélykötelezettség</div><ul class="list"><li class="li ok"><span class="mark"></span><span>Ha fejlett AI‑chip olyan külföldi adatközpontba kerül, amely jelentős kapacitást ad kínai cégeknek</span></li><li class="li ok"><span class="mark"></span><span>Érintett: Szingapúr, Malajzia, Thaiföld, Indonézia, Brazília</span></li></ul></div></div><div class="src">Forrás: CNBC, The Next Web, TechCrunch, Gizmodo, 2026.11.16–18</div></div></div>
+<div id="c8" class="clip gw" data-start="198.48" data-duration="3.44" data-track-index="3"><div class="gcard"><div class="kick">A hét röviden</div><div class="phases"><div class="phase" id="c8-p0"><div class="ptitle">Hét hír</div><ul class="list"><li class="li ok"><span class="mark"></span><span>NVIDIA: távozott Huang</span></li><li class="li ok"><span class="mark"></span><span>Anthropic: rekord‑IPO</span></li><li class="li ok"><span class="mark"></span><span>GPT‑6.2 Astra: „magas” besorolás</span></li><li class="li ok"><span class="mark"></span><span>Kalifornia vs. OpenAI</span></li><li class="li warn"><span class="mark"></span><span>USA: bezárt chip‑kiskapu</span></li></ul></div></div></div></div>
+<div id="bug" class="clip" data-start="0" data-duration="207.82" data-track-index="6"><div class="b1"><b>AI</b> HÍREK</div><div class="b2">A NAGYVILÁGBÓL</div></div>
+<video id="intro" class="clip" src="intro.mp4" muted playsinline data-start="17.76" data-duration="5.52" data-track-index="7"></video>
+<div id="flash"></div>
+<div id="sub-0" class="clip subw" data-start="0.0" data-duration="3.96" data-track-index="9"><div class="sub">Képzeld el, hogy a világ egyik legértékesebb</div></div>
+<div id="sub-1" class="clip subw" data-start="3.96" data-duration="4.52" data-track-index="9"><div class="sub">cégének vezére egyik napról a másikra távozik.</div></div>
+<div id="sub-2" class="clip subw" data-start="8.48" data-duration="1.72" data-track-index="9"><div class="sub">Ez történt az NVIDIA‑nál.</div></div>
+<div id="sub-3" class="clip subw" data-start="10.2" data-duration="3.76" data-track-index="9"><div class="sub">Közben az Anthropic tőzsdére lép, az OpenAI pedig bíróság elé kerül.</div></div>
+<div id="sub-4" class="clip subw" data-start="13.96" data-duration="1.72" data-track-index="9"><div class="sub">Pörgős hét volt, nézzük!</div></div>
+<div id="sub-5" class="clip subw" data-start="15.68" data-duration="1.64" data-track-index="9"><div class="sub">Ezek az AI hírek a nagyvilágból.</div></div>
+<div id="sub-6" class="clip subw" data-start="26.16" data-duration="4.56" data-track-index="9"><div class="sub">November 12‑én Jensen Huang azonnali hatállyal lemondott az NVIDIA éléről.</div></div>
+<div id="sub-7" class="clip subw" data-start="30.72" data-duration="3.56" data-track-index="9"><div class="sub">Ideiglenesen Colette Kress pénzügyi igazgató vezeti a céget.</div></div>
+<div id="sub-8" class="clip subw" data-start="34.28" data-duration="4.0" data-track-index="9"><div class="sub">A testület előtte vizsgálatot indított arról a hírről, hogy Huang egy külföldi</div></div>
+<div id="sub-9" class="clip subw" data-start="38.28" data-duration="2.2" data-track-index="9"><div class="sub">titkosszolgálati akció célpontja lehetett.</div></div>
+<div id="sub-10" class="clip subw" data-start="40.48" data-duration="3.44" data-track-index="9"><div class="sub">A testület szerint nincs jele annak, hogy titkok szivárogtak volna ki.</div></div>
+<div id="sub-11" class="clip subw" data-start="43.92" data-duration="3.52" data-track-index="9"><div class="sub">Huang a dolgozóknak elismerte, hogy hűtlen volt a feleségéhez.</div></div>
+<div id="sub-12" class="clip subw" data-start="47.44" data-duration="4.24" data-track-index="9"><div class="sub">Az AI‑chipek piacának legfontosabb cége elvesztette az alapítóját és az arcát.</div></div>
+<div id="sub-13" class="clip subw" data-start="54.24" data-duration="4.24" data-track-index="9"><div class="sub">A Claude‑ot fejlesztő Anthropic 83 dolláros áron árazta be a részvényeit.</div></div>
+<div id="sub-14" class="clip subw" data-start="58.48" data-duration="3.2" data-track-index="9"><div class="sub">Ez a tervezett 70–78 dolláros sáv fölött van.</div></div>
+<div id="sub-15" class="clip subw" data-start="61.68" data-duration="3.12" data-track-index="9"><div class="sub">A cég mintegy 81,3 milliárd dollárt vont be.</div></div>
+<div id="sub-16" class="clip subw" data-start="64.8" data-duration="1.68" data-track-index="9"><div class="sub">Az NPR szerint ez rekord.</div></div>
+<div id="sub-17" class="clip subw" data-start="66.48" data-duration="2.4" data-track-index="9"><div class="sub">A kereskedés csütörtökön indul a Nasdaqon.</div></div>
+<div id="sub-18" class="clip subw" data-start="68.88" data-duration="4.0" data-track-index="9"><div class="sub">Most először lehet tőzsdén részesedést venni egy vezető AI‑laborban.</div></div>
+<div id="sub-19" class="clip subw" data-start="76.92" data-duration="2.52" data-track-index="9"><div class="sub">Az OpenAI két új modellt dobott piacra.</div></div>
+<div id="sub-20" class="clip subw" data-start="79.44" data-duration="4.64" data-track-index="9"><div class="sub">Az Astra a legnehezebb szakmai munkákra készült, a Sol a hétköznapi feladatokra.</div></div>
+<div id="sub-21" class="clip subw" data-start="84.08" data-duration="4.0" data-track-index="9"><div class="sub">Mindkettő elérhető a ChatGPT Workben, a Codexben és fejlesztőknek is.</div></div>
+<div id="sub-22" class="clip subw" data-start="88.8" data-duration="3.84" data-track-index="9"><div class="sub">Az Astra API‑ára 20%‑kal olcsóbb az elődjénél.</div></div>
+<div id="sub-23" class="clip subw" data-start="92.64" data-duration="4.52" data-track-index="9"><div class="sub">Az OpenAI szerint ez az első kiadott modelljük, amelyet magas kockázatúnak sorolnak</div></div>
+<div id="sub-24" class="clip subw" data-start="97.16" data-duration="1.6" data-track-index="9"><div class="sub">be az AI önfejlesztése terén.</div></div>
+<div id="sub-25" class="clip subw" data-start="101.76" data-duration="4.48" data-track-index="9"><div class="sub">Rob Bonta kaliforniai főügyész november 16‑án pert indított.</div></div>
+<div id="sub-26" class="clip subw" data-start="106.24" data-duration="4.16" data-track-index="9"><div class="sub">Szerinte az OpenAI megfelelő biztosítékok nélkül tesztelte a modelljeit.</div></div>
+<div id="sub-27" class="clip subw" data-start="110.4" data-duration="4.52" data-track-index="9"><div class="sub">Júliusban kísérleti modelleket futtató ügynökök több mint két napon át támadták a</div></div>
+<div id="sub-28" class="clip subw" data-start="114.92" data-duration="1.32" data-track-index="9"><div class="sub">Hugging Face platformot.</div></div>
+<div id="sub-29" class="clip subw" data-start="116.24" data-duration="2.36" data-track-index="9"><div class="sub">Az állam szerint a cég legalább nyolcvanszor</div></div>
+<div id="sub-30" class="clip subw" data-start="118.6" data-duration="2.52" data-track-index="9"><div class="sub">vesztette el az irányítást az ügynökei felett.</div></div>
+<div id="sub-31" class="clip subw" data-start="121.12" data-duration="4.08" data-track-index="9"><div class="sub">Ez az első eset, hogy egy állam bíróság elé visz egy elszabadult AI‑ügynökös</div></div>
+<div id="sub-32" class="clip subw" data-start="125.2" data-duration="1.44" data-track-index="9"><div class="sub">kiberbiztonsági incidenst.</div></div>
+<div id="sub-33" class="clip subw" data-start="129.8" data-duration="3.32" data-track-index="9"><div class="sub">A Google november 18‑án kiadta a Gemini 4 Neont.</div></div>
+<div id="sub-34" class="clip subw" data-start="133.12" data-duration="4.64" data-track-index="9"><div class="sub">A cég szerint kódolásban és érvelésben hozza a csúcsmodell, a Carbon szintjét.</div></div>
+<div id="sub-35" class="clip subw" data-start="137.76" data-duration="2.04" data-track-index="9"><div class="sub">Közben gyorsabb és olcsóbb.</div></div>
+<div id="sub-36" class="clip subw" data-start="139.8" data-duration="3.24" data-track-index="9"><div class="sub">Az AI Pro és Ultra előfizetők már használhatják.</div></div>
+<div id="sub-37" class="clip subw" data-start="143.04" data-duration="2.56" data-track-index="9"><div class="sub">Egy héttel korábban jött a Carbon és a Hydrogen is.</div></div>
+<div id="sub-38" class="clip subw" data-start="150.16" data-duration="2.52" data-track-index="9"><div class="sub">Az Ignite konferencián Satya Nadella a</div></div>
+<div id="sub-39" class="clip subw" data-start="152.68" data-duration="3.4" data-track-index="9"><div class="sub">munka új operációs rendszerének nevezte a Copilotot.</div></div>
+<div id="sub-40" class="clip subw" data-start="156.08" data-duration="3.52" data-track-index="9"><div class="sub">Egy helyre kerül a csevegés, a kódolás és az Autopilot.</div></div>
+<div id="sub-41" class="clip subw" data-start="159.6" data-duration="3.44" data-track-index="9"><div class="sub">Ez egy önálló ügynök, ami éjjel‑nappal viszi előre a munkát.</div></div>
+<div id="sub-42" class="clip subw" data-start="163.04" data-duration="4.0" data-track-index="9"><div class="sub">Az Agent 365 a cégek AI‑ügynökeit felügyeli.</div></div>
+<div id="sub-43" class="clip subw" data-start="167.04" data-duration="2.8" data-track-index="9"><div class="sub">Bemutatták a saját Maia 300 chipjüket is.</div></div>
+<div id="sub-44" class="clip subw" data-start="170.72" data-duration="3.36" data-track-index="9"><div class="sub">Ha Office‑t használsz, az ügynökök hamarosan a munkanapod részei lesznek.</div></div>
+<div id="sub-45" class="clip subw" data-start="177.16" data-duration="1.72" data-track-index="9"><div class="sub">Az USA új szabályt adott ki.</div></div>
+<div id="sub-46" class="clip subw" data-start="178.88" data-duration="4.32" data-track-index="9"><div class="sub">Engedély kell, ha fejlett AI‑chipek olyan külföldi adatközpontba kerülnek, amely</div></div>
+<div id="sub-47" class="clip subw" data-start="183.2" data-duration="2.32" data-track-index="9"><div class="sub">nagy mennyiségben szolgál ki kínai cégeket.</div></div>
+<div id="sub-48" class="clip subw" data-start="185.52" data-duration="2.88" data-track-index="9"><div class="sub">Eddig ez volt a kiskapu, például Délkelet‑Ázsiában.</div></div>
+<div id="sub-49" class="clip subw" data-start="188.4" data-duration="1.84" data-track-index="9"><div class="sub">Kína megtorlással fenyegetett.</div></div>
+<div id="sub-50" class="clip subw" data-start="190.24" data-duration="4.32" data-track-index="9"><div class="sub">Az NVIDIA bejelentette: nem árul több H200‑as chipet Kínában.</div></div>
+<div id="sub-51" class="clip subw" data-start="194.56" data-duration="2.96" data-track-index="9"><div class="sub">Ezzel tovább éleződik az amerikai–kínai chipháború.</div></div>
+<div id="sub-52" class="clip subw" data-start="197.52" data-duration="0.92" data-track-index="9"><div class="sub">Ennyi volt a hét.</div></div>
+<div id="sub-53" class="clip subw" data-start="199.48" data-duration="4.0" data-track-index="9"><div class="sub">Ha nem szeretnél lemaradni a legfrissebb AI‑hírekről, kövesd be a csatornánkat, vagy</div></div>
+<div id="sub-54" class="clip subw" data-start="203.48" data-duration="1.72" data-track-index="9"><div class="sub">iratkozz fel a hírlevelünkre.</div></div>
+<div id="sub-55" class="clip subw" data-start="205.2" data-duration="0.88" data-track-index="9"><div class="sub">Link a leírásban.</div></div>
+<audio id="mix" src="mix.wav" data-start="0" data-duration="207.82" data-track-index="10"></audio>
+</div>
+<script>
+(function () {
+document.querySelectorAll('.fill[data-w]').forEach(function (el) { el.style.width = el.dataset.w + '%'; });
+const tl = gsap.timeline({ paused: true });
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.16, ease: 'power2.out' }, 17.6);
+tl.to('#flash', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 17.8);
+tl.fromTo('#flash', { opacity: 0 }, { opacity: 0.9, duration: 0.16, ease: 'power2.out' }, 23.08);
+tl.to('#flash', { opacity: 0, duration: 0.36, ease: 'power2.in' }, 23.28);
+tl.fromTo('#b1 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},23.24);
+tl.to('#b1 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},25.72);
+tl.fromTo('#b1 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},23.36);
+tl.fromTo('#b1 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},23.44);
+tl.fromTo('#b1 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},23.6);
+tl.fromTo('#b2 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},51.92);
+tl.to('#b2 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},53.84);
+tl.fromTo('#b2 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},52.0);
+tl.fromTo('#b2 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},52.12);
+tl.fromTo('#b2 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},52.28);
+tl.fromTo('#b3 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},73.08);
+tl.to('#b3 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},76.56);
+tl.fromTo('#b3 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},73.16);
+tl.fromTo('#b3 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},73.28);
+tl.fromTo('#b3 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},73.44);
+tl.fromTo('#b4 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},99.12);
+tl.to('#b4 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},101.32);
+tl.fromTo('#b4 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},99.2);
+tl.fromTo('#b4 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},99.32);
+tl.fromTo('#b4 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},99.48);
+tl.fromTo('#b5 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},126.88);
+tl.to('#b5 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},129.4);
+tl.fromTo('#b5 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},126.96);
+tl.fromTo('#b5 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},127.08);
+tl.fromTo('#b5 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},127.24);
+tl.fromTo('#b6 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},146.0);
+tl.to('#b6 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},149.64);
+tl.fromTo('#b6 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},146.08);
+tl.fromTo('#b6 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},146.2);
+tl.fromTo('#b6 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},146.36);
+tl.fromTo('#b7 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},174.4);
+tl.to('#b7 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},176.64);
+tl.fromTo('#b7 .bump-num',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.45,ease:'power3.out'},174.48);
+tl.fromTo('#b7 .bump-title',{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},174.6);
+tl.fromTo('#b7 .bump-line',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.inOut'},174.76);
+tl.fromTo('#f1 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},34.28);
+tl.to('#f1 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},47.04);
+tl.fromTo('#f1 .ev',{autoAlpha:0,x:-40},{autoAlpha:1,x:0,duration:0.5,ease:'power3.out',stagger:2.4},34.8);
+tl.fromTo('#f2 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},54.32);
+tl.to('#f2 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},61.24);
+tl.fromTo('#f2 .pr-band',{scaleX:0},{scaleX:1,duration:0.8,ease:'power3.out'},54.8);
+tl.fromTo('#f2 .pr-mark',{autoAlpha:0,y:-60},{autoAlpha:1,y:0,duration:0.6,ease:'back.out(1.8)'},55.92);
+tl.fromTo('#f2 .mnote',{autoAlpha:0},{autoAlpha:1,duration:0.5},56.92);
+tl.fromTo('#f3 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},88.72);
+tl.to('#f3 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},98.36);
+tl.fromTo('#f3-p0',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},88.96);
+tl.fromTo('#f3-p0 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},89.28);
+tl.fromTo('#f3-p0 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},90.16);
+tl.to('#f3-p0',{autoAlpha:0,y:-16,duration:0.3,ease:'power2.in'},92.32);
+tl.fromTo('#f3-p1',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},92.64);
+tl.fromTo('#f3-p1 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},92.96);
+tl.fromTo('#f3-p1 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},93.84);
+tl.fromTo('#f3 .rk',{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:0.4,stagger:0.5},93.04);
+tl.fromTo('#f4 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},110.4);
+tl.to('#f4 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},126.24);
+tl.fromTo('#f4-p0',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},110.64);
+tl.fromTo('#f4-p0 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},110.96);
+tl.fromTo('#f4-p0 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},111.84);
+tl.to('#f4-p0',{autoAlpha:0,y:-16,duration:0.3,ease:'power2.in'},115.96);
+tl.fromTo('#f4-p1',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},116.24);
+tl.fromTo('#f4-p1 .fill',{scaleX:0},{scaleX:1,duration:1.0,ease:'power3.out',stagger:0.35},116.56);
+tl.fromTo('#f4-p1 .fbig',{autoAlpha:0,scale:0.7},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(1.8)'},117.44);
+tl.fromTo('#f4-p0 .li',{autoAlpha:0,x:30},{autoAlpha:1,x:0,duration:0.45,stagger:1.0},110.92);
+tl.fromTo('#f5 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},163.04);
+tl.to('#f5 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},173.64);
+tl.fromTo('#f5 .pn',{autoAlpha:0,y:40},{autoAlpha:1,y:0,duration:0.55,ease:'power3.out',stagger:3.8},163.44);
+tl.fromTo('#f6 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},185.52);
+tl.to('#f6 .fs',{autoAlpha:0,duration:0.35,ease:'power2.in'},198.04);
+tl.fromTo('#f6 .fn, #f6 .fa',{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:0.4,stagger:0.25},185.92);
+tl.fromTo('#f6 .fa em',{scale:0},{scale:1,duration:0.4,ease:'back.out(3)'},187.32);
+tl.fromTo('#f6 .rc',{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:0.5,ease:'power3.out',stagger:1.80},188.4);
+tl.fromTo('#f7 .fs',{autoAlpha:0,scale:1.04},{autoAlpha:1,scale:1,duration:0.4,ease:'power2.out'},202.0);
+tl.fromTo('#f7 .end-t',{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},202.32);
+tl.fromTo('#f7 .end-btn',{autoAlpha:0,scale:0.6},{autoAlpha:1,scale:1,duration:0.5,ease:'back.out(2)'},202.8);
+tl.to('#f7 .end-btn',{scale:1.05,duration:0.45,ease:'sine.inOut',yoyo:true,repeat:5},203.4);
+tl.fromTo('#f7 .end-n',{autoAlpha:0},{autoAlpha:1,duration:0.5},203.2);
+tl.fromTo('#c0 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},0.48);
+tl.to('#c0 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},16.8);
+tl.fromTo('#c0-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},0.76);
+tl.fromTo('#c0-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},0.96);
+tl.fromTo('#c0-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},1.16);
+tl.fromTo('#c1 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},26.2);
+tl.to('#c1 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},33.68);
+tl.fromTo('#c1-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},26.44);
+tl.fromTo('#c1-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},26.64);
+tl.fromTo('#c1-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},26.84);
+tl.fromTo('#c2 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},61.68);
+tl.to('#c2 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},72.4);
+tl.fromTo('#c2-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},61.96);
+tl.to('#c2-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},66.16);
+tl.fromTo('#c2-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},62.16);
+tl.fromTo('#c2-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},62.36);
+tl.fromTo('#c2-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},66.48);
+tl.fromTo('#c2-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},66.68);
+tl.fromTo('#c2-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},66.88);
+tl.fromTo('#c3 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},77.0);
+tl.to('#c3 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},88.2);
+tl.fromTo('#c3-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},77.24);
+tl.fromTo('#c3-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},77.44);
+tl.fromTo('#c3-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},77.64);
+tl.fromTo('#c4 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},101.8);
+tl.to('#c4 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},109.96);
+tl.fromTo('#c4-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},102.04);
+tl.fromTo('#c4-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},102.24);
+tl.fromTo('#c4-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},102.44);
+tl.fromTo('#c5 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},129.8);
+tl.to('#c5 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},145.12);
+tl.fromTo('#c5-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},130.04);
+tl.to('#c5-p0',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},139.4);
+tl.fromTo('#c5-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},130.24);
+tl.fromTo('#c5-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},130.44);
+tl.fromTo('#c5-p1',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},139.68);
+tl.to('#c5-p1',{autoAlpha:0,y:-12,duration:0.3,ease:'power2.in'},142.68);
+tl.fromTo('#c5-p1 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},139.88);
+tl.fromTo('#c5-p1 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},140.08);
+tl.fromTo('#c5-p2',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},143.0);
+tl.fromTo('#c5-p2 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},143.2);
+tl.fromTo('#c5-p2 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},143.4);
+tl.fromTo('#c6 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},150.2);
+tl.to('#c6 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},162.6);
+tl.fromTo('#c6-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},150.44);
+tl.fromTo('#c6-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},150.64);
+tl.fromTo('#c6-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},150.84);
+tl.fromTo('#c7 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},177.12);
+tl.to('#c7 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},185.12);
+tl.fromTo('#c7-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},177.36);
+tl.fromTo('#c7-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},177.56);
+tl.fromTo('#c7-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},177.76);
+tl.fromTo('#c8 .gcard',{autoAlpha:0,x:70},{autoAlpha:1,x:0,duration:0.55,ease:'power3.out'},198.48);
+tl.to('#c8 .gcard',{autoAlpha:0,x:40,duration:0.4,ease:'power2.in'},201.52);
+tl.fromTo('#c8-p0',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:0.45,ease:'power3.out'},198.76);
+tl.fromTo('#c8-p0 .fill',{scaleX:0},{scaleX:1,duration:0.9,ease:'power3.out',stagger:0.18},198.96);
+tl.fromTo('#c8-p0 .li',{autoAlpha:0,x:24},{autoAlpha:1,x:0,duration:0.4,ease:'power2.out',stagger:0.45},199.16);
+window.__timelines = window.__timelines || {};
+window.__timelines["ai-hirado-1119"] = tl;
+tl.seek(0);
+})();
+</script>
+</body>
+</html>
