@@ -91,16 +91,36 @@ def reset_cam(t):
     T(f"tl.set(CAM,{{x:0,y:0,scale:1,rotationY:0,rotation:0,borderRadius:0}},{q(t)});")
 
 
-# ── 1 Orbit: the footage plane swings round to face camera; a ring orbits it ──
+# ── 1 Orbit: the footage stays; copies of her photo orbit around her (behind and in front) ──
 a, b = S["orbit"]
-ring = '<div class="ring"></div>'
-clip("s-orbit-back", a, b, f'<div class="ringwrap back">{ring}</div>', 2, "dark")
-clip("s-orbit-front", a, b, f'<div class="ringwrap front">{ring}</div><div id="orb-dot" class="orb-dot"></div>', 11)
-T(f"tl.fromTo(CAM,{{rotationY:-58,scale:0.64}},{{rotationY:0,scale:1,duration:1.18,ease:'power2.inOut'}},{a});")
-T(f"tl.fromTo('#orb-dot',{{x:-470}},{{x:470,duration:1.1,ease:'sine.inOut'}},{a});")
-T(f"tl.fromTo('#orb-dot',{{y:0}},{{y:120,duration:0.55,ease:'sine.out'}},{a});")
-T(f"tl.to('#orb-dot',{{y:0,duration:0.55,ease:'sine.in'}},{a + 0.55});")
-T(f"tl.fromTo('#s-orbit-back .ringwrap, #s-orbit-front .ringwrap, #orb-dot',{{opacity:1}},{{opacity:0,duration:0.25,ease:'power2.in'}},{b - 0.3});")
+NCARD = 6
+back = "".join(f'<div class="ocard" id="ob{k}"><img src="img/orbit-card.jpg" alt=""/></div>' for k in range(NCARD))
+front = "".join(f'<div class="ocard" id="of{k}"><img src="img/orbit-card.jpg" alt=""/></div>' for k in range(NCARD))
+dur = round(b - a, 4)
+ORBIT_HTML = (f'<div id="orbit-box">'
+              f'<div id="orb-back" class="clip orb-layer" data-start="{a}" data-duration="{dur}" data-track-index="3" style="z-index:1">{back}</div>'
+              f'<video id="v-orbit" class="clip" src="orbit-cutout.webm" muted playsinline data-start="{a}" data-duration="{dur}" '
+              f'data-media-start="0" data-track-index="2" data-layout-allow-occlusion style="z-index:2"></video>'
+              f'<div id="orb-front" class="clip orb-layer" data-start="{a}" data-duration="{dur}" data-track-index="4" style="z-index:3">{front}</div>'
+              f'</div>')
+ORBIT_JS = f"""
+const ORB = {{ p: 0 }};
+function orbitRender() {{
+  const t = ORB.p * {dur};
+  const grow = 1 - Math.pow(1 - Math.min(1, t / 0.4), 3);
+  const R = 480 * grow, TILT = 190 * grow;
+  const fade = Math.min(1, t / 0.12) * Math.min(1, Math.max(0, ({dur} - t) / 0.2));
+  for (let k = 0; k < {NCARD}; k++) {{
+    const th = k * 2 * Math.PI / {NCARD} + t * 2.7 - 0.6;
+    const c = Math.cos(th), sn = Math.sin(th);
+    const x = 536 + R * sn, y = 1110 + TILT * c, sc = 0.8 + 0.22 * c;
+    const isFront = c >= 0;
+    gsap.set('#of' + k, {{ x: x, y: y, scale: sc, opacity: isFront ? fade : 0, zIndex: Math.round(100 + c * 100) }});
+    gsap.set('#ob' + k, {{ x: x, y: y, scale: sc, opacity: isFront ? 0 : fade * 0.9, zIndex: Math.round(100 + c * 100) }});
+  }}
+}}
+"""
+T(f"tl.fromTo(ORB,{{p:0}},{{p:1,duration:{dur},ease:'none',onUpdate:orbitRender}},{a});")
 
 # ── 2 Profile wall: the shot shrinks into one tile of a wall of the same profile ──
 a, b = S["wall"]
@@ -154,10 +174,10 @@ T(f"tl.set(CAM,{{clipPath:'none'}},{q(b - 0.04)});")
 # ── 5 Phone fan: the shot becomes a phone, more phones fan out behind it ──
 a, b = S["fan"]
 SP = 0.40
-px, py = place(SP, W / 2, 1000)
+px, py = place(SP, W / 2, 1150)
 phones = []
 for n, (rot, img) in enumerate([(-30, 3), (-15, 7), (15, 11), (30, 15)]):
-    phones.append(f'<div class="phone" id="ph{n}" data-rot="{rot}" style="left:{W / 2 - W * SP / 2:.1f}px;top:{1000 - H * SP / 2:.1f}px;'
+    phones.append(f'<div class="phone" id="ph{n}" data-rot="{rot}" style="left:{W / 2 - W * SP / 2:.1f}px;top:{1150 - H * SP / 2:.1f}px;'
                   f'width:{W * SP:.1f}px;height:{H * SP:.1f}px"><img src="img/still-{img:02d}.jpg" alt=""/></div>')
 clip("s-fan", a, b, '<div class="glow"></div>' + "".join(phones), 2, "dark")
 reset_cam(a)
@@ -171,7 +191,7 @@ T(f"tl.to('#cam-bezel',{{opacity:0,duration:0.2,ease:'power2.in'}},{q(b - 0.22)}
 
 # ── 6 Pullback: starts tight on her eyes, pulls back to the whole room ──
 a, b = S["pull"]
-T(f"tl.fromTo(CAM,{{x:0,y:0,scale:2.9,borderRadius:0}},{{scale:1,duration:0.95,ease:'power3.out'}},{a});")
+T(f"tl.fromTo(CAM,{{x:0,y:330,scale:2.6,borderRadius:0}},{{y:0,scale:1,duration:0.95,ease:'power3.out'}},{a});")  # face kept below the name list
 
 # ── 7 Countdown: film-leader 3·2·1 over a darkened frame, flash into Moody ──
 a, b = S["count"]
@@ -226,10 +246,10 @@ hud = ('<div class="corner tl"></div><div class="corner tr"></div><div class="co
        '<div class="zpill"><span id="z1">1×</span><span id="z2">2×</span><span id="z3">3×</span></div>')
 clip("s-hud", a, b, hud, 12)
 reset_cam(a)
-steps = [(a, 1.0, "z1"), (q(a + 0.32), 1.6, "z2"), (q(a + 0.7), 2.3, "z3")]
+steps = [(a, 1.0, 0, "z1"), (q(a + 0.32), 1.45, 90, "z2"), (q(a + 0.7), 1.9, 190, "z3")]
 T(f"tl.fromTo('#s-hud .corner, #s-hud .rec, #s-hud .zpill',{{opacity:0}},{{opacity:1,duration:0.1}},{a});")
-for t0, sc, zid in steps:
-    T(f"tl.to(CAM,{{scale:{sc},duration:0.07,ease:'power4.out'}},{t0});")
+for t0, sc, dy, zid in steps:
+    T(f"tl.to(CAM,{{scale:{sc},y:{dy},duration:0.07,ease:'power4.out'}},{t0});")
     T(f"tl.set('#s-hud .zpill span',{{backgroundColor:'rgba(0,0,0,0)',color:'#fff'}},{t0});")
     T(f"tl.set('#{zid}',{{backgroundColor:'#FFD23F',color:'#111'}},{t0});")
 for n in range(4):
@@ -237,15 +257,15 @@ for n in range(4):
 
 # ── 12 Claude UI: the shot lands as an attachment in a chat answer ──
 a, b = S["ui"]
-SU = 0.40
-cardx, cardy = 130 + W * SU / 2, 690 + H * SU / 2
+SU = 0.34
+cardx, cardy = 130 + W * SU / 2, 1050 + H * SU / 2
 ux, uy = place(SU, cardx, cardy)
 spark = "".join(f'<line x1="32" y1="32" x2="{32 + 26 * c:.1f}" y2="{32 + 26 * s:.1f}"/>'
                 for c, s in [(1, 0), (0.707, 0.707), (0, 1), (-0.707, 0.707), (-1, 0), (-0.707, -0.707), (0, -1), (0.707, -0.707)])
 ui = (f'<div class="ui-top"><svg class="spark" viewBox="0 0 64 64">{spark}</svg><span>Claude</span></div>'
       '<div class="ui-user" id="ui-user">/claude-ui</div>'
       '<div class="ui-bot" id="ui-bot"><svg class="spark sm" viewBox="0 0 64 64">' + spark + '</svg>Kész, íme a vágás:</div>'
-      '<div class="ui-input"><span>Válasz Claude-nak…</span><b>↑</b></div>')
+      '<div class="ui-input"><span>Válasz…</span><b>↑</b></div>')
 clip("s-ui", a, b, ui, 2, "cream")
 reset_cam(a)
 T(f"tl.to(CAM,{{x:{ux},y:{uy},scale:{SU},borderRadius:{round(28 / SU)},duration:0.42,ease:'power3.inOut'}},{a});")
@@ -255,7 +275,7 @@ T(f"tl.to(CAM,{{x:0,y:0,scale:1,borderRadius:0,duration:0.3,ease:'power3.in'}},{
 
 # ── 13 Tier list: the shot drops into the S tier ──
 a, b = S["tier"]
-ROW_Y, ROW_H, ROW_G = 390, 170, 12
+ROW_Y, ROW_H, ROW_G = 770, 170, 12
 TILE_W = ROW_H * 9 / 16
 ST = ROW_H / H
 rows = [("S", "#FF7F7F", [2]), ("A", "#FFBF7F", [5, 9, 13]), ("B", "#FFDF7F", [17, 20]), ("C", "#BFFF7F", [22, 1])]
@@ -279,29 +299,27 @@ T(f"tl.to('#s-tier .trow',{{opacity:0,duration:0.2,ease:'power2.in'}},{q(b - 0.2
 
 # ── after the list: clean footage, punch-ins on the emphasis ──
 reset_cam(15.7)
-T("tl.set(CAM,{scale:1.1},16.8);")
-T("tl.set(CAM,{scale:1},19.05);")
-T("tl.set(CAM,{scale:1.12},21.25);")
 
-# ── captions: the spoken style name for each style, then the subtitles ──
-caps = []
+# ── style-name list: each name joins a 2-column list when spoken and stays to the end ──
+LIST_X, LIST_Y, ROW = (130, 520), 300, 64
 for n, (k, name, a, b) in enumerate(SEG):
-    if k in ("giant", "ui"):
-        continue        # the giant words / the chat prompt are the caption there
-    cls = "cap name moodyc" if k == "moody" else "cap name"
-    caps.append((f"cap-{k}", max(a, 0.1), b, f'<span class="sl">/</span>{html.escape(name)}', cls))
+    col, row = divmod(n, 7)
+    t0 = q(max(a, 0.36))
+    cid = f"li-{k}"
+    layers.append(f'<div id="{cid}" class="clip liw" data-start="{t0}" data-duration="{round(TOTAL - t0, 4)}" '
+                  f'data-track-index="8" style="left:{LIST_X[col]}px;top:{LIST_Y + row * ROW}px">'
+                  f'<div class="li"><span class="sl">/</span>{html.escape(name)}</div></div>')
+    T(f"tl.fromTo('#{cid} .li',{{opacity:0,x:-24,filter:'blur(6px)'}},{{opacity:1,x:0,filter:'blur(0px)',duration:0.2,ease:'expo.out'}},{t0});")
+    T(f"tl.fromTo('#{cid} .li',{{backgroundColor:'rgba(224,122,82,0.95)'}},{{backgroundColor:'rgba(16,14,12,0.62)',duration:0.3,ease:'power2.inOut'}},{q(b - 0.3)});")
+    T(f"tl.fromTo('#{cid} .sl',{{color:'#ffffff'}},{{color:'#FF9D78',duration:0.3,ease:'power2.inOut'}},{q(b - 0.3)});")
+
+# ── subtitles after the list ──
 for n, (a, b, text) in enumerate(SUBS):
-    caps.append((f"sub-{n}", a, b, text, "cap sent"))
-for cid, a, b, text, cls in caps:
+    cid = f"sub-{n}"
     layers.append(f'<div id="{cid}" class="clip capw" data-start="{q(a)}" data-duration="{round(q(b) - q(a), 4)}" '
-                  f'data-track-index="9"><div class="{cls}">{text}</div></div>')
+                  f'data-track-index="9"><div class="cap sent">{text}</div></div>')
     T(f"tl.fromTo('#{cid} .cap',{{opacity:0,filter:'blur(8px)'}},{{opacity:1,filter:'blur(0px)',duration:0.14,ease:'power2.out'}},{q(a)});")
     T(f"tl.to('#{cid} .cap',{{opacity:0,duration:0.1,ease:'power2.in'}},{q(b - 0.11)});")
-
-# counter chip 01/13 … 13/13
-for n, (k, name, a, b) in enumerate(SEG):
-    layers.append(f'<div id="chip-{k}" class="clip chipw" data-start="{q(a)}" data-duration="{round(q(b) - q(a), 4)}" '
-                  f'data-track-index="8"><div class="chip">{n + 1:02d}<i> / 13</i></div></div>')
 
 CSS = """
 html,body{margin:0;background:#141210;width:1080px;height:1920px;overflow:hidden}
@@ -321,6 +339,17 @@ html,body{margin:0;background:#141210;width:1080px;height:1920px;overflow:hidden
 #vblur-wrap{position:absolute;inset:0;z-index:4;}
 #vblur-wrap video,#vert-wrap video{position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover}
 /* orbit */
+#orbit-box{position:absolute;inset:0;z-index:6}
+#orbit-box video{position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover}
+.orb-layer{position:absolute;inset:0}
+.ocard{position:absolute;left:-100px;top:-178px;width:200px;height:356px;border-radius:18px;overflow:hidden;
+  border:5px solid #fff;box-sizing:border-box;box-shadow:0 18px 40px rgba(0,0,0,.45);opacity:0}
+.ocard img{width:100%;height:100%;object-fit:cover;display:block}
+/* style list */
+.liw{position:absolute;height:56px;z-index:21}
+.li{display:inline-block;white-space:nowrap;font:900 38px/56px Inter,sans-serif;color:#fff;padding:0 22px 0 16px;border-radius:16px;
+  background:rgba(16,14,12,.62);letter-spacing:-0.5px}
+.li .sl{color:#FF9D78;margin-right:4px}
 .ringwrap{position:absolute;left:40px;top:860px;width:1000px;height:250px;transform:rotate(-7deg)}
 .ringwrap.back{clip-path:inset(0 0 50% 0)}
 .ringwrap.front{clip-path:inset(50% 0 0 0)}
@@ -332,7 +361,7 @@ html,body{margin:0;background:#141210;width:1080px;height:1920px;overflow:hidden
 .tile img{width:100%;height:100%;object-fit:cover;display:block}
 /* stamp */
 .wash{position:absolute;inset:0;background:#c3281c;mix-blend-mode:multiply;opacity:0}
-.stamp{position:absolute;left:110px;top:440px;width:860px;height:230px;display:flex;align-items:center;justify-content:center;
+.stamp{position:absolute;left:110px;top:1260px;width:860px;height:230px;display:flex;align-items:center;justify-content:center;
   border:14px solid #D8311F;border-radius:24px;box-shadow:inset 0 0 0 8px rgba(255,255,255,.0),inset 0 0 0 16px #D8311F;
   color:#D8311F;font:900 150px/1 Inter,sans-serif;letter-spacing:8px;background:rgba(255,246,242,.72)}
 .stamp span{transform:translateY(4px)}
@@ -349,11 +378,11 @@ html,body{margin:0;background:#141210;width:1080px;height:1920px;overflow:hidden
 .scrim{position:absolute;inset:0;background:rgba(10,8,6,.5)}
 .leader{position:absolute;inset:0}
 .cross{position:absolute;background:rgba(255,255,255,.45)}
-.cross.h{left:120px;right:120px;top:959px;height:2px}
-.cross.v{top:500px;bottom:500px;left:539px;width:2px}
-.cd-ring{position:absolute;left:280px;top:700px;width:520px;height:520px;transform:rotate(-90deg);opacity:0}
+.cross.h{left:120px;right:120px;top:1039px;height:2px}
+.cross.v{top:780px;bottom:380px;left:539px;width:2px}
+.cd-ring{position:absolute;left:280px;top:780px;width:520px;height:520px;transform:rotate(-90deg);opacity:0}
 .cd-ring circle{fill:none;stroke:#E07A52;stroke-width:14;stroke-dasharray:1483}
-.cd-n{position:absolute;left:0;right:0;top:760px;text-align:center;font:900 340px/400px Inter,sans-serif;color:#fff;opacity:0;
+.cd-n{position:absolute;left:0;right:0;top:840px;text-align:center;font:900 340px/400px Inter,sans-serif;color:#fff;opacity:0;
   text-shadow:0 10px 40px rgba(0,0,0,.5)}
 .flash{position:absolute;inset:0;background:#fff;opacity:0}
 /* moody */
@@ -363,30 +392,30 @@ html,body{margin:0;background:#141210;width:1080px;height:1920px;overflow:hidden
 /* giant */
 .giant{position:absolute;left:0;right:0;text-align:center;font-family:'League Gothic',Oswald,sans-serif;line-height:.86;
   color:#fff;text-shadow:0 12px 40px rgba(0,0,0,.55);letter-spacing:4px}
-.g1{top:390px;font-size:370px}
-.g2{top:720px;font-size:250px;color:#FFB08F}
+.g1{top:1150px;font-size:320px}
+.g2{top:1430px;font-size:240px;color:#FFB08F}
 /* hud */
 .corner{position:absolute;width:90px;height:90px;border:0 solid rgba(255,255,255,.9);opacity:0}
-.corner.tl{left:130px;top:290px;border-top-width:6px;border-left-width:6px}
-.corner.tr{right:130px;top:290px;border-top-width:6px;border-right-width:6px}
-.corner.bl{left:130px;top:1340px;border-bottom-width:6px;border-left-width:6px}
-.corner.br{right:130px;top:1340px;border-bottom-width:6px;border-right-width:6px}
-.rec{position:absolute;left:150px;top:400px;font:700 40px/1 'Space Mono',monospace;color:#fff;display:flex;align-items:center;gap:14px;
+.corner.tl{left:130px;top:770px;border-top-width:6px;border-left-width:6px}
+.corner.tr{right:130px;top:770px;border-top-width:6px;border-right-width:6px}
+.corner.bl{left:130px;top:1720px;border-bottom-width:6px;border-left-width:6px}
+.corner.br{right:130px;top:1720px;border-bottom-width:6px;border-right-width:6px}
+.rec{position:absolute;left:160px;top:1640px;font:700 40px/1 'Space Mono',monospace;color:#fff;display:flex;align-items:center;gap:14px;
   opacity:0;text-shadow:0 2px 8px rgba(0,0,0,.6)}
 .recdot{width:26px;height:26px;border-radius:50%;background:#ff3b30}
-.zpill{position:absolute;left:470px;top:385px;width:380px;height:84px;border-radius:42px;background:rgba(0,0,0,.5);
+.zpill{position:absolute;left:470px;top:1620px;width:380px;height:84px;border-radius:42px;background:rgba(0,0,0,.5);
   display:flex;align-items:center;justify-content:space-around;opacity:0}
 .zpill span{width:96px;height:64px;border-radius:32px;display:flex;align-items:center;justify-content:center;
   font:700 36px/1 Inter,sans-serif;color:#fff}
 /* claude ui */
-.ui-top{position:absolute;left:0;right:0;top:390px;display:flex;align-items:center;justify-content:center;gap:16px;
+.ui-top{position:absolute;left:0;right:0;top:770px;display:flex;align-items:center;justify-content:center;gap:16px;
   font:700 46px/1 Inter,sans-serif;color:#2B2925}
 .spark{width:56px;height:56px;stroke:#D97757;stroke-width:8;stroke-linecap:round}
 .spark.sm{width:42px;height:42px;margin-right:14px}
-.ui-user{position:absolute;right:200px;top:480px;padding:22px 34px;border-radius:30px;background:#E6E0D3;
+.ui-user{position:absolute;right:200px;top:850px;padding:22px 34px;border-radius:30px;background:#E6E0D3;
   font:700 44px/1.1 'Space Mono',monospace;color:#2B2925}
-.ui-bot{position:absolute;left:130px;top:610px;display:flex;align-items:center;font:400 40px/1.2 Inter,sans-serif;color:#3a372f}
-.ui-input{position:absolute;left:90px;right:90px;top:1520px;height:120px;border-radius:34px;background:#fff;
+.ui-bot{position:absolute;left:130px;top:970px;display:flex;align-items:center;font:400 40px/1.2 Inter,sans-serif;color:#3a372f}
+.ui-input{position:absolute;left:560px;right:90px;top:1600px;height:110px;border-radius:34px;background:#fff;
   border:2px solid #E2DCCF;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 40px;box-sizing:border-box;
   font:400 38px/1 Inter,sans-serif;color:#9a958a}
 .ui-input b{width:76px;height:76px;border-radius:22px;background:#D97757;color:#fff;display:flex;align-items:center;justify-content:center;font-size:40px}
@@ -397,12 +426,12 @@ html,body{margin:0;background:#141210;width:1080px;height:1920px;overflow:hidden
   font:900 120px/1 Inter,sans-serif;color:#1a1a1a}
 .tt{position:absolute;top:0;height:100%;object-fit:cover;border-radius:8px}
 /* captions */
-.capw{position:absolute;left:120px;width:660px;top:1048px;height:200px;z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.capw{position:absolute;left:120px;width:660px;top:1110px;height:200px;z-index:20;display:flex;align-items:flex-end;justify-content:center}
 .cap{padding:14px 36px 18px;border-radius:24px;background:rgba(16,14,12,.66);color:#fff;text-align:center;max-width:660px;box-sizing:border-box}
 .cap.name{font:900 84px/1.05 Inter,sans-serif;letter-spacing:-1px}
 .cap .sl{color:#E07A52;margin-right:6px}
 .cap.moodyc{font:italic 700 88px/1.05 'Playfair Display',serif;letter-spacing:0}
-.cap.sent{font:700 60px/1.15 Inter,sans-serif}
+.cap.sent{font:700 54px/1.15 Inter,sans-serif}
 .cap em{font-style:normal;color:#FFB08F}
 .chipw{position:absolute;left:0;right:0;top:296px;height:60px;z-index:19;display:flex;justify-content:center}
 .chip{font:700 34px/60px 'Space Mono',monospace;color:#fff;background:rgba(16,14,12,.55);border-radius:30px;padding:0 26px}
@@ -427,6 +456,7 @@ doc = f"""<!doctype html>
 </div></div>
 <div id="vblur-wrap"><video id="v-vblur" class="clip" src="source.mp4" muted playsinline data-start="{q(S['vert'][0])}" data-duration="{round(q(S['vert'][1]) - q(S['vert'][0]), 4)}" data-media-start="{q(S['vert'][0])}" data-track-index="2"></video></div>
 <div id="vert-wrap"><video id="v-vert" class="clip" src="vert-cutout.webm" muted playsinline data-start="{q(S['vert'][0])}" data-duration="{round(q(S['vert'][1]) - q(S['vert'][0]), 4)}" data-media-start="0" data-track-index="2" data-layout-allow-occlusion></video></div>
+{ORBIT_HTML}
 {chr(10).join(layers)}
 <audio id="voice" src="voice.wav" data-start="0" data-duration="24.26" data-volume="1" data-track-index="10"></audio>
 </div>
@@ -434,6 +464,7 @@ doc = f"""<!doctype html>
 window.__timelines = window.__timelines || {{}};
 const tl = gsap.timeline({{ paused: true }});
 const CAM = "#cam";
+{ORBIT_JS}
 tl.set(CAM,{{x:0,y:0,scale:1,rotationY:0,rotation:0,borderRadius:0}},0);
 {chr(10).join(js)}
 tl.set({{}},{{}},{TOTAL});
