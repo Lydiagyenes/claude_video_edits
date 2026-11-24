@@ -1,0 +1,97 @@
+{
+ "composition": {
+  "fps": 25,
+  "width": 1080,
+  "height": 1920,
+  "durationSeconds": 25.0,
+  "layout": "portrait"
+ },
+ "videoTrack": {
+  "sourcePath": "src/source.mp4",
+  "trimStartSec": 3.3
+ },
+ "subtitles": {
+  "enabled": true,
+  "style": "/Name chips during the list, sentence pills after"
+ },
+ "cards": [
+  {
+   "id": "orbit",
+   "intent": "Orbit style applied to the footage on the spoken word",
+   "startSec": 0.0,
+   "endSec": 1.28
+  },
+  {
+   "id": "wall",
+   "intent": "Profile wall style applied to the footage on the spoken word",
+   "startSec": 1.28,
+   "endSec": 2.4
+  },
+  {
+   "id": "stamp",
+   "intent": "Reject stamp style applied to the footage on the spoken word",
+   "startSec": 2.4,
+   "endSec": 3.6
+  },
+  {
+   "id": "dot",
+   "intent": "Dot reveal style applied to the footage on the spoken word",
+   "startSec": 3.6,
+   "endSec": 4.72
+  },
+  {
+   "id": "fan",
+   "intent": "Phone fan style applied to the footage on the spoken word",
+   "startSec": 4.72,
+   "endSec": 5.84
+  },
+  {
+   "id": "pull",
+   "intent": "Pullback style applied to the footage on the spoken word",
+   "startSec": 5.84,
+   "endSec": 6.88
+  },
+  {
+   "id": "count",
+   "intent": "Countdown style applied to the footage on the spoken word",
+   "startSec": 6.88,
+   "endSec": 8.0
+  },
+  {
+   "id": "moody",
+   "intent": "Moody style applied to the footage on the spoken word",
+   "startSec": 8.0,
+   "endSec": 9.12
+  },
+  {
+   "id": "giant",
+   "intent": "Giant captions style applied to the footage on the spoken word",
+   "startSec": 9.12,
+   "endSec": 10.4
+  },
+  {
+   "id": "vert",
+   "intent": "Vertigo style applied to the footage on the spoken word",
+   "startSec": 10.4,
+   "endSec": 11.64
+  },
+  {
+   "id": "zoom",
+   "intent": "Digital zoom style applied to the footage on the spoken word",
+   "startSec": 11.64,
+   "endSec": 12.96
+  },
+  {
+   "id": "ui",
+   "intent": "Claude UI style applied to the footage on the spoken word",
+   "startSec": 12.96,
+   "endSec": 14.32
+  },
+  {
+   "id": "tier",
+   "intent": "Tier list style applied to the footage on the spoken word",
+   "startSec": 14.32,
+   "endSec": 15.68
+  }
+ ]
+}
