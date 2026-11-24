@@ -1,0 +1,353 @@
+{
+ "composition": {
+  "fps": 25,
+  "width": 1080,
+  "height": 1920,
+  "durationSeconds": 30.8,
+  "layout": "portrait"
+ },
+ "videoTrack": {
+  "sourcePath": "src/source.mp4",
+  "trimStartSec": 3.6,
+  "trimEndSec": 34.4
+ },
+ "subtitles": {
+  "enabled": true,
+  "style": "persistent 2-column /Name list under the chin; sentence pills at the end"
+ },
+ "cards": [
+  {
+   "id": "hk",
+   "intent": "High key: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": 0.45,
+     "contrast": -0.25,
+     "shadows": 0.35,
+     "blacks": 0.2,
+     "highlights": -0.1,
+     "saturation": -0.1
+    }
+   },
+   "startSec": 0.0,
+   "endSec": 1.2
+  },
+  {
+   "id": "lk",
+   "intent": "Low key: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.45,
+     "contrast": 0.35,
+     "blacks": -0.3,
+     "shadows": -0.35
+    },
+    "details": {
+     "vignette": 0.6
+    }
+   },
+   "startSec": 1.2,
+   "endSec": 2.08
+  },
+  {
+   "id": "remb",
+   "intent": "Rembrandt: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.15,
+     "contrast": 0.25,
+     "temperature": 0.12
+    },
+    "details": {
+     "vignette": 0.5
+    }
+   },
+   "startSec": 2.08,
+   "endSec": 2.96
+  },
+  {
+   "id": "butter",
+   "intent": "Butterfly: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": 0.05,
+     "contrast": 0.2,
+     "temperature": 0.05
+    },
+    "details": {
+     "vignette": 0.45
+    }
+   },
+   "startSec": 2.96,
+   "endSec": 4.0
+  },
+  {
+   "id": "split",
+   "intent": "Split light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.15,
+     "contrast": 0.35
+    },
+    "details": {
+     "vignette": 0.5
+    }
+   },
+   "startSec": 4.0,
+   "endSec": 4.92
+  },
+  {
+   "id": "loop",
+   "intent": "Loop light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.05,
+     "contrast": 0.15,
+     "temperature": 0.08
+    },
+    "details": {
+     "vignette": 0.35
+    }
+   },
+   "startSec": 4.92,
+   "endSec": 5.8
+  },
+  {
+   "id": "broad",
+   "intent": "Broad light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": 0.1,
+     "contrast": 0.1,
+     "temperature": 0.1
+    }
+   },
+   "startSec": 5.8,
+   "endSec": 6.72
+  },
+  {
+   "id": "short",
+   "intent": "Short light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.15,
+     "contrast": 0.25
+    },
+    "details": {
+     "vignette": 0.4
+    }
+   },
+   "startSec": 6.72,
+   "endSec": 7.68
+  },
+  {
+   "id": "sil",
+   "intent": "Silhouette: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": 0.9,
+     "contrast": -0.2,
+     "temperature": 0.35,
+     "highlights": 0.3
+    }
+   },
+   "startSec": 7.68,
+   "endSec": 8.64
+  },
+  {
+   "id": "rim",
+   "intent": "Rim light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.85,
+     "contrast": 0.35,
+     "temperature": -0.2,
+     "saturation": -0.3
+    },
+    "details": {
+     "vignette": 0.6
+    }
+   },
+   "startSec": 8.64,
+   "endSec": 9.52
+  },
+  {
+   "id": "hard",
+   "intent": "Hard light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": 0.05,
+     "contrast": 0.55,
+     "highlights": 0.2,
+     "shadows": -0.4,
+     "saturation": 0.1
+    }
+   },
+   "startSec": 9.52,
+   "endSec": 10.48
+  },
+  {
+   "id": "soft",
+   "intent": "Soft light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": 0.15,
+     "contrast": -0.25,
+     "highlights": -0.15,
+     "shadows": 0.25
+    }
+   },
+   "startSec": 10.48,
+   "endSec": 11.68
+  },
+  {
+   "id": "mono",
+   "intent": "Monochrome red: graded copy + light/shadow overlays",
+   "grading": {
+    "preset": "mono-clean",
+    "adjust": {
+     "contrast": 0.3
+    }
+   },
+   "startSec": 11.68,
+   "endSec": 12.76
+  },
+  {
+   "id": "screen",
+   "intent": "Screen glow: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.75,
+     "contrast": 0.2,
+     "temperature": -0.3
+    },
+    "details": {
+     "vignette": 0.5
+    }
+   },
+   "startSec": 12.76,
+   "endSec": 13.84
+  },
+  {
+   "id": "neon",
+   "intent": "Neon light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.6,
+     "contrast": 0.25,
+     "saturation": 0.2
+    }
+   },
+   "startSec": 13.84,
+   "endSec": 14.96
+  },
+  {
+   "id": "strobe",
+   "intent": "Strobe light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.5,
+     "contrast": 0.45,
+     "temperature": -0.2
+    }
+   },
+   "startSec": 14.96,
+   "endSec": 16.32
+  },
+  {
+   "id": "theat",
+   "intent": "Theatrical light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.1,
+     "contrast": 0.3,
+     "temperature": 0.25
+    }
+   },
+   "startSec": 16.32,
+   "endSec": 17.6
+  },
+  {
+   "id": "dapple",
+   "intent": "Dappled light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": 0.05,
+     "temperature": 0.3,
+     "saturation": 0.1
+    }
+   },
+   "startSec": 17.6,
+   "endSec": 18.72
+  },
+  {
+   "id": "vol",
+   "intent": "Volumetric light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.4,
+     "contrast": 0.15,
+     "temperature": 0.12
+    }
+   },
+   "startSec": 18.72,
+   "endSec": 20.08
+  },
+  {
+   "id": "flat",
+   "intent": "Flat light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "contrast": -0.4,
+     "shadows": 0.3,
+     "highlights": -0.3,
+     "saturation": -0.2,
+     "exposure": 0.1
+    }
+   },
+   "startSec": 20.08,
+   "endSec": 21.44
+  },
+  {
+   "id": "top",
+   "intent": "Top light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.35,
+     "contrast": 0.3
+    }
+   },
+   "startSec": 21.44,
+   "endSec": 22.44
+  },
+  {
+   "id": "under",
+   "intent": "Under light: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": -0.45,
+     "contrast": 0.3,
+     "temperature": 0.05
+    }
+   },
+   "startSec": 22.44,
+   "endSec": 23.36
+  },
+  {
+   "id": "golden",
+   "intent": "Golden hour: graded copy + light/shadow overlays",
+   "grading": {
+    "adjust": {
+     "exposure": 0.1,
+     "contrast": 0.1,
+     "temperature": 0.45,
+     "tint": 0.05,
+     "saturation": 0.15,
+     "vibrance": 0.2
+    }
+   },
+   "startSec": 23.36,
+   "endSec": 25.0
+  }
+ ]
+}

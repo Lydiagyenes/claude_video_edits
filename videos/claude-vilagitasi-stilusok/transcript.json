@@ -1,0 +1,165 @@
+{
+ "note": "output seconds (source − 3.6 s); word onsets from whisper medium + silence detection",
+ "styles": [
+  {
+   "id": "hk",
+   "text": "High key",
+   "start": 0.0,
+   "end": 1.2
+  },
+  {
+   "id": "lk",
+   "text": "Low key",
+   "start": 1.2,
+   "end": 2.08
+  },
+  {
+   "id": "remb",
+   "text": "Rembrandt",
+   "start": 2.08,
+   "end": 2.96
+  },
+  {
+   "id": "butter",
+   "text": "Butterfly",
+   "start": 2.96,
+   "end": 4.0
+  },
+  {
+   "id": "split",
+   "text": "Split light",
+   "start": 4.0,
+   "end": 4.92
+  },
+  {
+   "id": "loop",
+   "text": "Loop light",
+   "start": 4.92,
+   "end": 5.8
+  },
+  {
+   "id": "broad",
+   "text": "Broad light",
+   "start": 5.8,
+   "end": 6.72
+  },
+  {
+   "id": "short",
+   "text": "Short light",
+   "start": 6.72,
+   "end": 7.68
+  },
+  {
+   "id": "sil",
+   "text": "Silhouette",
+   "start": 7.68,
+   "end": 8.64
+  },
+  {
+   "id": "rim",
+   "text": "Rim light",
+   "start": 8.64,
+   "end": 9.52
+  },
+  {
+   "id": "hard",
+   "text": "Hard light",
+   "start": 9.52,
+   "end": 10.48
+  },
+  {
+   "id": "soft",
+   "text": "Soft light",
+   "start": 10.48,
+   "end": 11.68
+  },
+  {
+   "id": "mono",
+   "text": "Monochrome red",
+   "start": 11.68,
+   "end": 12.76
+  },
+  {
+   "id": "screen",
+   "text": "Screen glow",
+   "start": 12.76,
+   "end": 13.84
+  },
+  {
+   "id": "neon",
+   "text": "Neon light",
+   "start": 13.84,
+   "end": 14.96
+  },
+  {
+   "id": "strobe",
+   "text": "Strobe light",
+   "start": 14.96,
+   "end": 16.32
+  },
+  {
+   "id": "theat",
+   "text": "Theatrical light",
+   "start": 16.32,
+   "end": 17.6
+  },
+  {
+   "id": "dapple",
+   "text": "Dappled light",
+   "start": 17.6,
+   "end": 18.72
+  },
+  {
+   "id": "vol",
+   "text": "Volumetric light",
+   "start": 18.72,
+   "end": 20.08
+  },
+  {
+   "id": "flat",
+   "text": "Flat light",
+   "start": 20.08,
+   "end": 21.44
+  },
+  {
+   "id": "top",
+   "text": "Top light",
+   "start": 21.44,
+   "end": 22.44
+  },
+  {
+   "id": "under",
+   "text": "Under light",
+   "start": 22.44,
+   "end": 23.36
+  },
+  {
+   "id": "golden",
+   "text": "Golden hour",
+   "start": 23.36,
+   "end": 25.0
+  }
+ ],
+ "subtitles": [
+  {
+   "start": 25.0,
+   "end": 26.55,
+   "text": "Ezeket mind a Claude-dal csináltuk."
+  },
+  {
+   "start": 26.99,
+   "end": 28.1,
+   "text": "Ha érdekel, hogy hogyan lehet"
+  },
+  {
+   "start": 28.1,
+   "end": 28.88,
+   "text": "ilyet létrehozni,"
+  },
+  {
+   "start": 28.9,
+   "end": 30.6,
+   "text": "kövess be minket!"
+  }
+ ]
+}
